@@ -81,4 +81,21 @@ CREATE TABLE detalhe_pedidos
   CONSTRAINT pk_detalhe_pedidos PRIMARY KEY(id_DetalhePedido),
   CONSTRAINT fk_detalhe_produto FOREIGN KEY (sku) REFERENCES produtos(sku),
   CONSTRAINT fk_detalhe_pedidos FOREIGN KEY (pedido_id) REFERENCES pedidos(pedido_id)
-)
+);
+
+
+CREATE TABLE pagamento (
+  pagamento_id INTEGER  AUTO_INCREMENT,
+  pedido_id INTEGER NOT NULL,
+  numerocartao VARCHAR(16) NULL,
+  nomecartao VARCHAR(18) NULL,
+  validademes INTEGER NULL,
+  validadeano INTEGER NULL,
+  codigo INTEGER NULL,
+  parcelas INTEGER NULL,
+  ativo TINYINT(1) NULL,
+  data_pagamento DATETIME NULL,
+
+  CONSTRAINT pk_pagamento PRIMARY KEY(pagamento_id),
+  CONSTRAINT fk_pedido FOREIGN KEY (pedido_id) REFERENCES pedidos (pedido_id)
+);

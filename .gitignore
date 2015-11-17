@@ -1,0 +1,16 @@
+# NetBeans specific #
+FunModeChild/nbproject/private/
+FunModeChild/build/
+FunModeChild/nbbuild/
+FunModeChild/dist/
+FunModeChild/nbdist/
+FunModeChild/nbactions.xml
+FunModeChild/nb-configuration.xml
+
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
