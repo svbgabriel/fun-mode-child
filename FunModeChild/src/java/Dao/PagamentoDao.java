@@ -5,6 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * DAO para pagamentos.
+ * 
+ * @author Sérgio Umlauf
+ */
 public class PagamentoDao {
 
     private final Connection con;
