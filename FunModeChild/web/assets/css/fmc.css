@@ -1,0 +1,41 @@
+/* 
+    Created on : Nov 9, 2015, 11:48:55 AM
+    Author     : henrique
+*/
+
+body {
+    padding-top: 70px;
+}
+
+.carousel {
+  height: 300px;
+  margin-bottom: 30px;
+}
+
+footer {
+    margin-top: 30px;
+}
+
+.mg-btm-30 {
+    margin-bottom: 30px;
+}
+
+.mg-btm-50 {
+    margin-bottom: 50px;
+}
+
+.mg-top-30 {
+    margin-top: 30px;
+}
+
+.mg-top-50 {
+    margin-top: 50px;
+}
+
+.thumbnail {
+    height: 400px !important;
+}
+
+.preco {
+    font-size: 14px;
+}
