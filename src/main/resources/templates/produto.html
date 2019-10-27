@@ -1,98 +1,43 @@
-<%-- 
-    Document   : produto
-    Created on : Nov 9, 2015, 2:50:39 PM
-    Author     : gabriel
---%>
-<%@page import="Model.ProdutoEstoque"%>
-<%@page import="Model.Estoque"%>
-<%@page import="Dao.EstoqueDao"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="Model.Produto"%>
-<%@page import="Dao.ProdutoDao"%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="includes/header.jsp">
-    <jsp:param name="titulo" value="Fun Mode Child" />
-</jsp:include>
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Fun Mode Child</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/css/fmc.css">
+    </head>
+    <body>
+<div th:replace="fragments/fragments :: cabecalho"></div>
 <div class="container">
-    <%
-        String sku = request.getParameter("sku");
-        // Tenta converter o sku recebido para Integer.
-        int isku = 0;
-        try {
-            isku = Integer.parseInt(sku);
-        } catch (NumberFormatException nfe) {
-
-        }
-
-        if (isku > 0) {
-            ProdutoEstoque produto = new ProdutoDao().consultarSkuEsProduto(isku);
-            if (produto == null) {
-                out.println("<div class=\"row\"><div class=\"col-md-12\">Produto não encontrado.</div></div>");
-            } else {
-    %>
-    <div class="row">
+    <div th:if="${produto == null}" class="row"><div class="col-md-12">Produto não encontrado.</div></div>
+    <div th:if="${produto != null}" class="row">
         <div class="col-md-9">
-            <img src="<%=produto.getRefe()%>" alt="" />
-            <h2><%=produto.getNome()%></h2>
-            <%=produto.getDescricao()%>
-            <h3>R$ <%=produto.getPrecoFormatado()%></h3>
+            <img th:src="@{${produto.refe}}" alt="" />
+            <h2 th:text="${produto.nome}"></h2>
+            <p th:text="${produto.descricao}"></p>
+            <h3 th:text="${produto.getPrecoFormatado()}"></h3>
         </div>
         <div class="col-md-3">
-            <%
-                if (produto.getQtdEstoque() > 0) {
-            %>
-            <button class="btn btn-success btn-lg" onclick="adicionarCarrinho('<%=produto.getSku()%>');"><span class="glyphicon glyphicon-shopping-cart"></span> Adicionar ao carrinho</button>
-            <%
-            } else {
-            %>
-            <h2><span class="label label-danger">Esgotado</span></h2>
-            <%
-                }
-            %>
+            <button th:if="${produto.quantidade > 0}" class="btn btn-success btn-lg" th:onclick="'adicionarCarrinho('+${produto.id}+');'"><span class="glyphicon glyphicon-shopping-cart"></span> Adicionar ao carrinho</button>
+            <h2 th:if="${produto.quantidade == 0}"><span class="label label-danger">Esgotado</span></h2>
         </div>
     </div>
-    <%
-            }
-        } else {
-            out.println("<div class=\"row\"><div class=\"col-md-12\">Produto não encontrado.</div></div>");
-        }
-    %>
 
-    <%
-        // Produtos Relacionados
-        ProdutoDao prodDao = new ProdutoDao();
-        Produto p = prodDao.consultarSku(isku);
-        ArrayList<Produto> r = prodDao.consultarCategoria(p.getCategoria_id());
-
-        if (r.size() <= 0) {
-    %>
-    <div class="row"><div class="col-md-12"><hr /><h5>Produtos Relacionados não encontrados</h5></div></div>
-            <%
-            } else {
-            %>
-    <div class="row"><div class="col-md-12"><hr /><h5>Produtos Relacionados</h5></div></div>
-    <div class="row">
-        <%
-            for (int i = 0; i < r.size() - 1; i++) {
-        %>
+    <div th:if="${produtosCategoria.size() == 0}" class="row"><div class="col-md-12"><hr /><h5>Produtos Relacionados não encontrados</h5></div></div>
+    <div th:if="${produtosCategoria.size() > 0}" class="row"><div class="col-md-12"><hr /><h5>Produtos Relacionados</h5></div></div>
+    <div th:if="${produtosCategoria.size() > 0}" th:each="pCategoria: ${produtosCategoria}" class="row">
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
-                <img src=<%=r.get(i).getRefe()%> alt="">
+                <img th:src="@{${pCategoria.refe}}" alt="" />
                 <div class="caption">
-                    <h4><a href="produto.jsp?sku=<%=r.get(i).getSku()%>"><%out.println(r.get(i).getNome());%></a></h4>
+                    <h4><a th:href="@{/produto/{id}(id=${pCategoria.id})}" th:text="${pCategoria.nome}"></a></h4>
                 </div>
             </div>
         </div>
-        <%
-            }
-        %>
     </div>
-    <%
-                    }%>
 </div>
-</div> <!-- /container -->
 
 
 
@@ -101,4 +46,7 @@
         document.location.href = "carrinho.jsp?sku=" + sku;
     }
 </script>
-<%@include file="includes/footer.jsp"%>
+    <script src="/assets/js/jquery-2.1.4.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>
