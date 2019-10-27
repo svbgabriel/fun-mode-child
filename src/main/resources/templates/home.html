@@ -27,7 +27,7 @@
                         </ol>
                         <div class="carousel-inner" role="listbox">
                         	<div th:each="produto, iStat: ${produtosPromovidos}" th:attr="class=${iStat.first ? 'item active' : 'item' }">
-                        		<a th:href="@{produto.html(sku=${produto.id})}">
+                        		<a th:href="@{/produto/{id}(id=${produto.id})}">
                         			<img th:src="@{${produto.refeBig}}" alt="" />
                         			<div class="carousel-caption">
                         				<h3 th:text="${produto.nome}"></h3>
@@ -51,7 +51,7 @@
                     <div class="thumbnail">
                         <img th:src="@{${pEstoque.refe}}" alt="">
                         <div class="caption">   
-                            <h4><a th:href="@{produto.html(sku=${pEstoque.id})}" th:text="${pEstoque.nome}"></a></h4>
+                            <h4><a th:href="@{/produto/{id}(id=${pEstoque.id})}" th:text="${pEstoque.nome}"></a></h4>
                             <div class="row">
                                 <div class="col-md-5">
                                     <span class="preco" th:text="${pEstoque.getPrecoFormatado()}">></span>
