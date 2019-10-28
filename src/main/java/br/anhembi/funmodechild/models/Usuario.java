@@ -15,17 +15,13 @@ import lombok.Data;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@Column(name = "username")
-	private String username;
+	private long id;
 	@Column(name = "nome")
 	private String nome;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "cpf")
 	private String cpf;
-	@Column(name = "logradouro")
-	private String logradouro;
 	@Column(name = "endereco")
 	private String endereco;
 	@Column(name = "numero")
