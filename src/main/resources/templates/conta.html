@@ -1,42 +1,49 @@
-<%-- 
-    Document   : conta
-    Created on : 16/11/2015, 01:21:51
-    Author     : gabriel
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="includes/header.jsp">
-    <jsp:param name="titulo" value="Fun Mode Child" />
-</jsp:include>
-<div class="container mg-btm-30">
-    <img src="assets/img/logo.png" alt="Fun Mode Child" />
-    <h1>Trocar Senha</h1>
-    <form action="contaresp.jsp" method="post">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label for="usuario">Senha</label>
-                    <input type="password" class="form-control" id="passold" name="passold" placeholder="**********" required="required">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">  
-                <div class="form-group">
-                    <label for="nome">Nova Senha</label>
-                    <input type="password" class="form-control" id="password" name="passnew" placeholder="**********" required="required">
-                </div>
-            </div>
-        </div>    
-        <div class="row">
-            <div class="col-md-2">  
-                <div class="form-group">
-                    <label for="nome">Confirme a Nova Senha</label>
-                    <input type="password" class="form-control" id="password" name="passnew2" placeholder="**********" required="required">
-                </div>
-            </div>
-        </div>           
-        <button type="submit" class="btn btn-primary">Trocar</button>
-    </form>
-</div>
-<%@include file="includes/footer.jsp"%>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Fun Mode Child</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/fmc.css">
+</head>
+<body>
+	<div th:replace="fragments/fragments :: cabecalho"></div>
+	<div class="container mg-btm-30">
+		<img src="/assets/img/logo.png" alt="Fun Mode Child" />
+		<h1>Trocar Senha</h1>
+		<form action="conta" method="post">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="passwordOld">Senha Antiga</label> <input type="password"
+							class="form-control" name="passwordOld" required>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="passwordNew">Nova Senha</label> <input type="password"
+							class="form-control" name="passwordNew" required>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="passwordNewConfirm">Confirme a Nova Senha</label> <input
+							type="password" class="form-control" name="passwordNewConfirm"
+							required>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Trocar</button>
+		</form>
+	</div>
+	<script src="/assets/js/jquery-2.1.4.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>
