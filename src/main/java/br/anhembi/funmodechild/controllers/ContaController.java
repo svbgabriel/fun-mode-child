@@ -3,6 +3,7 @@ package br.anhembi.funmodechild.controllers;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.anhembi.funmodechild.models.Carrinho;
 import br.anhembi.funmodechild.models.Usuario;
 import br.anhembi.funmodechild.repositories.RepositoryUsuario;
 import br.anhembi.funmodechild.services.ServiceUsuario;
@@ -25,7 +27,8 @@ public class ContaController {
 	RepositoryUsuario repositoryUsuario;
 	
 	@GetMapping("/login")
-	public String login() {
+	public String login(HttpSession session) {
+		session.setAttribute("carrinhocompras", new Carrinho());
 		return "login";
 	}
 
@@ -57,8 +60,8 @@ public class ContaController {
 	public ModelAndView conta(@RequestParam(name = "passwordOld") String passwordOld, @RequestParam(name = "passwordNew") String passwordNew, @RequestParam(name = "passwordNewConfirm") String passwordNewConfirm, HttpServletRequest request) {		
 		ModelAndView mv = new ModelAndView();
 		// Checa se as novas senha são iguais
-		Principal user = request.getUserPrincipal();
-		
+		Principal user = request.getUserPrincipal();		
+
 		if (passwordNew.equals(passwordNewConfirm)) {
 			serviceUsuario.atualizar(user, passwordOld, passwordNew);
 		} else {

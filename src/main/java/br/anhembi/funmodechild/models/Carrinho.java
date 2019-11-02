@@ -3,6 +3,11 @@ package br.anhembi.funmodechild.models;
 import java.util.AbstractMap;
 import java.util.HashMap;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
+
 /**
  * Classe para manter uma lista de SKUs e suas quantidades.
  * 
@@ -13,34 +18,34 @@ import java.util.HashMap;
  * Em chave colocamos o SKU e, em valor, a quantidade.
  * 
  */
-public class Carrinho {
+
+@Component
+@Scope("session")
+@Data public class Carrinho {
     
-    private final AbstractMap<Integer, Integer> lista;
+    private final AbstractMap<Long, Integer> lista;
     
     public Carrinho() {
-        this.lista = new HashMap<Integer, Integer>();
+        this.lista = new HashMap<Long, Integer>();
     }
     
-    public void adiciona(int sku, int quantidade) {
+    public void adiciona(Long sku, Integer quantidade) {
         if(lista.containsKey(sku)) {
-            int q = lista.get(sku);
+        	Integer q = lista.get(sku);
             lista.replace(sku, q + quantidade);
         } else {
             lista.put(sku, quantidade);
         }
     }
     
-    public void remove(int sku) {
+    public void remove(Long sku) {
         if(lista.containsKey(sku)) {
             lista.remove(sku);
         }
     }
     
-    public void atualiza(int sku, int quantidade) {
+    public void atualiza(Long sku, Integer quantidade) {
         lista.replace(sku, quantidade);
     }
     
-    public AbstractMap<Integer, Integer> getLista() {
-        return this.lista;
-    }
 }
