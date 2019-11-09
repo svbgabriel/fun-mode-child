@@ -85,7 +85,7 @@ public class PagamentoController {
 	public String fazerPagamento(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Carrinho carrinho = (Carrinho) session.getAttribute("carrinhocompras");
 	    String erroSalvar = "";
-	    Integer idPedido = -1;
+	    Long idPedido = -1L;
 	    
 	    // Recupera os dados do usuário
  		Principal user = request.getUserPrincipal();

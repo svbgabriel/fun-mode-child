@@ -20,7 +20,7 @@ import lombok.Data;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	@Column(name = "data_pedido")
 	private Date dataPedido = new Date();
 	@ManyToOne(fetch = FetchType.LAZY)

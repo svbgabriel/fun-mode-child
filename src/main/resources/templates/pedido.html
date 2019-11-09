@@ -28,7 +28,7 @@
 								<td th:text="${pedido.id}"></td>
 								<td th:text="${pedido.dataPedido}"></td>
 								<td th:text="'R$' + ${pedido.precoTotal}"></td>
-								<td><a th:href="@{/detalhe/{id}(id=${pedido.id})}">Detalhes</a>
+								<td><a th:href="@{/pedido/{id}/detalhe(id=${pedido.id})}">Detalhes</a>
 								</td>
 							</tr>
 						</th:block>
