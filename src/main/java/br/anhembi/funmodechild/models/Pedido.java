@@ -22,11 +22,11 @@ import lombok.Data;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "data_pedido")
-	private Date data_pedido;
+	private Date dataPedido = new Date();
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 	@Column(name = "preco_total")
-	private double preco_total;
+	private double precoTotal;
 
 }
