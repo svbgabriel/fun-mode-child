@@ -125,7 +125,6 @@ public class PagamentoController {
 	    			pagamento.setValidadeAno(Integer.parseInt(request.getParameter("validadeano")));
 	    			pagamento.setCodigo(Integer.parseInt(request.getParameter("codigo")));
 	    			pagamento.setParcelas(Integer.parseInt(request.getParameter("parcelas")));
-	    			pagamento.setAtivo(true);
 	    			
 	    			pagamentoResposta = servicePagamento.salvar(carrinho, usuario, pagamento);
 	                // Esvazia o carrinho.

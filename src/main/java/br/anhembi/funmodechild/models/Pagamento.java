@@ -36,8 +36,6 @@ import lombok.Data;
 	private int codigo;
 	@Column(name = "parcelas")
 	private int parcelas;
-	@Column(name = "ativo")
-	private boolean ativo;
 	@Column(name = "data_pagamento")
 	private Date dataPagamento;
 

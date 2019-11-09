@@ -28,5 +28,7 @@ import lombok.Data;
 	private Usuario usuario;
 	@Column(name = "preco_total")
 	private double precoTotal;
+	@Column(name = "ativo")
+	private boolean ativo = true;
 
 }

@@ -8,7 +8,6 @@ CREATE TABLE pagamentos
   validade_ano INTEGER NULL,
   codigo INT NULL,
   parcelas INT NULL,
-  ativo TINYINT(1) NULL,
   data_pagamento DATETIME NULL,
 
   CONSTRAINT pk_pagamento PRIMARY KEY(id),
