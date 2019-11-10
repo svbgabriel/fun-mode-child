@@ -29,8 +29,6 @@ public class PedidoController {
 		// Recupera os dados do usuário
 		Principal user = request.getUserPrincipal();
 		Usuario usuario = repositoryUsuario.findByEmail(user.getName());
-		
-		// TODO: Usar o status do pedido
 
 		mv.setViewName("pedido");
 		mv.addObject("pedidos", repositoryPedido.findByUsuario(usuario.getId()));

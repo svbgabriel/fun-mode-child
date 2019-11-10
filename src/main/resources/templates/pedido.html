@@ -21,6 +21,7 @@
 							<td>Pedido</td>
 							<td>Data do Pedido</td>
 							<td>Valor</td>
+							<td>Status</td>
 							<td><br></td>
 						</tr>
 						<th:block th:if="${pedidos.size() > 0}">
@@ -28,8 +29,8 @@
 								<td th:text="${pedido.id}"></td>
 								<td th:text="${pedido.dataPedido}"></td>
 								<td th:text="'R$' + ${pedido.precoTotal}"></td>
-								<td><a th:href="@{/pedido/{id}/detalhe(id=${pedido.id})}">Detalhes</a>
-								</td>
+								<td th:text="${ pedido.ativo ? 'OK' : 'Cancelado' }"></td>
+								<td><a th:href="@{/pedido/{id}/detalhe(id=${pedido.id})}">Detalhes</a></td>
 							</tr>
 						</th:block>
 					</table>

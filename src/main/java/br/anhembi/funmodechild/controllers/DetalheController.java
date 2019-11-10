@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.anhembi.funmodechild.repositories.RepositoryPedido;
 import br.anhembi.funmodechild.repositories.RepositoryPedidoDetalhe;
 
 @Controller
@@ -14,9 +15,13 @@ public class DetalheController {
 	@Autowired
 	RepositoryPedidoDetalhe repositoryPedidoDetalhe;
 
+	@Autowired
+	RepositoryPedido repositoryPedido;
+
 	@GetMapping("/pedido/{id}/detalhe")
 	public ModelAndView detalhe(@PathVariable("id") Long id) {
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("pedido", repositoryPedido.getOne(id));
 		mv.addObject("detalhes", repositoryPedidoDetalhe.findByPedido(id));
 		mv.addObject("pedidoId", id);
 		mv.setViewName("detalhe");

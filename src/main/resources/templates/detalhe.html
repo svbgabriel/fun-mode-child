@@ -52,10 +52,12 @@
 	            </table>
 	            <br>
 			</th:block>
+			<th:block th:if="${pedido.ativo}">
 	            <div class="alert alert-warning">
 	                Deseja cancelar esse pedido ? Atenção essa ação não pode ser desfeita!            
 	            </div>
-	            <a class="btn btn-default btn-sm" th:href="@{/pedido/{id}/cancelar(id=${pedidoId})}">Cancelar</a>            
+	            <a class="btn btn-default btn-sm" th:href="@{/pedido/{id}/cancelar(id=${pedidoId})}">Cancelar</a>
+	        </th:block>            
             <th:block th:if="${detalhes.size() == 0}">
 	            <div class="alert alert-danger" role="alert">
 	                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
