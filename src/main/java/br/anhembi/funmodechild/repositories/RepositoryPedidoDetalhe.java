@@ -10,7 +10,6 @@ import br.anhembi.funmodechild.models.PedidoDetalhe;
 
 public interface RepositoryPedidoDetalhe extends JpaRepository<PedidoDetalhe, Long> {
 
-	// TODO: Recuperar somente os pedidos do usuário logo
-	@Query("SELECT d FROM PedidoDetalhe d INNER JOIN d.pedido p WHERE p.id = :id")
-	List<PedidoDetalhe> findByPedido(@Param("id") long id);
+	@Query("SELECT d FROM PedidoDetalhe d INNER JOIN d.pedido p WHERE p.id = :pedidoId AND p.usuario.id = :usuarioId")
+	List<PedidoDetalhe> findByPedido(@Param("pedidoId") long pedidoId, @Param("usuarioId") long usuarioId);
 }
