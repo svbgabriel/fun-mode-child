@@ -136,12 +136,14 @@
                         <button type="submit" class="btn btn-primary" name="salvar" value="1">Finalizar Pedido</button>
                     </div>
                 </div>
-                <div class="row" th:if="${!erroSalvar.isEmpty()}">
+                <div class="row" th:if="${erroSalvar != null && !erroSalvar.isEmpty()}">
                     <div class="col-md-12">
-                        <ul class="text-danger" th:utext="${erroSalvar}"></ul>
+                        <ul class="text-danger">
+                        	<li th:each="erro : ${erroSalvar}" th:text="${erro}"></li>
+                        </ul>
                     </div>
                 </div>
-                <th:block th:if="${erroSalvar.length() == 0}">
+                <th:block th:if="${erroSalvar != null && erroSalvar.isEmpty()}">
                     <div class="row" th:if="${idPedido == -1}">
                         <div class="col-md-5">
                             <div class="alert alert-danger mg-top-30" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> Não foi possível salvar o pedido.</div>

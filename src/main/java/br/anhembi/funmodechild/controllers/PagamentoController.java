@@ -75,8 +75,6 @@ public class PagamentoController {
 		mv.addObject("carrinho", carrinho);
 		mv.addObject("listaProdutos", listaProdutos);
 		mv.addObject("totalCarrinhoFormatado", totalCarrinhoFormatado);
-		mv.addObject("erroSalvar", "");
-		mv.addObject("idPedido", 0);
 		mv.setViewName("pagamento");
 		return mv;
 	}
@@ -84,7 +82,7 @@ public class PagamentoController {
 	@PostMapping("/pagamento")
 	public String fazerPagamento(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Carrinho carrinho = (Carrinho) session.getAttribute("carrinhocompras");
-	    String erroSalvar = "";
+	    List<String> erroSalvar = new ArrayList<>();
 	    Long idPedido = -1L;
 	    
 	    // Recupera os dados do usuário
@@ -96,22 +94,22 @@ public class PagamentoController {
 	        // Clicou em Salvar Pedido.
 	        
 	        if(request.getParameter("numerocartao") == null) {
-	            erroSalvar += "<li>Informe o número do cartão</li>";
+	            erroSalvar.add("Informe o número do cartão");
 	        }
 	        if(request.getParameter("nomecartao") == null) {
-	            erroSalvar += "<li>Informe o nome que está no cartão</li>";
+	            erroSalvar.add("Informe o nome que está no cartão");
 	        }
 	        if(request.getParameter("validademes") == null) {
-	            erroSalvar += "<li>Informe o mês de validade do cartão</li>";
+	            erroSalvar.add("Informe o mês de validade do cartão");
 	        } 
 	        if(request.getParameter("validadeano") == null) {
-	            erroSalvar += "<li>Informe o ano de validade do cartão</li>";
+	            erroSalvar.add("Informe o ano de validade do cartão");
 	        } 
 	        if(request.getParameter("codigo") == null) {
-	            erroSalvar += "<li>Informe o código de verificação do cartão</li>";
+	            erroSalvar.add("Informe o código de verificação do cartão");
 	        } 
 	        if(request.getParameter("parcelas") == null) {
-	            erroSalvar += "<li>Informe o número de parcelas</li>";
+	            erroSalvar.add("Informe o número de parcelas");
 	        }
 	        
 	        Pagamento pagamentoResposta = null;
@@ -135,7 +133,6 @@ public class PagamentoController {
 	        idPedido = pagamentoResposta != null ? pagamentoResposta.getPedido().getId() : -1;
 	    }
 
-	    // TODO: Corrigir o feedback do pedido do usuário
 		redirectAttributes.addFlashAttribute("erroSalvar", erroSalvar);
 		redirectAttributes.addFlashAttribute("idPedido", idPedido);
 		return "redirect:/pagamento";
