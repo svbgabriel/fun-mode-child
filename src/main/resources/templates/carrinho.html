@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Fun Mode Child</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/css/fmc.css">
+    </head>
+    <body>
+<div th:replace="fragments/fragments :: cabecalho"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Meu carrinho</h2>
+            <p th:if="${carrinho.lista.isEmpty()}">Seu carrinho de compras está vazio!</p>
+            <form th:if="${!carrinho.lista.isEmpty()}" method="post" action="/carrinho">
+                <table class="table">
+                    <tr>
+                        <th>Item</th>
+                        <th style="width:150px;">Quantidade</th>
+                        <th style="width:150px;" class="text-right">Preço Unitário</th>
+                        <th style="width:150px;" class="text-right">Valor</th>
+                        <th style="width:30px;">&nbsp;</th>
+                    </tr>
+                    <tr th:each="produtoCarrinho : ${listaProdutos}">
+                        <td th:text="${produtoCarrinho.produto.nome}"></td>
+                        <td>
+                            <input type="hidden" name="skualt" th:value="${produtoCarrinho.produto.id}" />
+                            <input type="text" name="qtde" th:value="${produtoCarrinho.quantidade}" class="form-control text-right" />
+                        </td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.produto.getPrecoFormatado()}"></td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.getPrecoTotalFormatado()}"></td>
+                        <td><button type="button" class="btn btn-danger btn-xs" th:onclick="'removerItem('+${produtoCarrinho.produto.id}+');'"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td class="text-right"><strong>Total</strong></td>
+                        <td class="text-right" th:text="'R$' + ${totalCarrinhoFormatado}"></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <div class="row">
+                    <div class="col-md-8">
+                        <th:block th:if="${messages != null && messages.size() > 0}">
+	                        <span class="label label-warning">Atenção!</span>
+	                        <ul>
+	                            <li th:each="message: ${messages}" th:utext="${message}"></li>
+	                        </ul>
+                        </th:block>
+                        &nbsp;
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button type="submit" class="btn btn-info" name="alt" value="1"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar alterações</button>
+                        <button type="button" class="btn btn-primary" onclick="document.location.href = '/pagamento';"><span class="glyphicon glyphicon-chevron-right"></span> Finalizar compra</button>
+                    </div>
+                </div>
+            </form>
+            <button type="button" class="btn btn-success mg-top-50" onclick="document.location.href = '/';"><span class="glyphicon glyphicon-chevron-left"></span> Continuar comprando</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function removerItem(sku) {
+        document.location.href = "/carrinho?del=1&sku=" + sku;
+    }
+</script>
+    <script src="/assets/js/jquery-2.1.4.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>

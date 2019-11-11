@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Fun Mode Child</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/css/fmc.css">
+    </head>
+    <body>
+<div th:replace="fragments/fragments :: cabecalho"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="/assets/img/logo-sm.png" alt="Fun Mode Child" class="img-responsive" />
+            <div class="list-group">
+                <a th:each="categoria: ${categorias}" th:href="@{/(cat=${categoria.id})}" class="list-group-item" th:text="${categoria.nome}"></a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="promovidos" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+							<li th:each="produto, iStat: ${produtosPromovidos}" data-target="#promovidos" data-slide-to="${iStat.count}" th:attr="class=${iStat.first ? 'active' : '' }"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                        	<div th:each="produto, iStat: ${produtosPromovidos}" th:attr="class=${iStat.first ? 'item active' : 'item' }">
+                        		<a th:href="@{/produto/{id}(id=${produto.id})}">
+                        			<img th:src="@{${produto.refeBig}}" alt="" />
+                        			<div class="carousel-caption">
+                        				<h3 th:text="${produto.nome}"></h3>
+                        			</div>
+                        		</a>
+                        	</div>
+                        </div>
+                        <a class="left carousel-control" href="#promovidos" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#promovidos" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+            	<div th:if="${produtos.size() == 0}" class="col-sm-12 col-lg-12 col-md-12">Nenhum produto encontrado.</div>
+                <div th:if="${produtos.size() != 0}" th:each="pEstoque: ${produtos}" class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="thumbnail">
+                        <img th:src="@{${pEstoque.refe}}" alt="">
+                        <div class="caption">   
+                            <h4><a th:href="@{/produto/{id}(id=${pEstoque.id})}" th:text="${pEstoque.nome}"></a></h4>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <span class="preco" th:text="${pEstoque.getPrecoFormatado()}">></span>
+                                </div>
+                                <div class="col-md-7 text-right">                               
+                                    <a th:if="${pEstoque.quantidade > 0}" class="btn btn-default btn-xs" th:href="@{carrinho(sku=${pEstoque.id})}">Adicionar ao carrinho</a>
+                                    <span th:if="${pEstoque.quantidade == 0}" class="label label-danger">Esgotado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>      
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; FUN MODE CHILD 2019</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div> <!-- /.row -->
+</div> <!-- /.container -->
+</div>
+    <script src="/assets/js/jquery-2.1.4.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>

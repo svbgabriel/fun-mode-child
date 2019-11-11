@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Fun Mode Child</title>
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/fmc.css">
+</head>
+<body>
+	<div th:replace="fragments/fragments :: cabecalho"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <th:block th:if="${detalhes.size() > 0}" th:each="detalhe : ${detalhes}">	            
+	            <img th:src="@{${detalhe.produto.refe}}" alt="">
+	            <br><br>
+	            <table class="table table-hover">
+	                <tr>
+	                    <td>
+	                        <h5>Pedido:</h5>
+	                    </td>
+	                    <td>
+	                        <h5 th:text="${detalhe.pedido.id}"></h5>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <h5>Nome: </h5>
+	                    </td>
+	                    <td>
+	                        <h5 th:text="${detalhe.produto.nome}"></h5>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <h5>Quantidde: </h5>
+	                    </td>
+	                    <td>
+	                        <h5 th:text="${detalhe.quantidade}"></h5>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <h5>Valor: </h5>
+	                    </td>
+	                    <td>
+	                        <h5 th:text="'R$' + ${detalhe.precoItem}"></h5>
+	                    </td>
+	                </tr>
+	            </table>
+	            <br>
+			</th:block>
+			<th:block th:if="${pedido.ativo}">
+	            <div class="alert alert-warning">
+	                Deseja cancelar esse pedido ? Atenção essa ação não pode ser desfeita!            
+	            </div>
+	            <a class="btn btn-default btn-sm" th:href="@{/pedido/{id}/cancelar(id=${pedidoId})}">Cancelar</a>
+	        </th:block>            
+            <th:block th:if="${detalhes.size() == 0}">
+	            <div class="alert alert-danger" role="alert">
+	                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	                Erro ao verificar os detalhes do pedido
+	            </div>
+	            <a href="javascript:history.back(1);" class="btn btn-default">Voltar</a>
+            </th:block> 
+        </div>
+    </div>
+</div>
+	<script src="/assets/js/jquery-2.1.4.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+</body>
+</html>
