@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.anhembi.funmodechild.models.Carrinho;
 import br.anhembi.funmodechild.models.Produto;
@@ -25,9 +26,6 @@ public class CarrinhoController {
 
 	@Autowired
 	RepositoryProduto repositoryProduto;
-
-	// TODO: Encontrar uma maneira de limpar a mensagem
-	List<String> messages = new ArrayList<>();
 	
 	@GetMapping("/carrinho")
 	public ModelAndView carrinho(HttpSession session, HttpServletRequest request) {
@@ -84,13 +82,12 @@ public class CarrinhoController {
 		mv.addObject("carrinho", carrinho);
 		mv.addObject("listaProdutos", listaProdutos);
 		mv.addObject("totalCarrinhoFormatado", totalCarrinhoFormatado);
-		mv.addObject("messages", messages);
 		return mv;
 	}
 	
 	@PostMapping("/carrinho")
-	public ModelAndView atualizarCarrinho(HttpSession session, HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView();
+	public String atualizarCarrinho(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		List<String> messages = new ArrayList<>();
 		
 	    // O carrinho contém apenas o SKU e sua quantidade.
 	    Carrinho carrinho = (Carrinho) session.getAttribute("carrinhocompras");
@@ -128,8 +125,8 @@ public class CarrinhoController {
 	            }
 	        }
 	    }
-	    
-	    mv.setViewName("redirect:/carrinho");		
-		return mv;
+
+	    redirectAttributes.addFlashAttribute("messages", messages);	    
+		return "redirect:/carrinho";
 	}
 }
