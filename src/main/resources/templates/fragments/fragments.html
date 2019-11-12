@@ -27,15 +27,19 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-app">
 				<ul class="nav navbar-nav">
-					<li><a href="/registration">Cadastrar</a></li>
-					<li><a href="/login">Login</a></li>
 				</ul>
 				<!-- TODO: Mostrar somente se estivar logado -->
 				<ul class="nav navbar-nav navbar-right">
+					<th:block sec:authorize="isAnonymous()">
+					<li><a href="/registration">Cadastrar</a></li>
+					<li><a href="/login">Login</a></li>
+					</th:block>
+					<th:block sec:authorize="isAuthenticated()">
 					<li><a href="/carrinho">Carrinho</a></li>
 					<li><a href="/conta">Conta</a></li>
 					<li><a href="/pedido">Pedidos</a></li>
 					<li><a href="/logout">Sair</a></li>
+					</th:block>
 				</ul>
 				<!-- TODO: Mostrar somente se estivar logado -->
 			</div>
