@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild;
+package br.anhembi.funmodechild.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

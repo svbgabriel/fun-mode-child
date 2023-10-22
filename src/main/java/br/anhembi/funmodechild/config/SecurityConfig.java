@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild;
+package br.anhembi.funmodechild.config;
 
 import javax.sql.DataSource;
 
