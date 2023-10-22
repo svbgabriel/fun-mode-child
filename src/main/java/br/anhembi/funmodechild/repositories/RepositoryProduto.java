@@ -10,7 +10,7 @@ import br.anhembi.funmodechild.models.Produto;
 
 public interface RepositoryProduto extends JpaRepository<Produto, Long> {
 
-	@Query("SELECT p FROM Produto p WHERE p.promovido = 1")
+	@Query("SELECT p FROM Produto p WHERE p.promovido = true")
 	List<Produto> findPromovidos();
 	
 	@Query("SELECT p FROM Produto p INNER JOIN p.categoria c WHERE c.id = :id")

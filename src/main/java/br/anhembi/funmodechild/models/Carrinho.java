@@ -12,7 +12,7 @@ import lombok.Data;
  * Classe para manter uma lista de SKUs e suas quantidades.
  * 
  * Esta classe tem um HashMap com apenas o SKU do produto e a quantidade, 
- * pois deve ser ser mantida na session, portanto deve ser "leve".
+ * pois deve ser mantida na session, portanto deve ser "leve".
  * 
  * HashMap = coleção de pares [chave, valor].
  * Em chave colocamos o SKU e, em valor, a quantidade.
