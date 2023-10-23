@@ -1,11 +1,5 @@
 -- Trunca as tabelas
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE detalhe_pedidos;
-TRUNCATE TABLE pedidos;
-TRUNCATE TABLE produtos;
-TRUNCATE TABLE categoria;
-TRUNCATE TABLE usuarios;
-SET FOREIGN_KEY_CHECKS = 1;
+TRUNCATE TABLE detalhe_pedidos, pedidos, produtos, categoria, usuarios, pagamentos;
 
 -- INSERIR AS CATEGORIAS
 INSERT INTO categoria (nome) VALUES ('Brinquedos');
@@ -91,14 +85,7 @@ INSERT INTO produtos (sku,nome,descricao,preco,categoria_id,refe,refebig,quantid
 
 -- SELECIONA 6 PRODUTOS RANDOMICAMENTE 
 -- E OS ATUALIZA COMO PROMOVIDOS
-SET SQL_SAFE_UPDATES = 0;
-UPDATE produtos as p1
- INNER JOIN (
-SELECT sku
-  FROM produtos p2
- ORDER BY RAND()
- LIMIT 6
-) AS r
-    ON r.sku = p1.sku
-   SET p1.promovido = 1;
-SET SQL_SAFE_UPDATES = 1;
+UPDATE produtos p1
+SET promovido = true
+FROM (SELECT * FROM produtos ORDER BY random() LIMIT 6) p2
+WHERE p1.id = p2.id;
