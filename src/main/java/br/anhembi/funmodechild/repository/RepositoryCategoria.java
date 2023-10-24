@@ -1,6 +1,6 @@
-package br.anhembi.funmodechild.repositories;
+package br.anhembi.funmodechild.repository;
 
-import br.anhembi.funmodechild.models.Categoria;
+import br.anhembi.funmodechild.model.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

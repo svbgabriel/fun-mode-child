@@ -1,15 +1,15 @@
-package br.anhembi.funmodechild.services;
+package br.anhembi.funmodechild.service;
 
-import br.anhembi.funmodechild.models.Carrinho;
-import br.anhembi.funmodechild.models.Pagamento;
-import br.anhembi.funmodechild.models.Pedido;
-import br.anhembi.funmodechild.models.PedidoDetalhe;
-import br.anhembi.funmodechild.models.Produto;
-import br.anhembi.funmodechild.models.Usuario;
-import br.anhembi.funmodechild.repositories.RepositoryPagamento;
-import br.anhembi.funmodechild.repositories.RepositoryPedido;
-import br.anhembi.funmodechild.repositories.RepositoryPedidoDetalhe;
-import br.anhembi.funmodechild.repositories.RepositoryProduto;
+import br.anhembi.funmodechild.model.Carrinho;
+import br.anhembi.funmodechild.model.Pagamento;
+import br.anhembi.funmodechild.model.Pedido;
+import br.anhembi.funmodechild.model.PedidoDetalhe;
+import br.anhembi.funmodechild.model.Produto;
+import br.anhembi.funmodechild.model.Usuario;
+import br.anhembi.funmodechild.repository.RepositoryPagamento;
+import br.anhembi.funmodechild.repository.RepositoryPedido;
+import br.anhembi.funmodechild.repository.RepositoryPedidoDetalhe;
+import br.anhembi.funmodechild.repository.RepositoryProduto;
 import org.springframework.stereotype.Service;
 
 import java.util.AbstractMap;

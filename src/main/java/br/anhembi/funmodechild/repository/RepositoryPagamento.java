@@ -1,6 +1,6 @@
-package br.anhembi.funmodechild.repositories;
+package br.anhembi.funmodechild.repository;
 
-import br.anhembi.funmodechild.models.Pagamento;
+import br.anhembi.funmodechild.model.Pagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

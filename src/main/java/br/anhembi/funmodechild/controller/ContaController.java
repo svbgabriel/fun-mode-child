@@ -1,8 +1,8 @@
-package br.anhembi.funmodechild.controllers;
+package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.models.Carrinho;
-import br.anhembi.funmodechild.models.Usuario;
-import br.anhembi.funmodechild.services.ServiceUsuario;
+import br.anhembi.funmodechild.model.Carrinho;
+import br.anhembi.funmodechild.model.Usuario;
+import br.anhembi.funmodechild.service.ServiceUsuario;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

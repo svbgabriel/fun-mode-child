@@ -1,9 +1,14 @@
-package br.anhembi.funmodechild.controllers;
+package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.models.*;
-import br.anhembi.funmodechild.repositories.RepositoryProduto;
-import br.anhembi.funmodechild.repositories.RepositoryUsuario;
-import br.anhembi.funmodechild.services.ServicePagamento;
+
+import br.anhembi.funmodechild.model.Carrinho;
+import br.anhembi.funmodechild.model.Pagamento;
+import br.anhembi.funmodechild.model.Produto;
+import br.anhembi.funmodechild.model.ProdutoCarrinho;
+import br.anhembi.funmodechild.model.Usuario;
+import br.anhembi.funmodechild.repository.RepositoryProduto;
+import br.anhembi.funmodechild.repository.RepositoryUsuario;
+import br.anhembi.funmodechild.service.ServicePagamento;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Scope;

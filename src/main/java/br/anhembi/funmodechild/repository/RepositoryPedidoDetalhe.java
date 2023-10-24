@@ -1,6 +1,6 @@
-package br.anhembi.funmodechild.repositories;
+package br.anhembi.funmodechild.repository;
 
-import br.anhembi.funmodechild.models.PedidoDetalhe;
+import br.anhembi.funmodechild.model.PedidoDetalhe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

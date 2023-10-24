@@ -1,7 +1,7 @@
-package br.anhembi.funmodechild.services;
+package br.anhembi.funmodechild.service;
 
-import br.anhembi.funmodechild.models.Pedido;
-import br.anhembi.funmodechild.repositories.RepositoryPedido;
+import br.anhembi.funmodechild.model.Pedido;
+import br.anhembi.funmodechild.repository.RepositoryPedido;
 import org.springframework.stereotype.Service;
 
 @Service

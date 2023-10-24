@@ -1,10 +1,10 @@
-package br.anhembi.funmodechild.controllers;
+package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.models.Pedido;
-import br.anhembi.funmodechild.models.Usuario;
-import br.anhembi.funmodechild.repositories.RepositoryPedido;
-import br.anhembi.funmodechild.repositories.RepositoryUsuario;
-import br.anhembi.funmodechild.services.ServicePedido;
+import br.anhembi.funmodechild.model.Pedido;
+import br.anhembi.funmodechild.model.Usuario;
+import br.anhembi.funmodechild.repository.RepositoryPedido;
+import br.anhembi.funmodechild.repository.RepositoryUsuario;
+import br.anhembi.funmodechild.service.ServicePedido;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

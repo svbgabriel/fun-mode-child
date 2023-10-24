@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild.models;
+package br.anhembi.funmodechild.model;
 
 import lombok.Data;
 
