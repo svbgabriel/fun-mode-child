@@ -1,12 +1,11 @@
 package br.anhembi.funmodechild.controllers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import br.anhembi.funmodechild.models.Carrinho;
+import br.anhembi.funmodechild.models.Produto;
+import br.anhembi.funmodechild.models.ProdutoCarrinho;
+import br.anhembi.funmodechild.repositories.RepositoryProduto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.anhembi.funmodechild.models.Carrinho;
-import br.anhembi.funmodechild.models.Produto;
-import br.anhembi.funmodechild.models.ProdutoCarrinho;
-import br.anhembi.funmodechild.repositories.RepositoryProduto;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 @Scope("session")

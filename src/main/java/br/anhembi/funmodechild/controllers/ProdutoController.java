@@ -1,12 +1,11 @@
 package br.anhembi.funmodechild.controllers;
 
+import br.anhembi.funmodechild.models.Produto;
+import br.anhembi.funmodechild.repositories.RepositoryProduto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-
-import br.anhembi.funmodechild.models.Produto;
-import br.anhembi.funmodechild.repositories.RepositoryProduto;
 
 @Controller
 public class ProdutoController {

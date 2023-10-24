@@ -1,12 +1,11 @@
 package br.anhembi.funmodechild.services;
 
-import java.security.Principal;
-
+import br.anhembi.funmodechild.models.Usuario;
+import br.anhembi.funmodechild.repositories.RepositoryUsuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.anhembi.funmodechild.models.Usuario;
-import br.anhembi.funmodechild.repositories.RepositoryUsuario;
+import java.security.Principal;
 
 @Service
 public class ServiceUsuario {

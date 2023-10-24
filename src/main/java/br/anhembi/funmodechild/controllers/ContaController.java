@@ -1,19 +1,17 @@
 package br.anhembi.funmodechild.controllers;
 
-import java.security.Principal;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import br.anhembi.funmodechild.models.Carrinho;
+import br.anhembi.funmodechild.models.Usuario;
+import br.anhembi.funmodechild.services.ServiceUsuario;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.anhembi.funmodechild.models.Carrinho;
-import br.anhembi.funmodechild.models.Usuario;
-import br.anhembi.funmodechild.services.ServiceUsuario;
+import java.security.Principal;
 
 @Controller
 public class ContaController {
@@ -55,7 +53,10 @@ public class ContaController {
     }
 
     @PostMapping("/conta")
-    public ModelAndView conta(@RequestParam(name = "passwordOld") String passwordOld, @RequestParam(name = "passwordNew") String passwordNew, @RequestParam(name = "passwordNewConfirm") String passwordNewConfirm, HttpServletRequest request) {
+    public ModelAndView conta(@RequestParam(name = "passwordOld") String passwordOld,
+                              @RequestParam(name = "passwordNew") String passwordNew,
+                              @RequestParam(name = "passwordNewConfirm") String passwordNewConfirm,
+                              HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         // Checa se as novas senha são iguais
         Principal user = request.getUserPrincipal();

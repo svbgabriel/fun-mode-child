@@ -1,9 +1,8 @@
 package br.anhembi.funmodechild.services;
 
-import org.springframework.stereotype.Service;
-
 import br.anhembi.funmodechild.models.Pedido;
 import br.anhembi.funmodechild.repositories.RepositoryPedido;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ServicePedido {

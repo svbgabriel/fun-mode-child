@@ -1,12 +1,11 @@
 package br.anhembi.funmodechild.models;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-
+import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import lombok.Data;
+import java.util.AbstractMap;
+import java.util.HashMap;
 
 /**
  * Classe para manter uma lista de SKUs e suas quantidades.
