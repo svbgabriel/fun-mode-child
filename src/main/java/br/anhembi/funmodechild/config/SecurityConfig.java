@@ -1,54 +1,51 @@
 package br.anhembi.funmodechild.config;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+public class SecurityConfig {
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+    public static final String LOGIN_PAGE = "/login";
 
-	@Autowired
-	private DataSource dataSource;
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http,
+                                                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                                                       UserDetailsService userDetailService) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .userDetailsService(userDetailService)
+            .passwordEncoder(bCryptPasswordEncoder)
+            .and()
+            .build();
+    }
 
-	@Value("${spring.queries.users-query}")
-	private String userQuery;
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+            .antMatchers(LOGIN_PAGE, "/registration", "/", "/produto/**", "/assets/**").permitAll()
+            .anyRequest()
+            .authenticated().and().csrf().disable()
+            .formLogin()
+            .loginPage(LOGIN_PAGE).failureUrl("/login?error=true").defaultSuccessUrl("/")
+            .usernameParameter("email").passwordParameter("senha")
+            .and().logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl(LOGIN_PAGE);
 
-	@Value("${spring.queries.roles-query}")
-	private String roleQuery;
+        return http.build();
+    }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().usersByUsernameQuery(userQuery).authoritiesByUsernameQuery(roleQuery)
-				.dataSource(dataSource).passwordEncoder(passwordEncoder);
-	}
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests()
-				.antMatchers("/login", "/registration", "/", "/produto/*").permitAll()
-				.anyRequest()
-					.authenticated().and().csrf().disable()
-					.formLogin()
-						.loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/")
-						.usernameParameter("email").passwordParameter("senha")
-					.and().logout()
-						.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-	}
-
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/assets/**");
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
