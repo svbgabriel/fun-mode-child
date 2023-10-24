@@ -16,19 +16,19 @@ import lombok.Data;
 
 @Entity
 @Table(name = "pedidos")
-@Data public class Pedido {
+@Data
+public class Pedido {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@Column(name = "data_pedido")
-	private Date dataPedido = new Date();
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario_id")
-	private Usuario usuario;
-	@Column(name = "preco_total")
-	private double precoTotal;
-	@Column(name = "ativo")
-	private boolean ativo = true;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "data_pedido")
+    private Date dataPedido = new Date();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+    @Column(name = "preco_total")
+    private double precoTotal;
+    @Column(name = "ativo")
+    private boolean ativo = true;
 }

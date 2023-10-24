@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.anhembi.funmodechild.models.Carrinho;
@@ -22,57 +21,61 @@ import br.anhembi.funmodechild.repositories.RepositoryProduto;
 @Service
 public class ServicePagamento {
 
-	@Autowired
-	RepositoryPagamento repositoryPagamento;
+    private final RepositoryPagamento repositoryPagamento;
+    private final RepositoryPedido repositoryPedido;
+    private final RepositoryPedidoDetalhe repositoryPedidoDetalhe;
+    private final RepositoryProduto repositoryProduto;
 
-	@Autowired
-	RepositoryPedido repositoryPedido;
+    public ServicePagamento(RepositoryPagamento repositoryPagamento,
+                            RepositoryPedido repositoryPedido,
+                            RepositoryPedidoDetalhe repositoryPedidoDetalhe,
+                            RepositoryProduto repositoryProduto
+    ) {
+        this.repositoryPagamento = repositoryPagamento;
+        this.repositoryPedido = repositoryPedido;
+        this.repositoryPedidoDetalhe = repositoryPedidoDetalhe;
+        this.repositoryProduto = repositoryProduto;
+    }
 
-	@Autowired
-	RepositoryPedidoDetalhe repositoryPedidoDetalhe;
+    public Pagamento salvar(Carrinho carrinho, Usuario usuario, Pagamento pagamento) {
+        double precoTotal = 0.0;
+        Pedido pedido = new Pedido();
 
-	@Autowired
-	RepositoryProduto repositoryProduto;
+        AbstractMap<Long, Integer> listaProdutos = carrinho.getLista();
+        Iterator<Long> keySetIterator = listaProdutos.keySet().iterator();
+        List<PedidoDetalhe> detalhes = new ArrayList<>();
+        while (keySetIterator.hasNext()) {
+            Long sku = keySetIterator.next();
+            Produto produto = repositoryProduto.getOne(sku);
 
-	public Pagamento salvar(Carrinho carrinho, Usuario usuario, Pagamento pagamento) {
-		double precoTotal = 0.0;
-		Pedido pedido = new Pedido();
+            PedidoDetalhe detalhePedido = new PedidoDetalhe();
+            detalhePedido.setPrecoItem(produto.getPreco());
+            detalhePedido.setQuantidade(listaProdutos.get(sku));
+            detalhePedido.setProduto(produto);
 
-		AbstractMap<Long, Integer> listaProdutos = carrinho.getLista();
-		Iterator<Long> keySetIterator = listaProdutos.keySet().iterator();
-		List<PedidoDetalhe> detalhes = new ArrayList<>();
-		while (keySetIterator.hasNext()) {
-			Long sku = keySetIterator.next();
-			Produto produto = repositoryProduto.getOne(sku);
+            detalhes.add(detalhePedido);
 
-			PedidoDetalhe detalhePedido = new PedidoDetalhe();
-			detalhePedido.setPrecoItem(produto.getPreco());
-			detalhePedido.setQuantidade(listaProdutos.get(sku));
-			detalhePedido.setProduto(produto);
+            precoTotal += detalhePedido.getPrecoItem() * detalhePedido.getQuantidade();
+        }
 
-			detalhes.add(detalhePedido);
+        pedido.setPrecoTotal(precoTotal);
+        pedido.setUsuario(usuario);
+        Pedido pedidoSalvo = repositoryPedido.save(pedido);
 
-			precoTotal += detalhePedido.getPrecoItem() * detalhePedido.getQuantidade();
-		}
+        // Adiciona o pedido ao detalhe
+        for (PedidoDetalhe detalhe : detalhes) {
+            detalhe.setPedido(pedido);
+        }
+        repositoryPedidoDetalhe.saveAll(detalhes);
 
-		pedido.setPrecoTotal(precoTotal);
-		pedido.setUsuario(usuario);
-		Pedido pedidoSalvo = repositoryPedido.save(pedido);
-		
-		// Adiciona o pedido ao detalhe
-		for (PedidoDetalhe detalhe : detalhes) {
-			detalhe.setPedido(pedido);
-		}
-		repositoryPedidoDetalhe.saveAll(detalhes);
+        if (pedidoSalvo.getId() > -1) {
+            // Completa os dados de pagamento
+            pagamento.setPedido(pedido);
 
-		if (pedidoSalvo.getId() > -1) {
-			// Completa os dados de pagamento
-			pagamento.setPedido(pedido);
+            // Salva o pagamento
+            repositoryPagamento.save(pagamento);
+        }
 
-			// Salva o pagamento
-			repositoryPagamento.save(pagamento);			
-		}
-
-		return pagamento;
-	}
+        return pagamento;
+    }
 }

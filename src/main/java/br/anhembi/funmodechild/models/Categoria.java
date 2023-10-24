@@ -12,13 +12,13 @@ import lombok.Data;
 
 @Entity
 @Table(name = "categoria")
-@Data public class Categoria {
+@Data
+public class Categoria {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@Column(name = "nome", nullable = false)
-	@NotNull(message = "O nome é obrigatório")
-	private String nome;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "nome", nullable = false)
+    @NotNull(message = "O nome é obrigatório")
+    private String nome;
 }
