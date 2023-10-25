@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RepositoryProduto extends JpaRepository<Produto, Long> {
@@ -16,4 +17,6 @@ public interface RepositoryProduto extends JpaRepository<Produto, Long> {
 
     @Query("SELECT p FROM Produto p INNER JOIN p.categoria c WHERE c.id = :id")
     List<Produto> findByCategoria(@Param("id") long id);
+
+    Optional<Produto> findBySku(long sku);
 }

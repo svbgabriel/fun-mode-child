@@ -61,7 +61,7 @@ public class PagamentoController {
         while (keySetIterator.hasNext()) {
             Long skuItem = keySetIterator.next();
             ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
-            Produto produto = repositoryProduto.getOne(skuItem);
+            Produto produto = repositoryProduto.findBySku(skuItem).orElseThrow();
             produtoCarrinho.setProduto(produto);
             produtoCarrinho.setQuantidade(carrinho.getLista().get(skuItem));
             produtoCarrinho.setPrecoTotal(produto.getPreco() * produtoCarrinho.getQuantidade());

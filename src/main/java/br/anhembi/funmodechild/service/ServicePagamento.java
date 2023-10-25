@@ -45,7 +45,7 @@ public class ServicePagamento {
         List<PedidoDetalhe> detalhes = new ArrayList<>();
         while (keySetIterator.hasNext()) {
             Long sku = keySetIterator.next();
-            Produto produto = repositoryProduto.getOne(sku);
+            Produto produto = repositoryProduto.findBySku(sku).orElseThrow();
 
             PedidoDetalhe detalhePedido = new PedidoDetalhe();
             detalhePedido.setPrecoItem(produto.getPreco());

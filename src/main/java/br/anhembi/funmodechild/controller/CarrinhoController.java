@@ -69,7 +69,7 @@ public class CarrinhoController {
         while (keySetIterator.hasNext()) {
             Long skuItem = keySetIterator.next();
             ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
-            Produto produto = repositoryProduto.getOne(skuItem);
+            Produto produto = repositoryProduto.findBySku(skuItem).orElseThrow();
             produtoCarrinho.setProduto(produto);
             produtoCarrinho.setQuantidade(carrinho.getLista().get(skuItem));
             produtoCarrinho.setPrecoTotal(produto.getPreco() * produtoCarrinho.getQuantidade());
@@ -114,7 +114,7 @@ public class CarrinhoController {
                 } else {
                     // Quantidade do produto foi alterada.
                     // Verifica se tem saldo em estoque.
-                    Produto produto = repositoryProduto.getOne(isku);
+                    Produto produto = repositoryProduto.findBySku(isku).orElseThrow();
                     if (produto.getQuantidade() < iqtd) {
                         messages.add("Estoque insuficiente para o produto <strong>" + produto.getNome() + "</strong>!");
                         // Atualiza o produto no carrinho com a quantidade que tem em estoque.
