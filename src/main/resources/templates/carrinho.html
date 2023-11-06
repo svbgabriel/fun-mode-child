@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="/assets/css/fmc.css">
     </head>
     <body>
-<div th:replace="fragments/fragments :: cabecalho"></div>
+    <div th:replace="~{fragments/fragments :: cabecalho}"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -25,14 +25,14 @@
                         <th style="width:30px;">&nbsp;</th>
                     </tr>
                     <tr th:each="produtoCarrinho : ${listaProdutos}">
-                        <td th:text="${produtoCarrinho.produto.nome}"></td>
+                        <td th:text="${produtoCarrinho.product().nome}"></td>
                         <td>
-                            <input type="hidden" name="skualt" th:value="${produtoCarrinho.produto.id}" />
-                            <input type="text" name="qtde" th:value="${produtoCarrinho.quantidade}" class="form-control text-right" />
+                            <input type="hidden" name="skualt" th:value="${produtoCarrinho.product().id}" />
+                            <input type="text" name="qtde" th:value="${produtoCarrinho.quantity()}" class="form-control text-right" />
                         </td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.produto.getPrecoFormatado()}"></td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.getPrecoTotalFormatado()}"></td>
-                        <td><button type="button" class="btn btn-danger btn-xs" th:onclick="'removerItem('+${produtoCarrinho.produto.id}+');'"><span class="glyphicon glyphicon-trash"></span></button></td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.product().formatPrice()}"></td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.formatTotalPrice()}"></td>
+                        <td><button type="button" class="btn btn-danger btn-xs" th:onclick="'removerItem('+${produtoCarrinho.product().id}+');'"><span class="glyphicon glyphicon-trash"></span></button></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -50,7 +50,6 @@
 	                            <li th:each="message: ${messages}" th:utext="${message}"></li>
 	                        </ul>
                         </th:block>
-                        &nbsp;
                     </div>
                     <div class="col-md-4 text-right">
                         <button type="submit" class="btn btn-info" name="alt" value="1"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar alterações</button>

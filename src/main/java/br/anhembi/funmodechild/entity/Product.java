@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild.model;
+package br.anhembi.funmodechild.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "produtos")
 @Data
-public class Produto {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +48,7 @@ public class Produto {
      *
      * @return o preço formatado com duas casas decimais.
      */
-    public String getPrecoFormatado() {
+    public String formatPrice() {
         return String.format("%1$,.2f", this.preco);
     }
 }

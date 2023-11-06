@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="/assets/css/fmc.css">
     </head>
     <body>
-		<div th:replace="fragments/fragments :: cabecalho"></div>
+		<div th:replace="~{fragments/fragments :: cabecalho}"></div>
 		<div class="container mg-btm-30">
     		<img src="/assets/img/logo.png" alt="Fun Mode Child" />
     		<h1>Entrar</h1>
@@ -23,7 +23,7 @@
 		            </div>
 		        </div>
 		        <div class="row">
-		            <div class="col-md-2">  
+		            <div class="col-md-2">
 		                <div class="form-group">
 		                    <label for="nome">Senha</label>
 		                    <input type="password" class="form-control" name="senha" required="required">

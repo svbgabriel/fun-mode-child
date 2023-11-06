@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild.model;
+package br.anhembi.funmodechild.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +11,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "pagamentos")
+@Table(name = "detalhe_pedidos")
 @Data
-public class Pagamento {
+public class PedidoDetalhe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,18 +22,11 @@ public class Pagamento {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
-    @Column(name = "numero_cartao")
-    private String numeroCartao;
-    @Column(name = "nome_cartao")
-    private String nomeCartao;
-    @Column(name = "validade_mes")
-    private int validadeMes;
-    @Column(name = "validade_ano")
-    private int validadeAno;
-    @Column(name = "codigo")
-    private int codigo;
-    @Column(name = "parcelas")
-    private int parcelas;
-    @Column(name = "data_pagamento")
-    private Date dataPagamento;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produto_id")
+    private Product product;
+    @Column(name = "preco_item")
+    private double precoItem;
+    @Column(name = "quantidade")
+    private int quantidade;
 }

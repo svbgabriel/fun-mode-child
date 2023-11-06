@@ -1,113 +1,116 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Fun Mode Child</title>
-<!-- CSS -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/fmc.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Fun Mode Child</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/fmc.css">
 </head>
 <body>
-	<div th:replace="fragments/fragments :: cabecalho"></div>
+<div th:replace="~{fragments/fragments :: cabecalho}"></div>
 <div class="container">
-<form method="post" action="/pagamento">
-    <div class="row">
-        <div class="col-md-6">
-            <!-- Cartao -->
-            <h3>Forma de Pagamento - Cartão de Crédito</h3>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label for="numerocartao">Número do cartão</label>
-                        <input type="text" class="form-control" id="numerocartao" name="numerocartao" maxlength="16" required="required">
-                    </div>
-                </div>
-            </div>
-            <div class="row">    
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label for="nomecartao">Nome</label>
-                        <input type="text" class="form-control" id="nomecartao" name="nomecartao" maxlength="18" required="required">
-                    </div>
-                </div>
-            </div>
-            <div class="row">    
-                <div class="col-md-12">
-                    <h5>Validade do Cartão</h5>
-                    <div class="row">    
-                        <div class="col-md-4">                    
-                            <label for="validademes">Mês</label>
-                            <div class="form-group">
-                                <select name="validademes" class="form-control" required="required">
-                                    <option value="01">01</option>
-                                    <option value="02">02</option>
-                                    <option value="03">03</option>
-                                    <option value="04">04</option>
-                                    <option value="05">05</option>
-                                    <option value="06">06</option>
-                                    <option value="07">07</option>
-                                    <option value="08">08</option>
-                                    <option value="09">09</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="validadeano">Ano</label>
-                            <div class="form-group">
-                                <select name="validadeano" class="form-control" required="required">                                    
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2015">2023</option>
-                                    <option value="2016">2024</option>
-                                    <option value="2017">2025</option>
-                                    <option value="2018">2026</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="codigo">Código</label>
-                            <div class="form-group">
-                                <input type="text" placeholder="xxx" class="form-control" id="codigo" name="codigo" maxlength="3" required="required">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="parcelas">Parcelas</label>
-                            <div class="form-group">
-                                <select name="parcelas" class="form-control" required="required">
-                                    <option value="1">1x</option>
-                                    <option value="2">2x</option>
-                                    <option value="3">3x</option>
-                                    <option value="4">4x</option>
-                                </select>
-                            </div>
+    <form method="post" action="/pagamento">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Cartao -->
+                <h3>Forma de Pagamento - Cartão de Crédito</h3>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="numerocartao">Número do cartão</label>
+                            <input type="text" class="form-control" id="numerocartao" name="numerocartao" maxlength="16"
+                                   required="required">
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="nomecartao">Nome</label>
+                            <input type="text" class="form-control" id="nomecartao" name="nomecartao" maxlength="18"
+                                   required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Validade do Cartão</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="validademes">Mês</label>
+                                <div class="form-group">
+                                    <select name="validademes" class="form-control" required="required">
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validadeano">Ano</label>
+                                <div class="form-group">
+                                    <select name="validadeano" class="form-control" required="required">
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2015">2023</option>
+                                        <option value="2016">2024</option>
+                                        <option value="2017">2025</option>
+                                        <option value="2018">2026</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="codigo">Código</label>
+                                <div class="form-group">
+                                    <input type="text" placeholder="xxx" class="form-control" id="codigo" name="codigo"
+                                           maxlength="3" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="parcelas">Parcelas</label>
+                                <div class="form-group">
+                                    <select name="parcelas" class="form-control" required="required">
+                                        <option value="1">1x</option>
+                                        <option value="2">2x</option>
+                                        <option value="3">3x</option>
+                                        <option value="4">4x</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <!-- Endereco -->
-            <h3>Endereço de Entrega</h3>
-            <p th:text="${usuario.endereco}"></p>
-            <p th:text="${usuario.numero}"></p>
-            <p th:text="${usuario.bairro}"></p>
-            <p th:text="${usuario.cidade}"></p>
-            <p th:text="'CEP: ' + ${usuario.cep}"></p>
-        </div>
-    </div> <!-- /row -->
-    <div class="row">
-        <div class="col-md-12">
-            <!-- Itens -->
-            <h3>Itens</h3>
-            <p th:if="${carrinho.lista.isEmpty()}">Seu carrinho de compras está vazio!</p>
+            <div class="col-md-6">
+                <!-- Endereco -->
+                <h3>Endereço de Entrega</h3>
+                <p th:text="${usuario.endereco}"></p>
+                <p th:text="${usuario.numero}"></p>
+                <p th:text="${usuario.bairro}"></p>
+                <p th:text="${usuario.cidade}"></p>
+                <p th:text="'CEP: ' + ${usuario.cep}"></p>
+            </div>
+        </div> <!-- /row -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Itens -->
+                <h3>Itens</h3>
+                <p th:if="${carrinho.lista.isEmpty()}">Seu carrinho de compras está vazio!</p>
                 <table class="table" th:if="${!carrinho.lista.isEmpty()}">
                     <tr>
                         <th>Item</th>
@@ -116,10 +119,10 @@
                         <th style="width:150px;" class="text-right">Valor</th>
                     </tr>
                     <tr th:each="produtoCarrinho : ${listaProdutos}">
-                        <td th:text="${produtoCarrinho.produto.nome}"></td>
-                        <td th:text="${produtoCarrinho.quantidade}"></td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.produto.getPrecoFormatado()}"></td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.getPrecoTotalFormatado()}"></td>
+                        <td th:text="${produtoCarrinho.product().nome}"></td>
+                        <td th:text="${produtoCarrinho.quantity()}"></td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.product().formatPrice()}"></td>
+                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.formatTotalPrice()}"></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -130,7 +133,9 @@
                 </table>
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-warning btn-xs" onclick="document.location.href = '/carrinho';">Voltar para o Carrinho</button>
+                        <button type="button" class="btn btn-warning btn-xs"
+                                onclick="document.location.href = '/carrinho';">Voltar para o Carrinho
+                        </button>
                     </div>
                     <div class="col-md-6 text-right" th:if="${!carrinho.lista.isEmpty()}">
                         <button type="submit" class="btn btn-primary" name="salvar" value="1">Finalizar Pedido</button>
@@ -139,27 +144,31 @@
                 <div class="row" th:if="${erroSalvar != null && !erroSalvar.isEmpty()}">
                     <div class="col-md-12">
                         <ul class="text-danger">
-                        	<li th:each="erro : ${erroSalvar}" th:text="${erro}"></li>
+                            <li th:each="erro : ${erroSalvar}" th:text="${erro}"></li>
                         </ul>
                     </div>
                 </div>
                 <th:block th:if="${erroSalvar != null && erroSalvar.isEmpty()}">
                     <div class="row" th:if="${idPedido == -1}">
                         <div class="col-md-5">
-                            <div class="alert alert-danger mg-top-30" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> Não foi possível salvar o pedido.</div>
+                            <div class="alert alert-danger mg-top-30" role="alert"><span
+                                class="glyphicon glyphicon-exclamation-sign"></span> Não foi possível salvar o pedido.
+                            </div>
                         </div>
                     </div>
                     <div class="row" th:if="${idPedido > 0}">
                         <div class="col-md-5">
-                            <div class="alert alert-success mg-top-30" role="alert"><span class="glyphicon glyphicon-ok-sign"></span> Pedido salvo com sucesso!</div>
+                            <div class="alert alert-success mg-top-30" role="alert"><span
+                                class="glyphicon glyphicon-ok-sign"></span> Pedido salvo com sucesso!
+                            </div>
                         </div>
                     </div>
-				</th:block>
+                </th:block>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 </div>
-	<script src="/assets/js/jquery-2.1.4.js"></script>
-	<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-2.1.4.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
 </body>
 </html>

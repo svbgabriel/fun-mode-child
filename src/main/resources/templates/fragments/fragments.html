@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@
 			<div class="collapse navbar-collapse" id="navbar-app">
 				<ul class="nav navbar-nav">
 				</ul>
-				<!-- TODO: Mostrar somente se estivar logado -->
+				<!-- Mostrar somente se estivar logado -->
 				<ul class="nav navbar-nav navbar-right">
 					<th:block sec:authorize="isAnonymous()">
 					<li><a href="/registration">Cadastrar</a></li>
@@ -41,7 +41,7 @@
 					<li><a href="/logout">Sair</a></li>
 					</th:block>
 				</ul>
-				<!-- TODO: Mostrar somente se estivar logado -->
+				<!-- Mostrar somente se estivar logado -->
 			</div>
 		</div>
 	</nav>

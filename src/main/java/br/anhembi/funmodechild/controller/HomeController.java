@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.repository.RepositoryCategoria;
-import br.anhembi.funmodechild.repository.RepositoryProduto;
+import br.anhembi.funmodechild.service.CategoryService;
+import br.anhembi.funmodechild.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,24 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    private final RepositoryCategoria repositoryCategoria;
-    private final RepositoryProduto repositoryProduto;
+    private final CategoryService categoryService;
+    private final ProductService productService;
 
-    public HomeController(RepositoryCategoria repositoryCategoria, RepositoryProduto repositoryProduto) {
-        this.repositoryCategoria = repositoryCategoria;
-        this.repositoryProduto = repositoryProduto;
+    public HomeController(CategoryService categoryService, ProductService productService) {
+        this.categoryService = categoryService;
+        this.productService = productService;
     }
 
     @GetMapping("/")
-    public ModelAndView home(@RequestParam(name = "cat", defaultValue = "0") Long catId) {
+    public ModelAndView home(@RequestParam(name = "cat", required = false) Long catId) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("categorias", repositoryCategoria.findAll());
-        mv.addObject("produtosPromovidos", repositoryProduto.findPromovidos());
-        if (catId == 0) {
-            mv.addObject("produtos", repositoryProduto.findAll());
-        } else {
-            mv.addObject("produtos", repositoryProduto.findByCategoria(catId));
-        }
+        mv.addObject("categorias", categoryService.getAll());
+        mv.addObject("produtosPromovidos", productService.getPromotedProducts());
+        mv.addObject("produtos", productService.getProducts(catId));
         mv.setViewName("home");
         return mv;
     }

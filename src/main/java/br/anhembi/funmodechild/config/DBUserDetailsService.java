@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.config;
 
-import br.anhembi.funmodechild.model.Usuario;
+import br.anhembi.funmodechild.entity.Usuario;
 import br.anhembi.funmodechild.repository.RepositoryUsuario;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;

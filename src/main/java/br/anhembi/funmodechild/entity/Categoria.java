@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild.model;
+package br.anhembi.funmodechild.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

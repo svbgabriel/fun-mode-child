@@ -1,9 +1,7 @@
 package br.anhembi.funmodechild.controller;
 
 import br.anhembi.funmodechild.model.Carrinho;
-import br.anhembi.funmodechild.model.Produto;
-import br.anhembi.funmodechild.model.ProdutoCarrinho;
-import br.anhembi.funmodechild.repository.RepositoryProduto;
+import br.anhembi.funmodechild.service.CartService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Scope;
@@ -14,17 +12,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
 @Scope("session")
 public class CarrinhoController {
 
-    private final RepositoryProduto repositoryProduto;
+    private final CartService cartService;
 
-    public CarrinhoController(RepositoryProduto repositoryProduto) {
-        this.repositoryProduto = repositoryProduto;
+    public CarrinhoController(CartService cartService) {
+        this.cartService = cartService;
     }
 
     @GetMapping("/carrinho")
@@ -32,101 +29,58 @@ public class CarrinhoController {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os valores do request
-        String sku = request.getParameter("sku");
-        String del = request.getParameter("del");
+        Long sku;
+        if (request.getParameter("sku") != null) {
+            try {
+                sku = Long.parseLong(request.getParameter("sku"));
+            } catch (NumberFormatException nfe) {
+                sku = null;
+            }
+        } else {
+            sku = null;
+        }
+        boolean del = request.getParameter("del") != null && request.getParameter("del").equals("1");
 
         // O carrinho contém apenas o SKU e sua quantidade.
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinhocompras");
-        if (carrinho == null) {
-            // Carrinho ainda não existe na session. Cria um novo.
-            carrinho = new Carrinho();
-        }
+        Carrinho carrinho = cartService.getCart(session);
 
         if (sku != null) {
             // Recebeu um sku. Adiciona ou atualiza o carrinho.
-
-            // Alguém pode passar ?sku=a, maldosamente, por checamos
-            //  a exception NumberFormatException.
-            try {
-                if (del != null && del.equals("1")) {
-                    carrinho.remove(Long.parseLong(sku));
-                } else {
-                    carrinho.adiciona(Long.parseLong(sku), 1);
-                }
-                // Atualiza (ou cria, se não existir) o carrinho na session.
-                session.setAttribute("carrinhocompras", carrinho);
-            } catch (NumberFormatException nfe) {
-                //out.println("<p>Tentou zuar, né?</p>");
+            if (del) {
+                carrinho.remove(sku);
+            } else {
+                carrinho.add(sku, 1);
             }
         }
 
-        // Variáveis para cálculo e apresentação dos valores dos itens e total.
-        double totalCarrinho = 0.0;
-        String totalCarrinhoFormatado;
-
-        Iterator<Long> keySetIterator = carrinho.getLista().keySet().iterator();
-        List<ProdutoCarrinho> listaProdutos = new ArrayList<>();
-        while (keySetIterator.hasNext()) {
-            Long skuItem = keySetIterator.next();
-            ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
-            Produto produto = repositoryProduto.findBySku(skuItem).orElseThrow();
-            produtoCarrinho.setProduto(produto);
-            produtoCarrinho.setQuantidade(carrinho.getLista().get(skuItem));
-            produtoCarrinho.setPrecoTotal(produto.getPreco() * produtoCarrinho.getQuantidade());
-            totalCarrinho += produtoCarrinho.getPrecoTotal();
-            listaProdutos.add(produtoCarrinho);
-        }
-        totalCarrinhoFormatado = String.format("%1$,.2f", totalCarrinho);
+        var cartInfo = cartService.getCartInfo(carrinho);
 
         mv.setViewName("carrinho");
         mv.addObject("carrinho", carrinho);
-        mv.addObject("listaProdutos", listaProdutos);
-        mv.addObject("totalCarrinhoFormatado", totalCarrinhoFormatado);
+        mv.addObject("listaProdutos", cartInfo.products());
+        mv.addObject("totalCarrinhoFormatado", cartInfo.formatTotalPrice());
         return mv;
     }
 
     @PostMapping("/carrinho")
-    public String atualizarCarrinho(HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        List<String> messages = new ArrayList<>();
-
+    public String atualizarCarrinho(HttpSession session,
+                                    HttpServletRequest request,
+                                    RedirectAttributes redirectAttributes) {
         // O carrinho contém apenas o SKU e sua quantidade.
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinhocompras");
-        if (carrinho == null) {
-            // Carrinho ainda não existe na session. Cria um novo.
-            carrinho = new Carrinho();
-        }
+        Carrinho carrinho = cartService.getCart(session);
 
         // Recupera os valores do request
-        String alt = request.getParameter("alt");
-        String[] skualt = request.getParameterValues("skualt");
-        String[] qtde = request.getParameterValues("qtde");
+        boolean alt = request.getParameter("alt") != null;
 
-        if (alt != null) {
+        List<String> errorMessages;
+        if (alt) {
             // Clicou no botão Alterar!
-            for (int i = 0; i < skualt.length; i++) {
-                Long isku = Long.parseLong(skualt[i]);
-                int iqtd = Integer.parseInt(qtde[i]);
-
-                if (iqtd < 1) {
-                    // A quantidade foi atualizada para 0,
-                    // portanto removemos o produto do carrinho.
-                    carrinho.remove(isku);
-                } else {
-                    // Quantidade do produto foi alterada.
-                    // Verifica se tem saldo em estoque.
-                    Produto produto = repositoryProduto.findBySku(isku).orElseThrow();
-                    if (produto.getQuantidade() < iqtd) {
-                        messages.add("Estoque insuficiente para o produto <strong>" + produto.getNome() + "</strong>!");
-                        // Atualiza o produto no carrinho com a quantidade que tem em estoque.
-                        carrinho.atualiza(isku, produto.getQuantidade());
-                    } else {
-                        carrinho.atualiza(isku, iqtd);
-                    }
-                }
-            }
+            errorMessages = cartService.updateCart(carrinho, request);
+        } else {
+            errorMessages = new ArrayList<>();
         }
 
-        redirectAttributes.addFlashAttribute("messages", messages);
+        redirectAttributes.addFlashAttribute("messages", errorMessages);
         return "redirect:/carrinho";
     }
 }

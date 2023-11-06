@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Fun Mode Child</title>
-<!-- CSS -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/fmc.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Fun Mode Child</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/fmc.css">
 </head>
 <body>
-	<div th:replace="fragments/fragments :: cabecalho"></div>
+<div th:replace="~{fragments/fragments :: cabecalho}"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-		<th:block th:if="${pedido != null}">
-            <div class="alert alert-success" role="alert">
-                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-                <p th:text="'Pedido ' + ${pedido.id} + ' foi cancelado :('"></p>
-            </div>
-            <a href="/" class="btn btn-default">Voltar para a home</a>
-		</th:block>
-		<th:block th:if="${pedido == null}"> 
-        <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            Erro ao cancelar o pedido
-        </div>
-        <a href="javascript:history.back(1);" class="btn btn-default">Voltar</a>
-		</th:block> 
+            <th:block th:if="${pedidoId != null}">
+                <div class="alert alert-success" role="alert">
+                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                    <p th:text="'Pedido ' + ${pedidoId} + ' foi cancelado :('"></p>
+                </div>
+                <a href="/" class="btn btn-default">Voltar para a home</a>
+            </th:block>
+            <th:block th:if="${pedidoId == null}">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    Erro ao cancelar o pedido
+                </div>
+                <a href="javascript:history.back(1);" class="btn btn-default">Voltar</a>
+            </th:block>
         </div>
     </div>
 </div>
-	<script src="/assets/js/jquery-2.1.4.js"></script>
-	<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-2.1.4.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
 </body>
 </html>

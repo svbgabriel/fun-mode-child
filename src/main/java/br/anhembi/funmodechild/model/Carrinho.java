@@ -28,7 +28,7 @@ public class Carrinho {
         this.lista = new HashMap<>();
     }
 
-    public void adiciona(Long sku, Integer quantidade) {
+    public void add(Long sku, Integer quantidade) {
         if (lista.containsKey(sku)) {
             Integer q = lista.get(sku);
             lista.replace(sku, q + quantidade);
@@ -41,7 +41,7 @@ public class Carrinho {
         lista.remove(sku);
     }
 
-    public void atualiza(Long sku, Integer quantidade) {
+    public void update(Long sku, Integer quantidade) {
         lista.replace(sku, quantidade);
     }
 }

@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : prodestaqueresp
     Created on : 15/11/2015, 15:47:40
     Author     : gabriel
@@ -10,6 +10,6 @@
     <jsp:param name="titulo" value="FMC Admin"/>
 </jsp:include>
 <%
-    Produto produto = new Produto();
+    Produto product = new Produto();
 %>
 <%@include file="footer_admin.jsp"%>
