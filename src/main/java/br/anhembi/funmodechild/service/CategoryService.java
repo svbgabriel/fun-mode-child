@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.service;
 
-import br.anhembi.funmodechild.entity.Categoria;
+import br.anhembi.funmodechild.entity.Category;
 import br.anhembi.funmodechild.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Categoria> getAll() {
+    public List<Category> getAll() {
         return categoryRepository.findAll();
     }
 }

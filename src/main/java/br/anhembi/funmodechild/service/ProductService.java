@@ -25,7 +25,7 @@ public class ProductService {
     }
 
     public List<Product> getPromotedProducts() {
-        return repositoryProduto.findPromovidos();
+        return repositoryProduto.findByPromovidoIsTrue();
     }
 
     public Product getProductById(long id) {

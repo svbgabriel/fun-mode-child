@@ -33,7 +33,7 @@ public class Product {
     private boolean promovido;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    private Category category;
     @Column(name = "refe")
     private String refe;
     @Column(name = "refebig")

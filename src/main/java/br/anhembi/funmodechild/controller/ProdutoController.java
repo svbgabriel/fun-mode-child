@@ -21,7 +21,7 @@ public class ProdutoController {
         ModelAndView mv = new ModelAndView();
         Product product = productService.getProductById(id);
         mv.addObject("product", product);
-        mv.addObject("produtosCategoria", productService.getProducts(product.getCategoria().getId()));
+        mv.addObject("produtosCategoria", productService.getProducts(product.getCategory().getId()));
         mv.setViewName("produto");
         return mv;
     }

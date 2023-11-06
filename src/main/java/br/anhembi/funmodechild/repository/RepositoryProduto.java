@@ -12,10 +12,9 @@ import java.util.Optional;
 @Repository
 public interface RepositoryProduto extends JpaRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.promovido = true")
-    List<Product> findPromovidos();
+    List<Product> findByPromovidoIsTrue();
 
-    @Query("SELECT p FROM Product p INNER JOIN p.categoria c WHERE c.id = :id")
+    @Query("SELECT p FROM Product p INNER JOIN p.category c WHERE c.id = :id")
     List<Product> findByCategoria(@Param("id") long id);
 
     Optional<Product> findBySku(long sku);
