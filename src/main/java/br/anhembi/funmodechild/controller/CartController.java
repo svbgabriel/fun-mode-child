@@ -16,11 +16,11 @@ import java.util.List;
 
 @Controller
 @Scope("session")
-public class CarrinhoController {
+public class CartController {
 
     private final CartService cartService;
 
-    public CarrinhoController(CartService cartService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
     }
 

@@ -32,7 +32,7 @@ public class PaymentController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/pagamento")
+    @GetMapping("/payment")
     public ModelAndView pagamento(HttpSession session, HttpServletRequest request) {
         // Recupera os dados do usuário
         Principal user = request.getUserPrincipal();
@@ -54,7 +54,7 @@ public class PaymentController {
         return mv;
     }
 
-    @PostMapping("/pagamento")
+    @PostMapping("/payment")
     public String fazerPagamento(HttpSession session,
                                  HttpServletRequest request,
                                  RedirectAttributes redirectAttributes) {

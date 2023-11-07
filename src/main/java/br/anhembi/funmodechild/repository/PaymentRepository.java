@@ -1,10 +1,10 @@
 package br.anhembi.funmodechild.repository;
 
-import br.anhembi.funmodechild.entity.Pagamento;
+import br.anhembi.funmodechild.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Pagamento, Long> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 }

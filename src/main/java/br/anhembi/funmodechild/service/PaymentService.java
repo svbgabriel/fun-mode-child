@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.service;
 
+import br.anhembi.funmodechild.entity.Payment;
 import br.anhembi.funmodechild.model.Carrinho;
-import br.anhembi.funmodechild.entity.Pagamento;
 import br.anhembi.funmodechild.entity.Pedido;
 import br.anhembi.funmodechild.entity.PedidoDetalhe;
 import br.anhembi.funmodechild.entity.Product;
@@ -43,7 +43,7 @@ public class PaymentService {
         this.repositoryProduto = repositoryProduto;
     }
 
-    private Pagamento save(Carrinho carrinho, Usuario usuario, Pagamento pagamento) {
+    private Payment save(Carrinho carrinho, Usuario usuario, Payment payment) {
         double precoTotal = 0.0;
         Pedido pedido = new Pedido();
 
@@ -76,13 +76,13 @@ public class PaymentService {
 
         if (pedidoSalvo.getId() > -1) {
             // Completa os dados de pagamento
-            pagamento.setPedido(pedido);
+            payment.setPedido(pedido);
 
             // Salva o pagamento
-            paymentRepository.save(pagamento);
+            paymentRepository.save(payment);
         }
 
-        return pagamento;
+        return payment;
     }
 
     public PaymentResponse makePayment(HttpSession session,
@@ -95,19 +95,19 @@ public class PaymentService {
             // Clicou em Salvar Pedido
             erroSalvar = validatePaymentRequest(request);
 
-            Pagamento pagamentoResposta;
+            Payment paymentResposta;
             if (erroSalvar.isEmpty() && !carrinho.getLista().isEmpty()) {
                 // Salva os dados de pagamento
-                Pagamento pagamento = paymentMapper(request);
+                Payment payment = paymentMapper(request);
 
-                pagamentoResposta = save(carrinho, usuario, pagamento);
+                paymentResposta = save(carrinho, usuario, payment);
                 // Esvazia o carrinho.
                 session.setAttribute(SHOPPING_CART, null);
             } else {
-                pagamentoResposta = null;
+                paymentResposta = null;
             }
 
-            paymentResponse = new PaymentResponse(pagamentoResposta, erroSalvar);
+            paymentResponse = new PaymentResponse(paymentResposta, erroSalvar);
         } else {
             paymentResponse = new PaymentResponse(null, new ArrayList<>());
         }
@@ -140,15 +140,15 @@ public class PaymentService {
         return errorMessages;
     }
 
-    private Pagamento paymentMapper(HttpServletRequest request) {
-        Pagamento pagamento = new Pagamento();
-        pagamento.setNumeroCartao(request.getParameter("numerocartao"));
-        pagamento.setNomeCartao(request.getParameter("nomecartao"));
-        pagamento.setValidadeMes(Integer.parseInt(request.getParameter("validademes")));
-        pagamento.setValidadeAno(Integer.parseInt(request.getParameter("validadeano")));
-        pagamento.setCodigo(Integer.parseInt(request.getParameter("codigo")));
-        pagamento.setParcelas(Integer.parseInt(request.getParameter("parcelas")));
-        pagamento.setDataPagamento(Date.from(Instant.now()));
-        return pagamento;
+    private Payment paymentMapper(HttpServletRequest request) {
+        Payment payment = new Payment();
+        payment.setNumeroCartao(request.getParameter("numerocartao"));
+        payment.setNomeCartao(request.getParameter("nomecartao"));
+        payment.setValidadeMes(Integer.parseInt(request.getParameter("validademes")));
+        payment.setValidadeAno(Integer.parseInt(request.getParameter("validadeano")));
+        payment.setCodigo(Integer.parseInt(request.getParameter("codigo")));
+        payment.setParcelas(Integer.parseInt(request.getParameter("parcelas")));
+        payment.setDataPagamento(Date.from(Instant.now()));
+        return payment;
     }
 }

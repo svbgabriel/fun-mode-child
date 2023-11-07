@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "pagamentos")
 @Data
-public class Pagamento {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
