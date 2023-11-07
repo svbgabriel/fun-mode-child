@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RepositoryPedido extends JpaRepository<Pedido, Long> {
+public interface OrderRepository extends JpaRepository<Pedido, Long> {
 
     @Query("SELECT p FROM Pedido p INNER JOIN p.usuario u WHERE u.id = :id")
     List<Pedido> findByUsuario(@Param("id") long id);

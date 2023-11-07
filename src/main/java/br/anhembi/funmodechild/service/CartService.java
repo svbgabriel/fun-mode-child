@@ -5,7 +5,7 @@ import br.anhembi.funmodechild.model.Carrinho;
 import br.anhembi.funmodechild.model.response.CartInfoRelation;
 import br.anhembi.funmodechild.model.request.CartUpdateRequest;
 import br.anhembi.funmodechild.model.response.CartInfoResponse;
-import br.anhembi.funmodechild.repository.RepositoryProduto;
+import br.anhembi.funmodechild.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import static br.anhembi.funmodechild.common.Constants.SHOPPING_CART;
 @Service
 public class CartService {
 
-    private final RepositoryProduto repositoryProduto;
+    private final ProductRepository productRepository;
 
-    public CartService(RepositoryProduto repositoryProduto) {
-        this.repositoryProduto = repositoryProduto;
+    public CartService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public CartInfoResponse getCartInfo(Carrinho cart) {
@@ -29,7 +29,7 @@ public class CartService {
         List<CartInfoRelation> productRelations = cart.getLista().keySet()
             .stream()
             .map(sku -> {
-                Product product = repositoryProduto.findBySku(sku).orElseThrow();
+                Product product = productRepository.findBySku(sku).orElseThrow();
                 return new CartInfoRelation(product, cart.getLista().get(sku));
             })
             .toList();
@@ -65,7 +65,7 @@ public class CartService {
                 carrinho.remove(productToUpdate.sku());
             } else {
                 // Quantidade do produto foi alterada. Verifica se tem saldo em estoque.
-                Product product = repositoryProduto.findBySku(productToUpdate.sku()).orElseThrow();
+                Product product = productRepository.findBySku(productToUpdate.sku()).orElseThrow();
                 if (product.getQuantidade() < productToUpdate.quantity()) {
                     messages.add("Estoque insuficiente para o produto <strong>" + product.getNome() + "</strong>!");
                     // Atualiza o produto no carrinho com a quantidade que tem em estoque.

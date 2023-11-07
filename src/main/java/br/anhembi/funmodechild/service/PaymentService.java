@@ -8,9 +8,9 @@ import br.anhembi.funmodechild.entity.Product;
 import br.anhembi.funmodechild.entity.Usuario;
 import br.anhembi.funmodechild.model.response.PaymentResponse;
 import br.anhembi.funmodechild.repository.PaymentRepository;
-import br.anhembi.funmodechild.repository.RepositoryPedido;
-import br.anhembi.funmodechild.repository.RepositoryPedidoDetalhe;
-import br.anhembi.funmodechild.repository.RepositoryProduto;
+import br.anhembi.funmodechild.repository.OrderRepository;
+import br.anhembi.funmodechild.repository.OrderDetailRepository;
+import br.anhembi.funmodechild.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
@@ -28,19 +28,19 @@ import static br.anhembi.funmodechild.common.Constants.SHOPPING_CART;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final RepositoryPedido repositoryPedido;
-    private final RepositoryPedidoDetalhe repositoryPedidoDetalhe;
-    private final RepositoryProduto repositoryProduto;
+    private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
 
     public PaymentService(PaymentRepository paymentRepository,
-                          RepositoryPedido repositoryPedido,
-                          RepositoryPedidoDetalhe repositoryPedidoDetalhe,
-                          RepositoryProduto repositoryProduto
+                          OrderRepository orderRepository,
+                          OrderDetailRepository orderDetailRepository,
+                          ProductRepository productRepository
     ) {
         this.paymentRepository = paymentRepository;
-        this.repositoryPedido = repositoryPedido;
-        this.repositoryPedidoDetalhe = repositoryPedidoDetalhe;
-        this.repositoryProduto = repositoryProduto;
+        this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.productRepository = productRepository;
     }
 
     private Payment save(Carrinho carrinho, Usuario usuario, Payment payment) {
@@ -52,7 +52,7 @@ public class PaymentService {
         List<PedidoDetalhe> detalhes = new ArrayList<>();
         while (keySetIterator.hasNext()) {
             Long sku = keySetIterator.next();
-            Product product = repositoryProduto.findBySku(sku).orElseThrow();
+            Product product = productRepository.findBySku(sku).orElseThrow();
 
             PedidoDetalhe detalhePedido = new PedidoDetalhe();
             detalhePedido.setPrecoItem(product.getPreco());
@@ -66,13 +66,13 @@ public class PaymentService {
 
         pedido.setPrecoTotal(precoTotal);
         pedido.setUsuario(usuario);
-        Pedido pedidoSalvo = repositoryPedido.save(pedido);
+        Pedido pedidoSalvo = orderRepository.save(pedido);
 
         // Adiciona o pedido ao detalhe
         for (PedidoDetalhe detalhe : detalhes) {
             detalhe.setPedido(pedido);
         }
-        repositoryPedidoDetalhe.saveAll(detalhes);
+        orderDetailRepository.saveAll(detalhes);
 
         if (pedidoSalvo.getId() > -1) {
             // Completa os dados de pagamento

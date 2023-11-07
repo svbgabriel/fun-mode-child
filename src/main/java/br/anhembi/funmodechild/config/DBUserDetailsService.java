@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.config;
 
 import br.anhembi.funmodechild.entity.Usuario;
-import br.anhembi.funmodechild.repository.RepositoryUsuario;
+import br.anhembi.funmodechild.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,9 +17,9 @@ import java.util.List;
 @Transactional
 public class DBUserDetailsService implements UserDetailsService {
 
-    private final RepositoryUsuario userRepository;
+    private final UserRepository userRepository;
 
-    public DBUserDetailsService(RepositoryUsuario userRepository) {
+    public DBUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
