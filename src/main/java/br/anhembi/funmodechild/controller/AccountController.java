@@ -1,7 +1,8 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.model.Carrinho;
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.model.common.Cart;
+import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.model.common.PasswordNotMatchException;
 import br.anhembi.funmodechild.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class AccountController {
 
     @GetMapping("/login")
     public String login(HttpSession session) {
-        session.setAttribute("carrinhocompras", new Carrinho());
+        session.setAttribute("carrinhocompras", new Cart());
         return "login";
     }
 
@@ -33,15 +34,15 @@ public class AccountController {
     public ModelAndView registrar() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("cadastrar");
-        mv.addObject("usuario", new Usuario());
+        mv.addObject("usuario", new Customer());
         return mv;
     }
 
     // TODO: Notificar que se o processo funcionou ou não
     @PostMapping("/registration")
-    public ModelAndView registrar(Usuario usuario) {
+    public ModelAndView registrar(Customer customer) {
         ModelAndView mv = new ModelAndView();
-        userService.salvar(usuario);
+        userService.salvar(customer);
         mv.setViewName("redirect:/login");
         return mv;
     }
@@ -64,12 +65,13 @@ public class AccountController {
         Principal user = request.getUserPrincipal();
 
         String errorMessage;
-        if (newPassword.equals(newPasswordConfirm)) {
+        try {
             userService.updatePassword(user, oldPassword, newPassword);
             errorMessage = null;
-        } else {
-            errorMessage = "As senhas são diferentes";
+        } catch (PasswordNotMatchException e) {
+            errorMessage = e.getMessage();
         }
+
         redirectAttributes.addFlashAttribute("error", errorMessage);
         mv.setViewName("redirect:/conta");
         return mv;

@@ -1,4 +1,4 @@
-package br.anhembi.funmodechild.model;
+package br.anhembi.funmodechild.model.common;
 
 import lombok.Data;
 import org.springframework.context.annotation.Scope;
@@ -20,11 +20,11 @@ import java.util.HashMap;
 @Component
 @Scope("session")
 @Data
-public class Carrinho {
+public class Cart {
 
     private final AbstractMap<Long, Integer> lista;
 
-    public Carrinho() {
+    public Cart() {
         this.lista = new HashMap<>();
     }
 

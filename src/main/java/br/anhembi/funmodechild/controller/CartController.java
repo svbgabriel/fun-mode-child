@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.model.Carrinho;
+import br.anhembi.funmodechild.model.common.Cart;
 import br.anhembi.funmodechild.service.CartService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -42,21 +42,21 @@ public class CartController {
         boolean del = request.getParameter("del") != null && request.getParameter("del").equals("1");
 
         // O carrinho contém apenas o SKU e sua quantidade.
-        Carrinho carrinho = cartService.getCart(session);
+        Cart cart = cartService.getCart(session);
 
         if (sku != null) {
             // Recebeu um sku. Adiciona ou atualiza o carrinho.
             if (del) {
-                carrinho.remove(sku);
+                cart.remove(sku);
             } else {
-                carrinho.add(sku, 1);
+                cart.add(sku, 1);
             }
         }
 
-        var cartInfo = cartService.getCartInfo(carrinho);
+        var cartInfo = cartService.getCartInfo(cart);
 
         mv.setViewName("carrinho");
-        mv.addObject("carrinho", carrinho);
+        mv.addObject("carrinho", cart);
         mv.addObject("listaProdutos", cartInfo.products());
         mv.addObject("totalCarrinhoFormatado", cartInfo.formatTotalPrice());
         return mv;
@@ -67,7 +67,7 @@ public class CartController {
                                     HttpServletRequest request,
                                     RedirectAttributes redirectAttributes) {
         // O carrinho contém apenas o SKU e sua quantidade.
-        Carrinho carrinho = cartService.getCart(session);
+        Cart cart = cartService.getCart(session);
 
         // Recupera os valores do request
         boolean alt = request.getParameter("alt") != null;
@@ -75,7 +75,7 @@ public class CartController {
         List<String> errorMessages;
         if (alt) {
             // Clicou no botão Alterar!
-            errorMessages = cartService.updateCart(carrinho, request);
+            errorMessages = cartService.updateCart(cart, request);
         } else {
             errorMessages = new ArrayList<>();
         }

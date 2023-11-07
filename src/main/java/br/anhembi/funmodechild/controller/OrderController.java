@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.service.OrderService;
 import br.anhembi.funmodechild.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +25,10 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário
-        Usuario usuario = userService.getLoggedUser(request);
+        Customer customer = userService.getLoggedUser(request);
 
         mv.setViewName("pedido");
-        mv.addObject("pedidos", orderService.getOrdersByUserId(usuario.getId()));
+        mv.addObject("pedidos", orderService.getOrdersByUserId(customer.getId()));
         return mv;
     }
 
@@ -37,10 +37,10 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário
-        Usuario usuario = userService.getLoggedUser(request);
+        Customer customer = userService.getLoggedUser(request);
 
         mv.addObject("pedido", orderService.getOrderById(id));
-        mv.addObject("detalhes", orderService.getOrderDetailsByOrderId(id, usuario.getId()));
+        mv.addObject("detalhes", orderService.getOrderDetailsByOrderId(id, customer.getId()));
         mv.addObject("pedidoId", id);
         mv.setViewName("detalhe");
         return mv;
@@ -51,9 +51,9 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário
-        Usuario usuario = userService.getLoggedUser(request);
+        Customer customer = userService.getLoggedUser(request);
 
-        orderService.updateStatus(id, usuario.getId(), false);
+        orderService.updateStatus(id, customer.getId(), false);
 
         mv.addObject("pedidoId", id);
         mv.setViewName("cancelar");

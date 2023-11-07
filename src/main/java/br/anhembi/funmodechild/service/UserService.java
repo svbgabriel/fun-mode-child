@@ -1,6 +1,7 @@
 package br.anhembi.funmodechild.service;
 
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.model.common.PasswordNotMatchException;
 import br.anhembi.funmodechild.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,29 +20,30 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Usuario getUserByEmail(String email) {
+    public Customer getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public void salvar(Usuario usuario) {
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        userRepository.save(usuario);
+    public void salvar(Customer customer) {
+        customer.setSenha(passwordEncoder.encode(customer.getSenha()));
+        userRepository.save(customer);
     }
 
     public void updatePassword(Principal user, String oldPassword, String newPassword) {
         String username = user.getName();
-        Usuario usuario = userRepository.findByEmail(username);
+        Customer customer = userRepository.findByEmail(username);
+
         // Checa se a senha antiga bate com a informada
-        if (passwordEncoder.matches(oldPassword, usuario.getSenha())) {
-            // Altera a senha
-            usuario.setSenha(passwordEncoder.encode(newPassword));
-            userRepository.save(usuario);
-        } else {
-            // TODO: Retornar um erro
+        if (!passwordEncoder.matches(oldPassword, customer.getSenha())) {
+            throw new PasswordNotMatchException("As senhas são diferentes");
         }
+
+        // Altera a senha
+        customer.setSenha(passwordEncoder.encode(newPassword));
+        userRepository.save(customer);
     }
 
-    public Usuario getLoggedUser(HttpServletRequest request) {
+    public Customer getLoggedUser(HttpServletRequest request) {
         Principal user = request.getUserPrincipal();
         return getUserByEmail(user.getName());
     }

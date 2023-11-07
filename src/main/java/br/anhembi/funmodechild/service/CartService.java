@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.service;
 
 import br.anhembi.funmodechild.entity.Product;
-import br.anhembi.funmodechild.model.Carrinho;
+import br.anhembi.funmodechild.model.common.Cart;
 import br.anhembi.funmodechild.model.response.CartInfoRelation;
 import br.anhembi.funmodechild.model.request.CartUpdateRequest;
 import br.anhembi.funmodechild.model.response.CartInfoResponse;
@@ -24,7 +24,7 @@ public class CartService {
         this.productRepository = productRepository;
     }
 
-    public CartInfoResponse getCartInfo(Carrinho cart) {
+    public CartInfoResponse getCartInfo(Cart cart) {
         // Variáveis para cálculo e apresentação dos valores dos itens e total.
         List<CartInfoRelation> productRelations = cart.getLista().keySet()
             .stream()
@@ -42,19 +42,19 @@ public class CartService {
         return new CartInfoResponse(productRelations, totalCartPrice);
     }
 
-    public Carrinho getCart(HttpSession session) {
+    public Cart getCart(HttpSession session) {
         // O carrinho contém apenas o SKU e sua quantidade.
         if (session.getAttribute(SHOPPING_CART) != null) {
-            return (Carrinho) session.getAttribute(SHOPPING_CART);
+            return (Cart) session.getAttribute(SHOPPING_CART);
         } else {
             // Se não existir o carrinho na session, cria um novo
-            var cart = new Carrinho();
+            var cart = new Cart();
             session.setAttribute(SHOPPING_CART, cart);
             return cart;
         }
     }
 
-    public List<String> updateCart(Carrinho carrinho, HttpServletRequest request) {
+    public List<String> updateCart(Cart cart, HttpServletRequest request) {
         List<String> messages = new ArrayList<>();
 
         var productsToUpdate = getCartUpdateInfo(request);
@@ -62,16 +62,16 @@ public class CartService {
         for (var productToUpdate : productsToUpdate) {
             if (productToUpdate.quantity() < 1) {
                 // A quantidade foi atualizada para 0, portanto removemos o produto do carrinho.
-                carrinho.remove(productToUpdate.sku());
+                cart.remove(productToUpdate.sku());
             } else {
                 // Quantidade do produto foi alterada. Verifica se tem saldo em estoque.
                 Product product = productRepository.findBySku(productToUpdate.sku()).orElseThrow();
                 if (product.getQuantidade() < productToUpdate.quantity()) {
                     messages.add("Estoque insuficiente para o produto <strong>" + product.getNome() + "</strong>!");
                     // Atualiza o produto no carrinho com a quantidade que tem em estoque.
-                    carrinho.update(productToUpdate.sku(), product.getQuantidade());
+                    cart.update(productToUpdate.sku(), product.getQuantidade());
                 } else {
-                    carrinho.update(productToUpdate.sku(), productToUpdate.quantity());
+                    cart.update(productToUpdate.sku(), productToUpdate.quantity());
                 }
             }
         }

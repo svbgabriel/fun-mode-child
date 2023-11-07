@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.config;
 
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +24,7 @@ public class DBUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario user = userRepository.findByEmail(email);
+        Customer user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + email);
         }

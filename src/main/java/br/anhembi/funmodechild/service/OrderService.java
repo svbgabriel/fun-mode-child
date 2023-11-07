@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.service;
 
-import br.anhembi.funmodechild.entity.Pedido;
-import br.anhembi.funmodechild.entity.PedidoDetalhe;
+import br.anhembi.funmodechild.entity.Order;
+import br.anhembi.funmodechild.entity.OrderDetail;
 import br.anhembi.funmodechild.repository.OrderRepository;
 import br.anhembi.funmodechild.repository.OrderDetailRepository;
 import org.springframework.stereotype.Service;
@@ -19,25 +19,25 @@ public class OrderService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
-    public Pedido getOrderById(long id) {
+    public Order getOrderById(long id) {
         return orderRepository.getReferenceById(id);
     }
 
     public void updateStatus(long id, long userId, boolean status) {
         try {
-            Pedido pedido = orderRepository.findByUsuarioAndId(userId, id);
-            pedido.setAtivo(status);
-            orderRepository.save(pedido);
+            Order order = orderRepository.findByUsuarioAndId(userId, id);
+            order.setAtivo(status);
+            orderRepository.save(order);
         } catch (Exception e) {
             // TODO Tratar um erro
         }
     }
 
-    public List<Pedido> getOrdersByUserId(long id) {
+    public List<Order> getOrdersByUserId(long id) {
         return orderRepository.findByUsuario(id);
     }
 
-    public List<PedidoDetalhe> getOrderDetailsByOrderId(long id, long userId) {
+    public List<OrderDetail> getOrderDetailsByOrderId(long id, long userId) {
         return orderDetailRepository.findByPedido(id, userId);
     }
 }

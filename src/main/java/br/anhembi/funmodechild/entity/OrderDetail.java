@@ -14,14 +14,14 @@ import lombok.Data;
 @Entity
 @Table(name = "detalhe_pedidos")
 @Data
-public class PedidoDetalhe {
+public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
+    private Order order;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "produto_id")
     private Product product;

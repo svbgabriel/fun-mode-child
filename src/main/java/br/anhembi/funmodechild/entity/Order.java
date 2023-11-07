@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "pedidos")
 @Data
-public class Pedido {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Pedido {
     private Date dataPedido = new Date();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Customer customer;
     @Column(name = "preco_total")
     private double precoTotal;
     @Column(name = "ativo")

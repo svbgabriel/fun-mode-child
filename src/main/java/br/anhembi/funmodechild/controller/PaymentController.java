@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.model.Carrinho;
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.model.common.Cart;
+import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.repository.UserRepository;
 import br.anhembi.funmodechild.service.CartService;
 import br.anhembi.funmodechild.service.PaymentService;
@@ -36,18 +36,18 @@ public class PaymentController {
     public ModelAndView pagamento(HttpSession session, HttpServletRequest request) {
         // Recupera os dados do usuário
         Principal user = request.getUserPrincipal();
-        Usuario usuario = userRepository.findByEmail(user.getName());
+        Customer customer = userRepository.findByEmail(user.getName());
 
         ModelAndView mv = new ModelAndView();
 
         // O carrinho contém apenas o SKU e sua quantidade.
-        Carrinho carrinho = cartService.getCart(session);
+        Cart cart = cartService.getCart(session);
 
         // Pega os valores do carrinho
-        var cartInfo = cartService.getCartInfo(carrinho);
+        var cartInfo = cartService.getCartInfo(cart);
 
-        mv.addObject("usuario", usuario);
-        mv.addObject("carrinho", carrinho);
+        mv.addObject("usuario", customer);
+        mv.addObject("carrinho", cart);
         mv.addObject("listaProdutos", cartInfo.products());
         mv.addObject("totalCarrinhoFormatado", cartInfo.formatTotalPrice());
         mv.setViewName("pagamento");
@@ -62,13 +62,13 @@ public class PaymentController {
 
         // Recupera os dados do usuário
         Principal user = request.getUserPrincipal();
-        Usuario usuario = userRepository.findByEmail(user.getName());
+        Customer customer = userRepository.findByEmail(user.getName());
 
         // Pedido
-        var paymentResponse = paymentService.makePayment(session, request, usuario, carrinho);
+        var paymentResponse = paymentService.makePayment(session, request, customer, carrinho);
 
         redirectAttributes.addFlashAttribute("erroSalvar", paymentResponse.errors());
         redirectAttributes.addFlashAttribute("idPedido", paymentResponse.paymentData().getId());
-        return "redirect:/pagamento";
+        return "redirect:/payment";
     }
 }

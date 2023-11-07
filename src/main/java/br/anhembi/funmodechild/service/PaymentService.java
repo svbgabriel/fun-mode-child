@@ -1,11 +1,11 @@
 package br.anhembi.funmodechild.service;
 
 import br.anhembi.funmodechild.entity.Payment;
-import br.anhembi.funmodechild.model.Carrinho;
-import br.anhembi.funmodechild.entity.Pedido;
-import br.anhembi.funmodechild.entity.PedidoDetalhe;
+import br.anhembi.funmodechild.model.common.Cart;
+import br.anhembi.funmodechild.entity.Order;
+import br.anhembi.funmodechild.entity.OrderDetail;
 import br.anhembi.funmodechild.entity.Product;
-import br.anhembi.funmodechild.entity.Usuario;
+import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.model.response.PaymentResponse;
 import br.anhembi.funmodechild.repository.PaymentRepository;
 import br.anhembi.funmodechild.repository.OrderRepository;
@@ -43,18 +43,18 @@ public class PaymentService {
         this.productRepository = productRepository;
     }
 
-    private Payment save(Carrinho carrinho, Usuario usuario, Payment payment) {
+    private Payment save(Cart cart, Customer customer, Payment payment) {
         double precoTotal = 0.0;
-        Pedido pedido = new Pedido();
+        Order order = new Order();
 
-        AbstractMap<Long, Integer> listaProdutos = carrinho.getLista();
+        AbstractMap<Long, Integer> listaProdutos = cart.getLista();
         Iterator<Long> keySetIterator = listaProdutos.keySet().iterator();
-        List<PedidoDetalhe> detalhes = new ArrayList<>();
+        List<OrderDetail> detalhes = new ArrayList<>();
         while (keySetIterator.hasNext()) {
             Long sku = keySetIterator.next();
             Product product = productRepository.findBySku(sku).orElseThrow();
 
-            PedidoDetalhe detalhePedido = new PedidoDetalhe();
+            OrderDetail detalhePedido = new OrderDetail();
             detalhePedido.setPrecoItem(product.getPreco());
             detalhePedido.setQuantidade(listaProdutos.get(sku));
             detalhePedido.setProduct(product);
@@ -64,19 +64,19 @@ public class PaymentService {
             precoTotal += detalhePedido.getPrecoItem() * detalhePedido.getQuantidade();
         }
 
-        pedido.setPrecoTotal(precoTotal);
-        pedido.setUsuario(usuario);
-        Pedido pedidoSalvo = orderRepository.save(pedido);
+        order.setPrecoTotal(precoTotal);
+        order.setCustomer(customer);
+        Order savedOrder = orderRepository.save(order);
 
         // Adiciona o pedido ao detalhe
-        for (PedidoDetalhe detalhe : detalhes) {
-            detalhe.setPedido(pedido);
+        for (OrderDetail detalhe : detalhes) {
+            detalhe.setOrder(order);
         }
         orderDetailRepository.saveAll(detalhes);
 
-        if (pedidoSalvo.getId() > -1) {
+        if (savedOrder.getId() > -1) {
             // Completa os dados de pagamento
-            payment.setPedido(pedido);
+            payment.setOrder(order);
 
             // Salva o pagamento
             paymentRepository.save(payment);
@@ -87,20 +87,20 @@ public class PaymentService {
 
     public PaymentResponse makePayment(HttpSession session,
                                        HttpServletRequest request,
-                                       Usuario usuario,
-                                       Carrinho carrinho) {
+                                       Customer customer,
+                                       Cart cart) {
         List<String> erroSalvar;
         PaymentResponse paymentResponse;
-        if (request.getParameter("salvar") != null && carrinho != null) {
+        if (request.getParameter("salvar") != null && cart != null) {
             // Clicou em Salvar Pedido
             erroSalvar = validatePaymentRequest(request);
 
             Payment paymentResposta;
-            if (erroSalvar.isEmpty() && !carrinho.getLista().isEmpty()) {
+            if (erroSalvar.isEmpty() && !cart.getLista().isEmpty()) {
                 // Salva os dados de pagamento
                 Payment payment = paymentMapper(request);
 
-                paymentResposta = save(carrinho, usuario, payment);
+                paymentResposta = save(cart, customer, payment);
                 // Esvazia o carrinho.
                 session.setAttribute(SHOPPING_CART, null);
             } else {

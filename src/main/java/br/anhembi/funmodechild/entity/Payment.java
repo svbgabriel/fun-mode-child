@@ -23,7 +23,7 @@ public class Payment {
     private long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
+    private Order order;
     @Column(name = "numero_cartao")
     private String numeroCartao;
     @Column(name = "nome_cartao")
