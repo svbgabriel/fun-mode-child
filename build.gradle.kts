@@ -15,6 +15,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.webjars:bootstrap:5.3.2")
+    implementation("org.webjars:jquery:3.7.1")
     implementation("org.flywaydb:flyway-core")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
     runtimeOnly("org.postgresql:postgresql")
