@@ -15,11 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 
 @Controller
-public class ContaController {
+public class AccountController {
 
     private final UserService userService;
 
-    public ContaController(UserService userService) {
+    public AccountController(UserService userService) {
         this.userService = userService;
     }
 

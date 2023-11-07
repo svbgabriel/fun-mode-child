@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class PedidoController {
+public class OrderController {
 
     private final UserService userService;
     private final OrderService orderService;
 
-    public PedidoController(UserService userService, OrderService orderService) {
+    public OrderController(UserService userService, OrderService orderService) {
         this.userService = userService;
         this.orderService = orderService;
     }

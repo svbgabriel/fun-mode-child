@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProdutoController {
+public class ProductController {
 
     private final ProductService productService;
 
-    public ProdutoController(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
