@@ -61,12 +61,11 @@ public class AccountController {
                               HttpServletRequest request,
                               RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView();
-        // Checa se as novas senha são iguais
         Principal user = request.getUserPrincipal();
 
         String errorMessage;
         try {
-            userService.updatePassword(user, oldPassword, newPassword);
+            userService.updatePassword(user, oldPassword, newPassword, newPasswordConfirm);
             errorMessage = null;
         } catch (PasswordNotMatchException e) {
             errorMessage = e.getMessage();

@@ -29,13 +29,18 @@ public class UserService {
         userRepository.save(customer);
     }
 
-    public void updatePassword(Principal user, String oldPassword, String newPassword) {
+    public void updatePassword(Principal user, String oldPassword, String newPassword, String newPasswordConfirm) {
+        // Checa se as novas senha são iguais
+        if (newPassword.equals(newPasswordConfirm)) {
+            throw new PasswordNotMatchException("As senhas novas são diferentes");
+        }
+
         String username = user.getName();
         Customer customer = userRepository.findByEmail(username);
 
         // Checa se a senha antiga bate com a informada
         if (!passwordEncoder.matches(oldPassword, customer.getSenha())) {
-            throw new PasswordNotMatchException("As senhas são diferentes");
+            throw new PasswordNotMatchException("Senha antiga inválida");
         }
 
         // Altera a senha
