@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Fun Mode Child</title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/assets/css/fmc.css">
-    </head>
-    <body>
-		<div th:replace="~{fragments/fragments :: cabecalho}"></div>
-		<div class="container mg-btm-30">
-    		<img src="/assets/img/logo.png" alt="Fun Mode Child" />
-    		<h1>Entrar</h1>
-			<form action="/login" method="post">
-		        <div class="row">
-		            <div class="col-md-2">
-		                <div class="form-group">
-		                    <label for="usuario">Usuário</label>
-		                    <input type="text" class="form-control" name="email" maxlength="100">
-		                </div>
-		            </div>
-		        </div>
-		        <div class="row">
-		            <div class="col-md-2">
-		                <div class="form-group">
-		                    <label for="nome">Senha</label>
-		                    <input type="password" class="form-control" name="senha" required="required">
-		                </div>
-		            </div>
-		        </div>
-		        <button type="submit" class="btn btn-primary">Entrar</button>
-    		</form>
-    		<span>Não possui conta? <a href="/registration">Registre-se</a></span>
-		</div>
-	    <script src="/assets/js/jquery-2.1.4.js"></script>
-	    <script src="/assets/js/bootstrap.min.js"></script>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Fun Mode Child</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/fmc.css">
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/fragments :: header}"></div>
+<div class="container">
+    <img src="/assets/img/logo.png" alt="Fun Mode Child"/>
+    <h1>Entrar</h1>
+    <form action="/login" method="post" class="mb-2">
+        <div class="mb-3">
+            <label for="email" class="form-label">Usuário</label>
+            <input type="email" class="form-control" id="email" name="email" maxlength="100">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input class="form-control" id="password" required="required" name="password" type="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+    <span>Não possui conta? <a href="/registration">Registre-se</a></span>
+</div>
+</body>
 </html>

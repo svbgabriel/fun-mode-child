@@ -31,7 +31,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
             authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers(LOGIN_PAGE, "/registration", "/", "/product/**", "/assets/**").permitAll()
+                .requestMatchers(
+                    LOGIN_PAGE,
+                    "/registration",
+                    "/",
+                    "/product/**",
+                    "/assets/**",
+                    "/webjars/**"
+                ).permitAll()
                 .anyRequest()
                 .authenticated()
         );
@@ -42,7 +49,7 @@ public class SecurityConfig {
             customizer -> customizer
                 .loginPage(LOGIN_PAGE)
                 .usernameParameter("email")
-                .passwordParameter("senha")
+                .passwordParameter("password")
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
         ).logout(

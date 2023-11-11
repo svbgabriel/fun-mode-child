@@ -1,82 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Fun Mode Child</title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/assets/css/fmc.css">
-    </head>
-    <body>
-<div th:replace="~{fragments/fragments :: cabecalho}"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Fun Mode Child</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/fmc.css">
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/fragments :: header}"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <img src="/assets/img/logo-sm.png" alt="Fun Mode Child" class="img-responsive" />
             <div class="list-group">
-                <a th:each="categoria: ${categorias}" th:href="@{/(cat=${categoria.id})}" class="list-group-item" th:text="${categoria.nome}"></a>
+                <a th:each="categoria: ${categorias}" th:href="@{/(cat=${categoria.id})}" class="list-group-item"
+                   th:text="${categoria.nome}"></a>
             </div>
         </div>
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="promovidos" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-							<li th:each="product, iStat: ${produtosPromovidos}" data-target="#promovidos" data-slide-to="${iStat.count}" th:attr="class=${iStat.first ? 'active' : '' }"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                        	<div th:each="product, iStat: ${produtosPromovidos}" th:attr="class=${iStat.first ? 'item active' : 'item' }">
-                        		<a th:href="@{/product/{id}(id=${product.id})}">
-                        			<img th:src="@{${product.refeBig}}" alt="" />
-                        			<div class="carousel-caption">
-                        				<h3 th:text="${product.nome}"></h3>
-                        			</div>
-                        		</a>
-                        	</div>
+                    <div id="promovidos" data-bs-theme="dark" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" th:each="product, iStat: ${produtosPromovidos}"
+                                    data-bs-target="#promovidos"
+                                    th:attr="data-bs-slide-to=${iStat.count - 1},class=${iStat.first ? 'active' : '' }">
+                            </button>
                         </div>
-                        <a class="left carousel-control" href="#promovidos" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                        </a>
-                        <a class="right carousel-control" href="#promovidos" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-            	<div th:if="${produtos.isEmpty()}" class="col-sm-12 col-lg-12 col-md-12">Nenhum product encontrado.</div>
-                <div th:if="${!produtos.isEmpty()}" th:each="pEstoque: ${produtos}" class="col-sm-4 col-lg-4 col-md-4">
-                    <div class="thumbnail">
-                        <img th:src="@{${pEstoque.refe}}" alt="">
-                        <div class="caption">
-                            <h4><a th:href="@{/product/{id}(id=${pEstoque.id})}" th:text="${pEstoque.nome}"></a></h4>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <span class="preco" th:text="${pEstoque.formatPrice()}">></span>
-                                </div>
-                                <div class="col-md-7 text-right">
-                                    <a th:if="${pEstoque.quantidade > 0}" class="btn btn-default btn-xs" th:href="@{carrinho(sku=${pEstoque.id})}">Adicionar ao carrinho</a>
-                                    <span th:if="${pEstoque.quantidade == 0}" class="label label-danger">Esgotado</span>
-                                </div>
+                        <div class="carousel-inner">
+                            <div th:each="product, iStat: ${produtosPromovidos}"
+                                 th:attr="class=${iStat.first ? 'carousel-item active' : 'carousel-item' }">
+                                <a th:href="@{/product/{id}(id=${product.id})}">
+                                    <img th:src="@{${product.refeBig}}" class="card-img" alt=""/>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3 th:text="${product.nome}"></h3>
+                                    </div>
+                                </a>
                             </div>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#promovidos"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#promovidos"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- Footer -->
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p th:text="'Copyright &copy; FUN MODE CHILD ' + ${#dates.year(#dates.createToday())}"></p>
+        </div>
+        <div class="row my-3">
+            <div th:if="${produtos.isEmpty()}" class="col-sm-12 col-lg-12 col-md-12">Nenhum product encontrado.</div>
+            <div th:if="${!produtos.isEmpty()}" th:each="pEstoque: ${produtos}" class="col-sm-4 col-lg-4 col-md-4 mb-3">
+                <div class="img-thumbnail">
+                    <div class="row">
+                        <img th:src="@{${pEstoque.refe}}" class="img-fluid" alt="">
+                    </div>
+                    <div class="row">
+                        <a class="text-reset" th:href="@{/product/{id}(id=${pEstoque.id})}" th:text="${pEstoque.nome}"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="fs-6" th:text="'$ ' + ${pEstoque.formatPrice()}">></span>
+                        </div>
+                        <div class="col-md-6">
+                            <a th:if="${pEstoque.quantidade > 0}" class="badge text-bg-success"
+                               th:href="@{carrinho(sku=${pEstoque.id})}">Adicionar ao carrinho</a>
+                            <span th:if="${pEstoque.quantidade == 0}" class="badge text-bg-danger">Esgotado</span>
+                        </div>
                     </div>
                 </div>
-            </footer>
+            </div>
         </div>
+        <footer>
+            <div class="row">
+                <div class="col-12">
+                    <p th:text="'Copyright &copy; FUN MODE CHILD ' + ${#dates.year(#dates.createToday())}"></p>
+                </div>
+            </div>
+        </footer>
     </div>
 </div>
-    <script src="/assets/js/jquery-2.1.4.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
 </body>
 </html>

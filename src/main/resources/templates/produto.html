@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Fun Mode Child</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/fmc.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div th:replace="~{fragments/fragments :: cabecalho}"></div>
+<div th:replace="~{fragments/fragments :: header}"></div>
 <div class="container">
     <div th:if="${product == null}" class="row">
         <div class="col-md-12">Produto não encontrado.</div>
@@ -19,33 +20,34 @@
             <img th:src="@{${product.refe}}" alt=""/>
             <h2 th:text="${product.nome}"></h2>
             <p th:text="${product.descricao}"></p>
-            <h3 th:text="${product.formatPrice()}"></h3>
+            <h3 th:text="'$ ' + ${product.formatPrice()}"></h3>
         </div>
         <div class="col-md-3">
             <button th:if="${product.quantidade > 0}" class="btn btn-success btn-lg"
                     th:onclick="'adicionarCarrinho('+${product.id}+');'"><span
-                class="glyphicon glyphicon-shopping-cart"></span> Adicionar ao carrinho
+                class="bi-cart-plus-fill"></span> Adicionar ao carrinho
             </button>
-            <h2 th:if="${product.quantidade == 0}"><span class="label label-danger">Esgotado</span></h2>
+            <h2 th:if="${product.quantidade == 0}"><span class="badge text-bg-danger">Esgotado</span></h2>
         </div>
     </div>
 
-    <div th:if="${produtosCategoria.size() == 0}" class="row">
+    <div th:if="${produtosCategoria.isEmpty()}" class="row">
         <div class="col-md-12">
             <hr/>
             <h5>Produtos Relacionados não encontrados</h5></div>
     </div>
-    <div th:if="${produtosCategoria.size() > 0}" class="row">
+    <div th:if="${!produtosCategoria.isEmpty()}" class="row">
         <div class="col-md-12">
             <hr/>
             <h5>Produtos Relacionados</h5></div>
     </div>
-    <div th:if="${produtosCategoria.size() > 0}" th:each="pCategoria: ${produtosCategoria}" class="row">
-        <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
+    <div class="row">
+        <div th:if="${!produtosCategoria.isEmpty()}" th:each="pCategoria: ${produtosCategoria}"
+             class="col-sm-4 col-lg-4 col-md-4 mb-3">
+            <div class="img-thumbnail">
                 <img th:src="@{${pCategoria.refe}}" alt=""/>
                 <div class="caption">
-                    <h4><a th:href="@{/product/{id}(id=${pCategoria.id})}" th:text="${pCategoria.nome}"></a></h4>
+                    <a class="text-reset" th:href="@{/product/{id}(id=${pCategoria.id})}" th:text="${pCategoria.nome}"/>
                 </div>
             </div>
         </div>
@@ -57,7 +59,5 @@
         document.location.href = "/carrinho?sku=" + sku;
     }
 </script>
-<script src="/assets/js/jquery-2.1.4.js"></script>
-<script src="/assets/js/bootstrap.min.js"></script>
 </body>
 </html>
