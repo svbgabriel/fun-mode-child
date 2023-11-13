@@ -24,30 +24,30 @@
         </div>
         <div class="col-md-3">
             <button th:if="${product.quantidade > 0}" class="btn btn-success btn-lg"
-                    th:onclick="'adicionarCarrinho('+${product.id}+');'"><span
+                    th:onclick="'addItem('+${product.id}+');'"><span
                 class="bi-cart-plus-fill"></span> Adicionar ao carrinho
             </button>
             <h2 th:if="${product.quantidade == 0}"><span class="badge text-bg-danger">Esgotado</span></h2>
         </div>
     </div>
 
-    <div th:if="${produtosCategoria.isEmpty()}" class="row">
+    <div th:if="${relatedProducts.isEmpty()}" class="row">
         <div class="col-md-12">
             <hr/>
             <h5>Produtos Relacionados não encontrados</h5></div>
     </div>
-    <div th:if="${!produtosCategoria.isEmpty()}" class="row">
+    <div th:if="${!relatedProducts.isEmpty()}" class="row">
         <div class="col-md-12">
             <hr/>
             <h5>Produtos Relacionados</h5></div>
     </div>
     <div class="row">
-        <div th:if="${!produtosCategoria.isEmpty()}" th:each="pCategoria: ${produtosCategoria}"
+        <div th:if="${!relatedProducts.isEmpty()}" th:each="relatedProduct: ${relatedProducts}"
              class="col-sm-4 col-lg-4 col-md-4 mb-3">
             <div class="img-thumbnail">
-                <img th:src="@{${pCategoria.refe}}" alt=""/>
+                <img th:src="@{${relatedProduct.refe}}" alt=""/>
                 <div class="caption">
-                    <a class="text-reset" th:href="@{/product/{id}(id=${pCategoria.id})}" th:text="${pCategoria.nome}"/>
+                    <a class="text-reset" th:href="@{/product/{id}(id=${relatedProduct.id})}" th:text="${relatedProduct.nome}"/>
                 </div>
             </div>
         </div>
@@ -55,8 +55,8 @@
 </div>
 
 <script>
-    function adicionarCarrinho(sku) {
-        document.location.href = "/carrinho?sku=" + sku;
+    function addItem(sku) {
+        document.location.href = "/cart?sku=" + sku;
     }
 </script>
 </body>

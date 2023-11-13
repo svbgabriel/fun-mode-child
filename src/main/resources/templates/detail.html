@@ -14,8 +14,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <th:block th:if="${!detalhes.isEmpty()}" th:each="detalhe : ${detalhes}">
-                <img th:src="@{${detalhe.product.refe}}" alt="">
+            <th:block th:if="${!details.isEmpty()}" th:each="detail : ${details}">
+                <img th:src="@{${detail.product.refe}}" alt="">
                 <br><br>
                 <table class="table table-hover">
                     <tr>
@@ -23,7 +23,7 @@
                             <h5>Pedido:</h5>
                         </td>
                         <td>
-                            <h5 th:text="${detalhe.getOrder.id}"></h5>
+                            <h5 th:text="${detail.getOrder.id}"></h5>
                         </td>
                     </tr>
                     <tr>
@@ -31,15 +31,15 @@
                             <h5>Nome: </h5>
                         </td>
                         <td>
-                            <h5 th:text="${detalhe.product.nome}"></h5>
+                            <h5 th:text="${detail.product.nome}"></h5>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h5>Quantidde: </h5>
+                            <h5>Quantidade: </h5>
                         </td>
                         <td>
-                            <h5 th:text="${detalhe.quantidade}"></h5>
+                            <h5 th:text="${detail.quantidade}"></h5>
                         </td>
                     </tr>
                     <tr>
@@ -47,24 +47,23 @@
                             <h5>Valor: </h5>
                         </td>
                         <td>
-                            <h5 th:text="'$ ' + ${detalhe.precoItem}"></h5>
+                            <h5 th:text="'$ ' + ${detail.precoItem}"></h5>
                         </td>
                     </tr>
                 </table>
                 <br>
             </th:block>
-            <th:block th:if="${pedido.ativo}">
+            <th:block th:if="${order.ativo}">
                 <div class="alert alert-warning" role="alert">
                     Deseja cancelar esse pedido? Atenção essa ação não pode ser desfeita!
                 </div>
-                <a class="btn btn-danger" th:href="@{/pedido/{id}/cancelar(id=${pedidoId})}">Cancelar</a>
+                <a class="btn btn-danger" th:href="@{/order/{id}/cancel(id=${orderId})}">Cancelar</a>
             </th:block>
-            <th:block th:if="${detalhes.isEmpty()}">
+            <th:block th:if="${details.isEmpty()}">
                 <div class="alert alert-danger" role="alert">
-                    <span class="bi-exclamation-circle" aria-hidden="true"></span>
-                    Erro ao verificar os detalhes do pedido
+                    <span class="bi-exclamation-circle" aria-hidden="true"></span> Erro ao verificar os detalhes do pedido
                 </div>
-                <a href="javascript:history.back(1);" class="btn btn-default">Voltar</a>
+                <a href="javascript:history.back();" class="btn btn-default">Voltar</a>
             </th:block>
         </div>
     </div>

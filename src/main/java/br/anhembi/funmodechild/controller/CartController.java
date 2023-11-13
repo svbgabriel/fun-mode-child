@@ -24,7 +24,7 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/carrinho")
+    @GetMapping("/cart")
     public ModelAndView carrinho(HttpSession session, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
@@ -55,14 +55,14 @@ public class CartController {
 
         var cartInfo = cartService.getCartInfo(cart);
 
-        mv.setViewName("carrinho");
-        mv.addObject("carrinho", cart);
-        mv.addObject("listaProdutos", cartInfo.products());
-        mv.addObject("totalCarrinhoFormatado", cartInfo.formatTotalPrice());
+        mv.setViewName("cart");
+        mv.addObject("cart", cart);
+        mv.addObject("products", cartInfo.products());
+        mv.addObject("totalPrice", cartInfo.formatTotalPrice());
         return mv;
     }
 
-    @PostMapping("/carrinho")
+    @PostMapping("/cart")
     public String atualizarCarrinho(HttpSession session,
                                     HttpServletRequest request,
                                     RedirectAttributes redirectAttributes) {
@@ -81,6 +81,6 @@ public class CartController {
         }
 
         redirectAttributes.addFlashAttribute("messages", errorMessages);
-        return "redirect:/carrinho";
+        return "redirect:/cart";
     }
 }

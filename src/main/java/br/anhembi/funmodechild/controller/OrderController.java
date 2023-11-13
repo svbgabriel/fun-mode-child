@@ -20,33 +20,33 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/pedido")
+    @GetMapping("/order")
     public ModelAndView pedido(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário
         Customer customer = userService.getLoggedUser(request);
 
-        mv.setViewName("pedido");
-        mv.addObject("pedidos", orderService.getOrdersByUserId(customer.getId()));
+        mv.setViewName("order");
+        mv.addObject("orders", orderService.getOrdersByUserId(customer.getId()));
         return mv;
     }
 
-    @GetMapping("/pedido/{id}/detalhe")
+    @GetMapping("/order/{id}/detail")
     public ModelAndView detalhe(@PathVariable("id") Long id, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário
         Customer customer = userService.getLoggedUser(request);
 
-        mv.addObject("pedido", orderService.getOrderById(id));
-        mv.addObject("detalhes", orderService.getOrderDetailsByOrderId(id, customer.getId()));
-        mv.addObject("pedidoId", id);
-        mv.setViewName("detalhe");
+        mv.addObject("order", orderService.getOrderById(id));
+        mv.addObject("details", orderService.getOrderDetailsByOrderId(id, customer.getId()));
+        mv.addObject("orderId", id);
+        mv.setViewName("detail");
         return mv;
     }
 
-    @GetMapping("/pedido/{id}/cancelar")
+    @GetMapping("/order/{id}/cancel")
     public ModelAndView cancelar(@PathVariable("id") Long id, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
@@ -55,8 +55,8 @@ public class OrderController {
 
         orderService.updateStatus(id, customer.getId(), false);
 
-        mv.addObject("pedidoId", id);
-        mv.setViewName("cancelar");
+        mv.addObject("orderId", id);
+        mv.setViewName("cancel");
         return mv;
     }
 }

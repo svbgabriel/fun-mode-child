@@ -1,5 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
+import br.anhembi.funmodechild.common.Constants;
 import br.anhembi.funmodechild.model.common.Cart;
 import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.model.common.PasswordNotMatchException;
@@ -26,14 +27,14 @@ public class AccountController {
 
     @GetMapping("/login")
     public String login(HttpSession session) {
-        session.setAttribute("carrinhocompras", new Cart());
+        session.setAttribute(Constants.SHOPPING_CART, new Cart());
         return "login";
     }
 
     @GetMapping("/registration")
     public ModelAndView registrar() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("cadastrar");
+        mv.setViewName("registration");
         mv.addObject("usuario", new Customer());
         return mv;
     }
@@ -47,14 +48,14 @@ public class AccountController {
         return mv;
     }
 
-    @GetMapping("/conta")
+    @GetMapping("/profile")
     public ModelAndView conta() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("conta");
+        mv.setViewName("profile");
         return mv;
     }
 
-    @PostMapping("/conta")
+    @PostMapping("/profile")
     public ModelAndView conta(@RequestParam(name = "passwordOld") String oldPassword,
                               @RequestParam(name = "passwordNew") String newPassword,
                               @RequestParam(name = "passwordNewConfirm") String newPasswordConfirm,
@@ -72,7 +73,7 @@ public class AccountController {
         }
 
         redirectAttributes.addFlashAttribute("error", errorMessage);
-        mv.setViewName("redirect:/conta");
+        mv.setViewName("redirect:/profile");
         return mv;
     }
 }

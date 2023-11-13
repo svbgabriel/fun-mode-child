@@ -15,13 +15,12 @@
     <form method="post" action="/payment">
         <div class="row">
             <div class="col-md-6">
-                <!-- Cartão -->
                 <h3>Forma de Pagamento - Cartão de Crédito</h3>
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label for="numerocartao">Número do cartão</label>
-                            <input type="text" class="form-control" id="numerocartao" name="numerocartao" maxlength="16"
+                            <label for="card-number">Número do cartão</label>
+                            <input type="text" class="form-control" id="card-number" name="card-number" maxlength="16"
                                    required="required">
                         </div>
                     </div>
@@ -29,8 +28,8 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label for="nomecartao">Nome</label>
-                            <input type="text" class="form-control" id="nomecartao" name="nomecartao" maxlength="18"
+                            <label for="card-name">Nome</label>
+                            <input type="text" class="form-control" id="card-name" name="card-name" maxlength="18"
                                    required="required">
                         </div>
                     </div>
@@ -40,9 +39,9 @@
                         <h5>Validade do Cartão</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <label for="validademes">Mês</label>
+                                <label for="month">Mês</label>
                                 <div class="form-group">
-                                    <select name="validademes" id="validademes" class="form-control"
+                                    <select name="month" id="month" class="form-control"
                                             required="required">
                                         <option value="01">01</option>
                                         <option value="02">02</option>
@@ -60,9 +59,9 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label for="validadeano">Ano</label>
+                                <label for="year">Ano</label>
                                 <div class="form-group">
-                                    <select name="validadeano" id="validadeano" class="form-control"
+                                    <select name="year" id="year" class="form-control"
                                             required="required">
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
@@ -78,16 +77,16 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label for="codigo">Código</label>
+                                <label for="cvv">Código</label>
                                 <div class="form-group">
-                                    <input type="text" placeholder="xxx" class="form-control" id="codigo" name="codigo"
+                                    <input type="text" placeholder="xxx" class="form-control" id="cvv" name="cvv"
                                            maxlength="3" required="required">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label for="parcelas">Parcelas</label>
+                                <label for="statements">Parcelas</label>
                                 <div class="form-group">
-                                    <select name="parcelas" id="parcelas" class="form-control" required="required">
+                                    <select name="statements" id="statements" class="form-control" required="required">
                                         <option value="1">1x</option>
                                         <option value="2">2x</option>
                                         <option value="3">3x</option>
@@ -100,67 +99,65 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <!-- Endereço -->
                 <h3>Endereço de Entrega</h3>
-                <p th:text="${usuario.endereco}"></p>
-                <p th:text="${usuario.numero}"></p>
-                <p th:text="${usuario.bairro}"></p>
-                <p th:text="${usuario.cidade}"></p>
-                <p th:text="'CEP: ' + ${usuario.cep}"></p>
+                <p th:text="${customer.endereco}"></p>
+                <p th:text="${customer.numero}"></p>
+                <p th:text="${customer.bairro}"></p>
+                <p th:text="${customer.cidade}"></p>
+                <p th:text="'CEP: ' + ${customer.cep}"></p>
             </div>
-        </div> <!-- /row -->
+        </div>
         <div class="row">
             <div class="col-md-12">
-                <!-- Itens -->
                 <h3>Itens</h3>
-                <p th:if="${carrinho.lista.isEmpty()}">Seu carrinho de compras está vazio!</p>
-                <table class="table" th:if="${!carrinho.lista.isEmpty()}">
+                <p th:if="${cart.lista.isEmpty()}">Seu carrinho de compras está vazio!</p>
+                <table class="table" th:if="${!cart.lista.isEmpty()}">
                     <tr>
                         <th>Item</th>
                         <th style="width:150px;">Quantidade</th>
                         <th style="width:150px;" class="text-right">Preço Unitário</th>
                         <th style="width:150px;" class="text-right">Valor</th>
                     </tr>
-                    <tr th:each="produtoCarrinho : ${listaProdutos}">
-                        <td th:text="${produtoCarrinho.product().nome}"></td>
-                        <td th:text="${produtoCarrinho.quantity()}"></td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.product().formatPrice()}"></td>
-                        <td class="text-right" th:text="'R$' + ${produtoCarrinho.formatTotalPrice()}"></td>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.product().nome}"></td>
+                        <td th:text="${product.quantity()}"></td>
+                        <td class="text-right" th:text="'$ ' + ${product.product().formatPrice()}"></td>
+                        <td class="text-right" th:text="'$ ' + ${product.formatTotalPrice()}"></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td class="text-right"><strong>Total</strong></td>
-                        <td class="text-right" th:text="'R$' + ${totalCarrinhoFormatado}"></td>
+                        <td class="text-right" th:text="'$ ' + ${totalCartPrice}"></td>
                     </tr>
                 </table>
                 <div class="row">
                     <div class="col-md-6">
                         <button type="button" class="btn btn-warning btn-xs"
-                                onclick="document.location.href = '/carrinho';">Voltar para o Carrinho
+                                onclick="document.location.href = '/cart';">Voltar para o Carrinho
                         </button>
                     </div>
-                    <div class="col-md-6 text-right" th:if="${!carrinho.lista.isEmpty()}">
-                        <button type="submit" class="btn btn-primary" name="salvar" value="1">Finalizar Pedido</button>
+                    <div class="col-md-6 text-right" th:if="${!cart.lista.isEmpty()}">
+                        <button type="submit" class="btn btn-primary" name="save" value="1">Finalizar Pedido</button>
                     </div>
                 </div>
-                <div class="row" th:if="${erroSalvar != null && !erroSalvar.isEmpty()}">
+                <div class="row" th:if="${errors != null && !errors.isEmpty()}">
                     <div class="col-md-12">
                         <ul class="text-danger">
-                            <li th:each="erro : ${erroSalvar}" th:text="${erro}"></li>
+                            <li th:each="error : ${errors}" th:text="${error}"></li>
                         </ul>
                     </div>
                 </div>
                 <br>
-                <th:block th:if="${erroSalvar != null && erroSalvar.isEmpty()}">
-                    <div class="row" th:if="${idPedido == -1}">
+                <th:block th:if="${errors != null && errors.isEmpty()}">
+                    <div class="row" th:if="${orderId == -1}">
                         <div class="col-md-5">
                             <div class="alert alert-danger mg-top-30" role="alert"><span
                                 class="bi-exclamation-circle"></span> Não foi possível salvar o pedido.
                             </div>
                         </div>
                     </div>
-                    <div class="row" th:if="${idPedido > 0}">
+                    <div class="row" th:if="${orderId > 0}">
                         <div class="col-md-5">
                             <div class="alert alert-success mg-top-30" role="alert"><span
                                 class="bi-check-circle"></span> Pedido salvo com sucesso!

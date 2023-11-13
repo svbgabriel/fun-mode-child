@@ -21,9 +21,9 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView home(@RequestParam(name = "cat", required = false) Long catId) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("categorias", categoryService.getAll());
-        mv.addObject("produtosPromovidos", productService.getPromotedProducts());
-        mv.addObject("produtos", productService.getProducts(catId));
+        mv.addObject("categories", categoryService.getAll());
+        mv.addObject("promotedList", productService.getPromotedProducts());
+        mv.addObject("products", productService.getProducts(catId));
         mv.setViewName("home");
         return mv;
     }

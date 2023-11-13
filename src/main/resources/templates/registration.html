@@ -10,7 +10,6 @@
 </head>
 <body>
 <div th:replace="~{fragments/fragments :: header}"></div>
-<!-- Formulário para cadastro de nova conta de acesso -->
 <div class="container mg-btm-30">
     <img src="/assets/img/logo.png" alt="Fun Mode Child"/>
     <h1 class="my-1">Cadastro</h1>
@@ -19,8 +18,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="nome">Nome Completo</label>
-                    <input type="text" class="form-control" id="nome" name="nome" maxlength="100" th:field="*{nome}"
+                    <label for="name">Nome Completo</label>
+                    <input type="text" class="form-control" id="name" name="name" maxlength="100" th:field="*{nome}"
                            required>
                 </div>
             </div>
@@ -46,30 +45,30 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="form-group">
-                    <label for="endereco">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco" th:field="*{endereco}"
+                    <label for="address">Endereço</label>
+                    <input type="text" class="form-control" id="address" name="address" th:field="*{endereco}"
                            required>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="numero">Número</label>
-                    <input type="text" class="form-control" id="numero" name="numero" th:field="*{numero}" required>
+                    <label for="number">Número</label>
+                    <input type="text" class="form-control" id="number" name="number" th:field="*{numero}" required>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="complemento">Complemento</label>
-                    <input type="text" class="form-control" id="complemento" name="complemento" maxlength="8"
+                    <label for="additional-info">Complemento</label>
+                    <input type="text" class="form-control" id="additional-info" name="additional-info" maxlength="8"
                            th:field="*{complemento}">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="bairro">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro" required th:field="*{bairro}">
+                    <label for="neighbourhood">Bairro</label>
+                    <input type="text" class="form-control" id="neighbourhood" name="neighbourhood" required th:field="*{bairro}">
                 </div>
             </div>
             <div class="col-md-2">
@@ -83,14 +82,14 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="cidade">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="cidade" required th:field="*{cidade}">
+                    <label for="city">Cidade</label>
+                    <input type="text" class="form-control" id="city" name="city" required th:field="*{cidade}">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select name="estado" id="estado" class="form-select" required th:field="*{estado}">
+                    <label for="state">Estado</label>
+                    <select name="state" id="state" class="form-select" required th:field="*{estado}">
                         <option value="">Selecione</option>
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
@@ -126,8 +125,8 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="telefone">(DDD + Telefone)</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" required
+                    <label for="phone">(DDD + Telefone)</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required
                            th:field="*{telefone}">
                 </div>
             </div>
@@ -143,8 +142,8 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="password2">Confirme a Senha</label>
-                    <input type="password" class="form-control" id="password2" name="password2" required>
+                    <label for="password-check">Confirme a Senha</label>
+                    <input type="password" class="form-control" id="password-check" name="password-check" required>
                 </div>
             </div>
         </div>

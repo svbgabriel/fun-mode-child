@@ -46,11 +46,11 @@ public class PaymentController {
         // Pega os valores do carrinho
         var cartInfo = cartService.getCartInfo(cart);
 
-        mv.addObject("usuario", customer);
-        mv.addObject("carrinho", cart);
-        mv.addObject("listaProdutos", cartInfo.products());
-        mv.addObject("totalCarrinhoFormatado", cartInfo.formatTotalPrice());
-        mv.setViewName("pagamento");
+        mv.addObject("customer", customer);
+        mv.addObject("cart", cart);
+        mv.addObject("products", cartInfo.products());
+        mv.addObject("totalCartPrice", cartInfo.formatTotalPrice());
+        mv.setViewName("payment");
         return mv;
     }
 
@@ -67,8 +67,9 @@ public class PaymentController {
         // Pedido
         var paymentResponse = paymentService.makePayment(session, request, customer, carrinho);
 
-        redirectAttributes.addFlashAttribute("erroSalvar", paymentResponse.errors());
-        redirectAttributes.addFlashAttribute("idPedido", paymentResponse.paymentData().getId());
+        redirectAttributes
+            .addFlashAttribute("errors", paymentResponse.errors())
+            .addFlashAttribute("orderId", paymentResponse.paymentData().getId());
         return "redirect:/payment";
     }
 }

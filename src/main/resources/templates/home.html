@@ -14,8 +14,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a th:each="categoria: ${categorias}" th:href="@{/(cat=${categoria.id})}" class="list-group-item"
-                   th:text="${categoria.nome}"></a>
+                <a th:each="category: ${categories}" th:href="@{/(cat=${category.id})}" class="list-group-item"
+                   th:text="${category.nome}"></a>
             </div>
         </div>
         <div class="col-md-9">
@@ -23,28 +23,28 @@
                 <div class="col-md-12">
                     <div id="promovidos" data-bs-theme="dark" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            <button type="button" th:each="product, iStat: ${produtosPromovidos}"
-                                    data-bs-target="#promovidos"
-                                    th:attr="data-bs-slide-to=${iStat.count - 1},class=${iStat.first ? 'active' : '' }">
+                            <button type="button" th:each="promoted, index: ${promotedList}"
+                                    data-bs-target="#promoted"
+                                    th:attr="data-bs-slide-to=${index.count - 1},class=${index.first ? 'active' : '' }">
                             </button>
                         </div>
                         <div class="carousel-inner">
-                            <div th:each="product, iStat: ${produtosPromovidos}"
-                                 th:attr="class=${iStat.first ? 'carousel-item active' : 'carousel-item' }">
-                                <a th:href="@{/product/{id}(id=${product.id})}">
-                                    <img th:src="@{${product.refeBig}}" class="card-img" alt=""/>
+                            <div th:each="promoted, index: ${promotedList}"
+                                 th:attr="class=${index.first ? 'carousel-item active' : 'carousel-item' }">
+                                <a th:href="@{/promoted/{id}(id=${promoted.id})}">
+                                    <img th:src="@{${promoted.refeBig}}" class="card-img" alt=""/>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h3 th:text="${product.nome}"></h3>
+                                        <h3 th:text="${promoted.nome}"></h3>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#promovidos"
+                        <button class="carousel-control-prev" type="button" data-bs-target="#promoted"
                                 data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#promovidos"
+                        <button class="carousel-control-next" type="button" data-bs-target="#promoted"
                                 data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
@@ -54,23 +54,23 @@
             </div>
         </div>
         <div class="row my-3">
-            <div th:if="${produtos.isEmpty()}" class="col-sm-12 col-lg-12 col-md-12">Nenhum product encontrado.</div>
-            <div th:if="${!produtos.isEmpty()}" th:each="pEstoque: ${produtos}" class="col-sm-4 col-lg-4 col-md-4 mb-3">
+            <div th:if="${products.isEmpty()}" class="col-sm-12 col-lg-12 col-md-12">Nenhum produto encontrado</div>
+            <div th:if="${!products.isEmpty()}" th:each="product: ${products}" class="col-sm-4 col-lg-4 col-md-4 mb-3">
                 <div class="img-thumbnail">
                     <div class="row">
-                        <img th:src="@{${pEstoque.refe}}" class="img-fluid" alt="">
+                        <img th:src="@{${product.refe}}" class="img-fluid" alt="">
                     </div>
                     <div class="row">
-                        <a class="text-reset" th:href="@{/product/{id}(id=${pEstoque.id})}" th:text="${pEstoque.nome}"/>
+                        <a class="text-reset" th:href="@{/product/{id}(id=${product.id})}" th:text="${product.nome}"/>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <span class="fs-6" th:text="'$ ' + ${pEstoque.formatPrice()}">></span>
+                            <span class="fs-6" th:text="'$ ' + ${product.formatPrice()}">></span>
                         </div>
                         <div class="col-md-6">
-                            <a th:if="${pEstoque.quantidade > 0}" class="badge text-bg-success"
-                               th:href="@{carrinho(sku=${pEstoque.id})}">Adicionar ao carrinho</a>
-                            <span th:if="${pEstoque.quantidade == 0}" class="badge text-bg-danger">Esgotado</span>
+                            <a th:if="${product.quantidade > 0}" class="badge text-bg-success"
+                               th:href="@{cart(sku=${product.id})}">Adicionar ao carrinho</a>
+                            <span th:if="${product.quantidade == 0}" class="badge text-bg-danger">Esgotado</span>
                         </div>
                     </div>
                 </div>

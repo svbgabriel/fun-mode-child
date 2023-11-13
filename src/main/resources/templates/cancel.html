@@ -14,19 +14,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <th:block th:if="${pedidoId != null}">
+            <th:block th:if="${orderId != null}">
                 <div class="alert alert-success" role="alert">
-                    <span class="bi-check-circle-fill" aria-hidden="true"></span>
-                    <p th:text="'Pedido ' + ${pedidoId} + ' foi cancelado :('"></p>
+                    <span class="bi-check-circle-fill" aria-hidden="true" th:text="' Pedido ' + ${orderId} + ' foi cancelado :('"></span>
                 </div>
-                <a href="/" class="btn btn-default">Voltar para a home</a>
+                <button type="button" class="btn btn-primary" onclick="document.location.href = '/';">Voltar para a home</button>
             </th:block>
-            <th:block th:if="${pedidoId == null}">
+            <th:block th:if="${orderId == null}">
                 <div class="alert alert-danger" role="alert">
                     <span class="bi-exclamation-circle" aria-hidden="true"></span>
                     Erro ao cancelar o pedido
                 </div>
-                <a href="/" class="btn btn-default">Voltar para a home</a>
+                <button type="button" class="btn btn-primary" onclick="document.location.href = '/';">Voltar para a home</button>
             </th:block>
         </div>
     </div>

@@ -91,7 +91,7 @@ public class PaymentService {
                                        Cart cart) {
         List<String> erroSalvar;
         PaymentResponse paymentResponse;
-        if (request.getParameter("salvar") != null && cart != null) {
+        if (request.getParameter("save") != null && cart != null) {
             // Clicou em Salvar Pedido
             erroSalvar = validatePaymentRequest(request);
 
@@ -118,22 +118,22 @@ public class PaymentService {
     private List<String> validatePaymentRequest(HttpServletRequest request) {
         List<String> errorMessages = new ArrayList<>();
 
-        if (request.getParameter("numerocartao") == null) {
+        if (request.getParameter("card-number") == null) {
             errorMessages.add("Informe o número do cartão");
         }
-        if (request.getParameter("nomecartao") == null) {
+        if (request.getParameter("card-name") == null) {
             errorMessages.add("Informe o nome que está no cartão");
         }
-        if (request.getParameter("validademes") == null) {
+        if (request.getParameter("month") == null) {
             errorMessages.add("Informe o mês de validade do cartão");
         }
-        if (request.getParameter("validadeano") == null) {
+        if (request.getParameter("year") == null) {
             errorMessages.add("Informe o ano de validade do cartão");
         }
-        if (request.getParameter("codigo") == null) {
+        if (request.getParameter("cvv") == null) {
             errorMessages.add("Informe o código de verificação do cartão");
         }
-        if (request.getParameter("parcelas") == null) {
+        if (request.getParameter("statements") == null) {
             errorMessages.add("Informe o número de parcelas");
         }
 
@@ -142,12 +142,12 @@ public class PaymentService {
 
     private Payment paymentMapper(HttpServletRequest request) {
         Payment payment = new Payment();
-        payment.setNumeroCartao(request.getParameter("numerocartao"));
-        payment.setNomeCartao(request.getParameter("nomecartao"));
-        payment.setValidadeMes(Integer.parseInt(request.getParameter("validademes")));
-        payment.setValidadeAno(Integer.parseInt(request.getParameter("validadeano")));
-        payment.setCodigo(Integer.parseInt(request.getParameter("codigo")));
-        payment.setParcelas(Integer.parseInt(request.getParameter("parcelas")));
+        payment.setNumeroCartao(request.getParameter("card-number"));
+        payment.setNomeCartao(request.getParameter("card-name"));
+        payment.setValidadeMes(Integer.parseInt(request.getParameter("month")));
+        payment.setValidadeAno(Integer.parseInt(request.getParameter("year")));
+        payment.setCodigo(Integer.parseInt(request.getParameter("cvv")));
+        payment.setParcelas(Integer.parseInt(request.getParameter("statements")));
         payment.setDataPagamento(Date.from(Instant.now()));
         return payment;
     }

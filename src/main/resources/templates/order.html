@@ -24,20 +24,19 @@
                         <td>Status</td>
                         <td><br></td>
                     </tr>
-                    <th:block th:if="${!pedidos.isEmpty()}">
-                        <tr th:each="pedido : ${pedidos}">
-                            <td th:text="${pedido.id}"></td>
-                            <td th:text="${pedido.dataPedido}"></td>
-                            <td th:text="'$ ' + ${pedido.precoTotal}"></td>
-                            <td th:text="${ pedido.ativo ? 'OK' : 'Cancelado' }"></td>
-                            <td><a th:href="@{/pedido/{id}/detalhe(id=${pedido.id})}">Detalhes</a></td>
+                    <th:block th:if="${!orders.isEmpty()}">
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.dataPedido}"></td>
+                            <td th:text="'$ ' + ${order.precoTotal}"></td>
+                            <td th:text="${ order.ativo ? 'OK' : 'Cancelado' }"></td>
+                            <td><a th:href="@{/order/{id}/detail(id=${order.id})}">Detalhes</a></td>
                         </tr>
                     </th:block>
                 </table>
             </div>
-            <div th:if="${pedidos.isEmpty()}" class="alert alert-warning" role="alert">
-                <span class="bi-exclamation-circle" aria-hidden="true"></span> Não foram encontrados
-                pedidos
+            <div th:if="${orders.isEmpty()}" class="alert alert-warning" role="alert">
+                <span class="bi-exclamation-circle" aria-hidden="true"></span> Não foram encontrados pedidos
             </div>
             <a href="/" class="btn btn-primary">Voltar</a>
         </div>
