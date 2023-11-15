@@ -1,5 +1,6 @@
 package br.anhembi.funmodechild.entity;
 
+import br.anhembi.funmodechild.model.response.ProductResponse;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,12 +26,17 @@ public class Product {
     private LocalDateTime createdAt = LocalDateTime.now();
     private int quantity;
 
-    /**
-     * Retorna o preço formatado como 0.000,00.
-     *
-     * @return o preço formatado com duas casas decimais.
-     */
-    public String formatPrice() {
-        return String.format("%1$,.2f", this.price);
+    public ProductResponse toApiResponse() {
+        return new ProductResponse(
+            this.id,
+            this.sku,
+            this.name,
+            this.description,
+            this.price,
+            this.promoted,
+            this.category.toApiResponse(),
+            this.createdAt,
+            this.quantity
+        );
     }
 }

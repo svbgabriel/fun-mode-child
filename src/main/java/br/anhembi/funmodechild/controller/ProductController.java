@@ -1,13 +1,20 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.entity.Product;
+import br.anhembi.funmodechild.model.response.ProductResponse;
 import br.anhembi.funmodechild.service.ProductService;
-import org.springframework.stereotype.Controller;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Products")
 public class ProductController {
 
     private final ProductService productService;
@@ -16,13 +23,22 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/product/{id}")
-    public ModelAndView produto(@PathVariable("id") String id) {
-        ModelAndView mv = new ModelAndView();
-        Product product = productService.getProductById(id);
-        mv.addObject("product", product);
-        mv.addObject("relatedProducts", productService.getProducts(product.getCategory().getId()));
-        mv.setViewName("product");
-        return mv;
+    @GetMapping("/{productId}")
+    public ProductResponse getProductById(@PathVariable("productId") String id) {
+        return productService.getProductById(id);
+    }
+
+    @GetMapping("/promoted")
+    public List<ProductResponse> getPromotedProducts() {
+        return productService.getPromotedProducts();
+    }
+
+    @GetMapping
+    public List<ProductResponse> getProducts(@RequestParam(value = "categoryId", required = false) String categoryId) {
+        if (categoryId != null) {
+            return productService.getProductsByCategory(categoryId);
+        }
+
+        return productService.getProducts();
     }
 }

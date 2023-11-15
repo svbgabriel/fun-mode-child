@@ -2,20 +2,25 @@ plugins {
     java
     id("org.springframework.boot") version "3.1.5"
     id("io.spring.dependency-management") version "1.1.3"
+    id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
 }
 
 repositories {
     mavenCentral()
 }
 
+val jjwtVersion = "0.11.5"
+val springDocVersion = "2.2.0"
+
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-    implementation("org.webjars:bootstrap:5.3.2")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    implementation("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

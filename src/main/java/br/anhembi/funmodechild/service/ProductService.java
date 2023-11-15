@@ -1,8 +1,8 @@
 package br.anhembi.funmodechild.service;
 
 import br.anhembi.funmodechild.entity.Product;
+import br.anhembi.funmodechild.model.response.ProductResponse;
 import br.anhembi.funmodechild.repository.ProductRepository;
-import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +16,25 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts(@Nullable String categoryId) {
-        if (categoryId == null) {
-            return productRepository.findAll();
-        }
-
-        return productRepository.findByCategoryId(categoryId);
+    public List<ProductResponse> getProductsByCategory(String categoryId) {
+        return productRepository.findByCategoryId(categoryId)
+            .stream().map(Product::toApiResponse)
+            .toList();
     }
 
-    public List<Product> getPromotedProducts() {
-        return productRepository.findByPromotedIsTrue();
+    public List<ProductResponse> getPromotedProducts() {
+        return productRepository.findByPromotedIsTrue()
+            .stream().map(Product::toApiResponse)
+            .toList();
     }
 
-    public Product getProductById(String id) {
-        return productRepository.findById(id).orElseThrow();
+    public ProductResponse getProductById(String id) {
+        return productRepository.findById(id).orElseThrow().toApiResponse();
+    }
+
+    public List<ProductResponse> getProducts() {
+        return productRepository.findAll()
+            .stream().map(Product::toApiResponse)
+            .toList();
     }
 }

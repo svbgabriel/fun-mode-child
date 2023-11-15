@@ -1,7 +1,15 @@
 spring:
-  thymeleaf:
-    mode: HTML
-    cache: false
   data:
     mongodb:
       uri: mongodb://localhost:28017/fun-mode-child
+
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    path: "/api-docs"
+
+jwt:
+  secret: replace-this

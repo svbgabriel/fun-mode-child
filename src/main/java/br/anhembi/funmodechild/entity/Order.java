@@ -1,5 +1,7 @@
 package br.anhembi.funmodechild.entity;
 
+import br.anhembi.funmodechild.model.response.OrderDetailResponse;
+import br.anhembi.funmodechild.model.response.OrderResponse;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,15 +24,25 @@ public class Order {
     private double totalPrice;
     private boolean active = true;
 
+    public OrderResponse toApiResponse() {
+        return new OrderResponse(
+            this.id,
+            this.createdAt,
+            this.details.stream().map(OrderDetail::toApiResponse).toList(),
+            this.totalPrice,
+            this.active
+        );
+    }
+
     @Data
     public static class OrderDetail {
         @DocumentReference(lazy = true)
         private Product product;
         private double price;
         private int quantity;
-    }
 
-    public String formatTotalPrice() {
-        return String.format("%1$,.2f", this.totalPrice);
+        public OrderDetailResponse toApiResponse() {
+            return new OrderDetailResponse(this.product.toApiResponse(), this.price, this.quantity);
+        }
     }
 }

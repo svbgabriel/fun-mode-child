@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Payment {
 
     @Id
-    private long id;
+    private String id;
     @DocumentReference(lazy = true)
     private Order order;
     private String cardNumber;

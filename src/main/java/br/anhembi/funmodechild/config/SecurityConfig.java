@@ -5,17 +5,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
-    public static final String LOGIN_PAGE = "/login";
+    private final JwtAuthFilter jwtAuthFilter;
+
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(BCryptPasswordEncoder bCryptPasswordEncoder,
@@ -29,36 +38,28 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-            authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers(
-                    LOGIN_PAGE,
-                    "/registration",
-                    "/",
-                    "/product/**",
-                    "/assets/**",
-                    "/webjars/**"
-                ).permitAll()
-                .anyRequest()
-                .authenticated()
-        );
-        http.csrf(
-            csrf -> csrf.disable()
-        );
-        http.formLogin(
-            customizer -> customizer
-                .loginPage(LOGIN_PAGE)
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login?error=true")
-        ).logout(
-            customizer -> customizer
-                .logoutUrl("/logout")
-                .logoutSuccessUrl(LOGIN_PAGE)
-        );
-
-        return http.build();
+        return http
+            .csrf(
+                AbstractHttpConfigurer::disable
+            )
+            .authorizeHttpRequests(
+                authorizeHttpRequests -> authorizeHttpRequests
+                    .requestMatchers(
+                        "/users/**",
+                        "/categories/**",
+                        "/products/**",
+                        "/assets/**",
+                        "/api-docs/**",
+                        "/swagger-ui/**"
+                    ).permitAll()
+                    .anyRequest()
+                    .authenticated()
+            )
+            .sessionManagement(
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean

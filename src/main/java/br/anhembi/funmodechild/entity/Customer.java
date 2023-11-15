@@ -1,14 +1,19 @@
 package br.anhembi.funmodechild.entity;
 
+import br.anhembi.funmodechild.model.common.Address;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Document("customers")
-public class Customer {
+public class Customer implements UserDetails {
 
     @Id
     private String id;
@@ -20,16 +25,18 @@ public class Customer {
     private String customerIdentification;
     private String phoneNumber;
     private String password;
-    private boolean active;
+    private boolean enabled = true;
+    private boolean accountNonExpired = true;
+    private boolean credentialsNonExpired = true;
+    private boolean accountNonLocked = true;
 
-    @Data
-    public static class Address {
-        private String addressLine;
-        private String number;
-        private String addressComplement;
-        private String neighbourhood;
-        private String postalCode;
-        private String city;
-        private String state;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }
