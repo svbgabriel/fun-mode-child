@@ -1,47 +1,29 @@
 package br.anhembi.funmodechild.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "produtos")
 @Data
+@Document("products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "sku")
+    private String id;
     private int sku;
-    @Column(name = "nome")
-    private String nome;
-    @Column(name = "descricao")
-    private String descricao;
-    @Column(name = "preco")
-    private double preco;
-    @Column(name = "promovido")
-    private boolean promovido;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id")
+    private String name;
+    private String description;
+    private double price;
+    private boolean promoted;
+    @DocumentReference(lazy = true)
     private Category category;
-    @Column(name = "refe")
-    private String refe;
-    @Column(name = "refebig")
-    private String refeBig;
-    @Column(name = "dt_cadastrado")
-    private Date dtCadastrado;
-    @Column(name = "quantidade")
-    private int quantidade;
+    private String reference;
+    private String referenceBig;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private int quantity;
 
     /**
      * Retorna o preço formatado como 0.000,00.
@@ -49,6 +31,6 @@ public class Product {
      * @return o preço formatado com duas casas decimais.
      */
     public String formatPrice() {
-        return String.format("%1$,.2f", this.preco);
+        return String.format("%1$,.2f", this.price);
     }
 }

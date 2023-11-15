@@ -1,41 +1,25 @@
 package br.anhembi.funmodechild.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "pagamentos")
 @Data
+@Document("payments")
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id")
+    @DocumentReference(lazy = true)
     private Order order;
-    @Column(name = "numero_cartao")
-    private String numeroCartao;
-    @Column(name = "nome_cartao")
-    private String nomeCartao;
-    @Column(name = "validade_mes")
-    private int validadeMes;
-    @Column(name = "validade_ano")
-    private int validadeAno;
-    @Column(name = "codigo")
-    private int codigo;
-    @Column(name = "parcelas")
-    private int parcelas;
-    @Column(name = "data_pagamento")
-    private Date dataPagamento;
+    private String cardNumber;
+    private String cardName;
+    private int month;
+    private int year;
+    private int cvv;
+    private int statements;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

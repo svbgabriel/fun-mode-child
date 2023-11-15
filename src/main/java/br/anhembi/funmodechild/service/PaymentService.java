@@ -3,24 +3,22 @@ package br.anhembi.funmodechild.service;
 import br.anhembi.funmodechild.entity.Payment;
 import br.anhembi.funmodechild.model.common.Cart;
 import br.anhembi.funmodechild.entity.Order;
-import br.anhembi.funmodechild.entity.OrderDetail;
+import br.anhembi.funmodechild.entity.Order.OrderDetail;
 import br.anhembi.funmodechild.entity.Product;
 import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.model.response.PaymentResponse;
 import br.anhembi.funmodechild.repository.PaymentRepository;
 import br.anhembi.funmodechild.repository.OrderRepository;
-import br.anhembi.funmodechild.repository.OrderDetailRepository;
 import br.anhembi.funmodechild.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static br.anhembi.funmodechild.common.Constants.SHOPPING_CART;
 
@@ -29,17 +27,14 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
     private final ProductRepository productRepository;
 
     public PaymentService(PaymentRepository paymentRepository,
                           OrderRepository orderRepository,
-                          OrderDetailRepository orderDetailRepository,
                           ProductRepository productRepository
     ) {
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
-        this.orderDetailRepository = orderDetailRepository;
         this.productRepository = productRepository;
     }
 
@@ -48,35 +43,29 @@ public class PaymentService {
         Order order = new Order();
 
         AbstractMap<Long, Integer> listaProdutos = cart.getLista();
-        Iterator<Long> keySetIterator = listaProdutos.keySet().iterator();
-        List<OrderDetail> detalhes = new ArrayList<>();
-        while (keySetIterator.hasNext()) {
-            Long sku = keySetIterator.next();
+        for (Map.Entry<Long, Integer> entry  : listaProdutos.entrySet()) {
+            var sku = entry.getKey();
+            var quantity = entry.getValue();
+
             Product product = productRepository.findBySku(sku).orElseThrow();
 
             OrderDetail detalhePedido = new OrderDetail();
-            detalhePedido.setPrecoItem(product.getPreco());
-            detalhePedido.setQuantidade(listaProdutos.get(sku));
+            detalhePedido.setPrice(product.getPrice());
+            detalhePedido.setQuantity(quantity);
             detalhePedido.setProduct(product);
 
-            detalhes.add(detalhePedido);
+            order.getDetails().add(detalhePedido);
 
-            precoTotal += detalhePedido.getPrecoItem() * detalhePedido.getQuantidade();
+            precoTotal += detalhePedido.getPrice() * detalhePedido.getQuantity();
         }
 
-        order.setPrecoTotal(precoTotal);
+        order.setTotalPrice(precoTotal);
         order.setCustomer(customer);
         Order savedOrder = orderRepository.save(order);
 
-        // Adiciona o pedido ao detalhe
-        for (OrderDetail detalhe : detalhes) {
-            detalhe.setOrder(order);
-        }
-        orderDetailRepository.saveAll(detalhes);
-
-        if (savedOrder.getId() > -1) {
+        if (savedOrder.getId() != null) {
             // Completa os dados de pagamento
-            payment.setOrder(order);
+            payment.setOrder(savedOrder);
 
             // Salva o pagamento
             paymentRepository.save(payment);
@@ -142,13 +131,13 @@ public class PaymentService {
 
     private Payment paymentMapper(HttpServletRequest request) {
         Payment payment = new Payment();
-        payment.setNumeroCartao(request.getParameter("card-number"));
-        payment.setNomeCartao(request.getParameter("card-name"));
-        payment.setValidadeMes(Integer.parseInt(request.getParameter("month")));
-        payment.setValidadeAno(Integer.parseInt(request.getParameter("year")));
-        payment.setCodigo(Integer.parseInt(request.getParameter("cvv")));
-        payment.setParcelas(Integer.parseInt(request.getParameter("statements")));
-        payment.setDataPagamento(Date.from(Instant.now()));
+        payment.setCardNumber(request.getParameter("card-number"));
+        payment.setCardName(request.getParameter("card-name"));
+        payment.setMonth(Integer.parseInt(request.getParameter("month")));
+        payment.setYear(Integer.parseInt(request.getParameter("year")));
+        payment.setCvv(Integer.parseInt(request.getParameter("cvv")));
+        payment.setStatements(Integer.parseInt(request.getParameter("statements")));
+        payment.setCreatedAt(LocalDateTime.now());
         return payment;
     }
 }

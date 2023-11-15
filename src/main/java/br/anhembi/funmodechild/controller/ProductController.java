@@ -17,7 +17,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ModelAndView produto(@PathVariable("id") Long id) {
+    public ModelAndView produto(@PathVariable("id") String id) {
         ModelAndView mv = new ModelAndView();
         Product product = productService.getProductById(id);
         mv.addObject("product", product);

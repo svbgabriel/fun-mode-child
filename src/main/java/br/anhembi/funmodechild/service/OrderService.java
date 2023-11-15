@@ -1,9 +1,7 @@
 package br.anhembi.funmodechild.service;
 
 import br.anhembi.funmodechild.entity.Order;
-import br.anhembi.funmodechild.entity.OrderDetail;
 import br.anhembi.funmodechild.repository.OrderRepository;
-import br.anhembi.funmodechild.repository.OrderDetailRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,32 +10,26 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
 
-    public OrderService(OrderRepository orderRepository, OrderDetailRepository orderDetailRepository) {
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.orderDetailRepository = orderDetailRepository;
     }
 
-    public Order getOrderById(long id) {
-        return orderRepository.getReferenceById(id);
+    public Order getOrderById(String id) {
+        return orderRepository.findById(id).orElseThrow();
     }
 
-    public void updateStatus(long id, long userId, boolean status) {
+    public void updateStatus(String id, String userId, boolean status) {
         try {
-            Order order = orderRepository.findByUsuarioAndId(userId, id);
-            order.setAtivo(status);
+            Order order = orderRepository.findByIdAndCustomerId(id, userId);
+            order.setActive(status);
             orderRepository.save(order);
         } catch (Exception e) {
             // TODO Tratar um erro
         }
     }
 
-    public List<Order> getOrdersByUserId(long id) {
-        return orderRepository.findByUsuario(id);
-    }
-
-    public List<OrderDetail> getOrderDetailsByOrderId(long id, long userId) {
-        return orderDetailRepository.findByPedido(id, userId);
+    public List<Order> getOrdersByUserId(String customerId) {
+        return orderRepository.findByCustomerId(customerId);
     }
 }

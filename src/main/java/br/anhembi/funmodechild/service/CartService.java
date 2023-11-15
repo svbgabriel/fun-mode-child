@@ -66,10 +66,10 @@ public class CartService {
             } else {
                 // Quantidade do produto foi alterada. Verifica se tem saldo em estoque.
                 Product product = productRepository.findBySku(productToUpdate.sku()).orElseThrow();
-                if (product.getQuantidade() < productToUpdate.quantity()) {
-                    messages.add("Estoque insuficiente para o produto <strong>" + product.getNome() + "</strong>!");
+                if (product.getQuantity() < productToUpdate.quantity()) {
+                    messages.add("Estoque insuficiente para o produto <strong>" + product.getName() + "</strong>!");
                     // Atualiza o produto no carrinho com a quantidade que tem em estoque.
-                    cart.update(productToUpdate.sku(), product.getQuantidade());
+                    cart.update(productToUpdate.sku(), product.getQuantity());
                 } else {
                     cart.update(productToUpdate.sku(), productToUpdate.quantity());
                 }

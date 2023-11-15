@@ -1,11 +1,11 @@
 package br.anhembi.funmodechild.repository;
 
 import br.anhembi.funmodechild.entity.Customer;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends MongoRepository<Customer, String> {
 
     Customer findByEmail(String email);
 }

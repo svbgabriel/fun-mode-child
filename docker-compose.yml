@@ -1,16 +1,18 @@
 version: "3.1"
 
 services:
-  db:
-    image: postgres:16.0-alpine
+  mongo:
+    container_name: fmc-db
+    image: mongo:7.0.2
+    restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: funmodechild
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/data/db
+      - ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
-      - "5432:5432"
+      - "28017:27017"
 
 volumes:
   db_data:

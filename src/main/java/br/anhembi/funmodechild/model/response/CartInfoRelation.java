@@ -5,7 +5,7 @@ import br.anhembi.funmodechild.entity.Product;
 public record CartInfoRelation(Product product, int quantity) {
 
     public double calculateTotalPrice() {
-        return this.product.getPreco() * quantity;
+        return this.product.getPrice() * quantity;
     }
 
     public String formatTotalPrice() {

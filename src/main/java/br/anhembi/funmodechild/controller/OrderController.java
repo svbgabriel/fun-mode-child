@@ -1,6 +1,7 @@
 package br.anhembi.funmodechild.controller;
 
 import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.entity.Order;
 import br.anhembi.funmodechild.service.OrderService;
 import br.anhembi.funmodechild.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,21 +34,20 @@ public class OrderController {
     }
 
     @GetMapping("/order/{id}/detail")
-    public ModelAndView detalhe(@PathVariable("id") Long id, HttpServletRequest request) {
+    public ModelAndView detalhe(@PathVariable("id") String id) {
         ModelAndView mv = new ModelAndView();
 
-        // Recupera os dados do usuário
-        Customer customer = userService.getLoggedUser(request);
+        Order order = orderService.getOrderById(id);
 
-        mv.addObject("order", orderService.getOrderById(id));
-        mv.addObject("details", orderService.getOrderDetailsByOrderId(id, customer.getId()));
+        mv.addObject("order", order);
+        mv.addObject("details", order.getDetails());
         mv.addObject("orderId", id);
         mv.setViewName("detail");
         return mv;
     }
 
     @GetMapping("/order/{id}/cancel")
-    public ModelAndView cancelar(@PathVariable("id") Long id, HttpServletRequest request) {
+    public ModelAndView cancelar(@PathVariable("id") String id, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
         // Recupera os dados do usuário

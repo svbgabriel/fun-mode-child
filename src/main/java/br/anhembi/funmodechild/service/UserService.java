@@ -2,7 +2,7 @@ package br.anhembi.funmodechild.service;
 
 import br.anhembi.funmodechild.entity.Customer;
 import br.anhembi.funmodechild.model.common.PasswordNotMatchException;
-import br.anhembi.funmodechild.repository.UserRepository;
+import br.anhembi.funmodechild.repository.CustomerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,21 +12,21 @@ import java.security.Principal;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserService(CustomerRepository customerRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Customer getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return customerRepository.findByEmail(email);
     }
 
-    public void salvar(Customer customer) {
-        customer.setSenha(passwordEncoder.encode(customer.getSenha()));
-        userRepository.save(customer);
+    public void create(Customer customer) {
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customerRepository.save(customer);
     }
 
     public void updatePassword(Principal user, String oldPassword, String newPassword, String newPasswordConfirm) {
@@ -36,16 +36,16 @@ public class UserService {
         }
 
         String username = user.getName();
-        Customer customer = userRepository.findByEmail(username);
+        Customer customer = customerRepository.findByEmail(username);
 
         // Checa se a senha antiga bate com a informada
-        if (!passwordEncoder.matches(oldPassword, customer.getSenha())) {
+        if (!passwordEncoder.matches(oldPassword, customer.getPassword())) {
             throw new PasswordNotMatchException("Senha antiga inválida");
         }
 
         // Altera a senha
-        customer.setSenha(passwordEncoder.encode(newPassword));
-        userRepository.save(customer);
+        customer.setPassword(passwordEncoder.encode(newPassword));
+        customerRepository.save(customer);
     }
 
     public Customer getLoggedUser(HttpServletRequest request) {

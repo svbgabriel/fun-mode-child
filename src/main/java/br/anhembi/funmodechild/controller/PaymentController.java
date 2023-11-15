@@ -2,7 +2,7 @@ package br.anhembi.funmodechild.controller;
 
 import br.anhembi.funmodechild.model.common.Cart;
 import br.anhembi.funmodechild.entity.Customer;
-import br.anhembi.funmodechild.repository.UserRepository;
+import br.anhembi.funmodechild.repository.CustomerRepository;
 import br.anhembi.funmodechild.service.CartService;
 import br.anhembi.funmodechild.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,14 +20,14 @@ import java.security.Principal;
 @Scope("session")
 public class PaymentController {
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final PaymentService paymentService;
     private final CartService cartService;
 
-    public PaymentController(UserRepository userRepository,
+    public PaymentController(CustomerRepository customerRepository,
                              PaymentService paymentService,
                              CartService cartService) {
-        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
         this.paymentService = paymentService;
         this.cartService = cartService;
     }
@@ -36,7 +36,7 @@ public class PaymentController {
     public ModelAndView pagamento(HttpSession session, HttpServletRequest request) {
         // Recupera os dados do usuário
         Principal user = request.getUserPrincipal();
-        Customer customer = userRepository.findByEmail(user.getName());
+        Customer customer = customerRepository.findByEmail(user.getName());
 
         ModelAndView mv = new ModelAndView();
 
@@ -62,7 +62,7 @@ public class PaymentController {
 
         // Recupera os dados do usuário
         Principal user = request.getUserPrincipal();
-        Customer customer = userRepository.findByEmail(user.getName());
+        Customer customer = customerRepository.findByEmail(user.getName());
 
         // Pedido
         var paymentResponse = paymentService.makePayment(session, request, customer, carrinho);

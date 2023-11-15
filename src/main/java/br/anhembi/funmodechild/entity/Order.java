@@ -1,33 +1,36 @@
 package br.anhembi.funmodechild.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table(name = "pedidos")
 @Data
+@Document("orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "data_pedido")
-    private Date dataPedido = new Date();
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    private String id;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @DocumentReference(lazy = true)
     private Customer customer;
-    @Column(name = "preco_total")
-    private double precoTotal;
-    @Column(name = "ativo")
-    private boolean ativo = true;
+    private List<OrderDetail> details = new ArrayList<>();
+    private double totalPrice;
+    private boolean active = true;
+
+    @Data
+    public static class OrderDetail {
+        @DocumentReference(lazy = true)
+        private Product product;
+        private double price;
+        private int quantity;
+    }
+
+    public String formatTotalPrice() {
+        return String.format("%1$,.2f", this.totalPrice);
+    }
 }

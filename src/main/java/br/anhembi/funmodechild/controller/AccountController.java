@@ -35,7 +35,7 @@ public class AccountController {
     public ModelAndView registrar() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("registration");
-        mv.addObject("usuario", new Customer());
+        mv.addObject("customer", new Customer());
         return mv;
     }
 
@@ -43,7 +43,7 @@ public class AccountController {
     @PostMapping("/registration")
     public ModelAndView registrar(Customer customer) {
         ModelAndView mv = new ModelAndView();
-        userService.salvar(customer);
+        userService.create(customer);
         mv.setViewName("redirect:/login");
         return mv;
     }

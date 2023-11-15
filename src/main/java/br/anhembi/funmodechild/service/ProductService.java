@@ -16,19 +16,19 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts(@Nullable Long id) {
-        if (id == null) {
+    public List<Product> getProducts(@Nullable String categoryId) {
+        if (categoryId == null) {
             return productRepository.findAll();
         }
 
-        return productRepository.findByCategoria(id);
+        return productRepository.findByCategoryId(categoryId);
     }
 
     public List<Product> getPromotedProducts() {
-        return productRepository.findByPromovidoIsTrue();
+        return productRepository.findByPromotedIsTrue();
     }
 
-    public Product getProductById(long id) {
-        return productRepository.getReferenceById(id);
+    public Product getProductById(String id) {
+        return productRepository.findById(id).orElseThrow();
     }
 }

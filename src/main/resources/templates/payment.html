@@ -100,11 +100,12 @@
             </div>
             <div class="col-md-6">
                 <h3>Endereço de Entrega</h3>
-                <p th:text="${customer.endereco}"></p>
-                <p th:text="${customer.numero}"></p>
-                <p th:text="${customer.bairro}"></p>
-                <p th:text="${customer.cidade}"></p>
-                <p th:text="'CEP: ' + ${customer.cep}"></p>
+                <p th:text="${customer.address.addressLine}"></p>
+                <p th:text="${customer.address.number}"></p>
+                <p th:text="${customer.address.neighbourhood}"></p>
+                <p th:text="${customer.address.city}"></p>
+                <p th:text="${customer.address.state}"></p>
+                <p th:text="'CEP: ' + ${customer.address.postalCode}"></p>
             </div>
         </div>
         <div class="row">
@@ -119,7 +120,7 @@
                         <th style="width:150px;" class="text-right">Valor</th>
                     </tr>
                     <tr th:each="product : ${products}">
-                        <td th:text="${product.product().nome}"></td>
+                        <td th:text="${product.product().getName}"></td>
                         <td th:text="${product.quantity()}"></td>
                         <td class="text-right" th:text="'$ ' + ${product.product().formatPrice()}"></td>
                         <td class="text-right" th:text="'$ ' + ${product.formatTotalPrice()}"></td>

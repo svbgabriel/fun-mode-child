@@ -2,14 +2,6 @@ spring:
   thymeleaf:
     mode: HTML
     cache: false
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/funmodechild"
-    username: root
-    password: root
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
+  data:
+    mongodb:
+      uri: mongodb://localhost:28017/fun-mode-child

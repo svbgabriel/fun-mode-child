@@ -26,14 +26,14 @@
                         <th style="width:30px;">&nbsp;</th>
                     </tr>
                     <tr th:each="product : ${products}">
-                        <td th:text="${product.product().nome}"></td>
+                        <td th:text="${product.product().getName}"></td>
                         <td>
                             <input type="hidden" name="skualt" th:value="${product.product().id}" />
                             <input type="text" name="qtde" th:value="${product.quantity()}" class="form-control text-right" />
                         </td>
                         <td class="text-right" th:text="'$ ' + ${product.product().formatPrice()}"></td>
                         <td class="text-right" th:text="'$ ' + ${product.formatTotalPrice()}"></td>
-                        <td><button type="button" class="btn btn-danger btn-xs" th:onclick="'removeItem('+${product.product().id}+');'"><span class="bi-trash"></span></button></td>
+                        <td><button type="button" class="btn btn-danger btn-xs" th:onclick="'removeItem('+${product.product().sku}+');'"><span class="bi-trash"></span></button></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>

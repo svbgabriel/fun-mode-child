@@ -19,7 +19,7 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public ModelAndView home(@RequestParam(name = "cat", required = false) Long catId) {
+    public ModelAndView home(@RequestParam(name = "cat", required = false) String catId) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("categories", categoryService.getAll());
         mv.addObject("promotedList", productService.getPromotedProducts());

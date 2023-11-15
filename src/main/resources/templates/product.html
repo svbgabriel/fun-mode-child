@@ -17,17 +17,17 @@
     </div>
     <div th:if="${product != null}" class="row">
         <div class="col-md-9">
-            <img th:src="@{${product.refe}}" alt=""/>
-            <h2 th:text="${product.nome}"></h2>
-            <p th:text="${product.descricao}"></p>
+            <img th:src="@{${product.getReference}}" alt=""/>
+            <h2 th:text="${product.getName}"></h2>
+            <p th:text="${product.getDescription}"></p>
             <h3 th:text="'$ ' + ${product.formatPrice()}"></h3>
         </div>
         <div class="col-md-3">
-            <button th:if="${product.quantidade > 0}" class="btn btn-success btn-lg"
-                    th:onclick="'addItem('+${product.id}+');'"><span
+            <button th:if="${product.getQuantity > 0}" class="btn btn-success btn-lg"
+                    th:onclick="'addItem('+${product.sku}+');'"><span
                 class="bi-cart-plus-fill"></span> Adicionar ao carrinho
             </button>
-            <h2 th:if="${product.quantidade == 0}"><span class="badge text-bg-danger">Esgotado</span></h2>
+            <h2 th:if="${product.getQuantity == 0}"><span class="badge text-bg-danger">Esgotado</span></h2>
         </div>
     </div>
 
@@ -45,9 +45,9 @@
         <div th:if="${!relatedProducts.isEmpty()}" th:each="relatedProduct: ${relatedProducts}"
              class="col-sm-4 col-lg-4 col-md-4 mb-3">
             <div class="img-thumbnail">
-                <img th:src="@{${relatedProduct.refe}}" alt=""/>
+                <img th:src="@{${relatedProduct.getReference}}" alt=""/>
                 <div class="caption">
-                    <a class="text-reset" th:href="@{/product/{id}(id=${relatedProduct.id})}" th:text="${relatedProduct.nome}"/>
+                    <a class="text-reset" th:href="@{/product/{id}(id=${relatedProduct.id})}" th:text="${relatedProduct.getName}"/>
                 </div>
             </div>
         </div>

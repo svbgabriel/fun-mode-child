@@ -27,9 +27,9 @@
                     <th:block th:if="${!orders.isEmpty()}">
                         <tr th:each="order : ${orders}">
                             <td th:text="${order.id}"></td>
-                            <td th:text="${order.dataPedido}"></td>
-                            <td th:text="'$ ' + ${order.precoTotal}"></td>
-                            <td th:text="${ order.ativo ? 'OK' : 'Cancelado' }"></td>
+                            <td th:text="${order.getCreatedAt}"></td>
+                            <td th:text="'$ ' + ${order.formatTotalPrice()}"></td>
+                            <td th:text="${ order.isActive ? 'OK' : 'Cancelado' }"></td>
                             <td><a th:href="@{/order/{id}/detail(id=${order.id})}">Detalhes</a></td>
                         </tr>
                     </th:block>
