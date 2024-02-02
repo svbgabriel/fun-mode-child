@@ -6,16 +6,15 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.validation.constraints.Email
 import java.time.LocalDate
 
-@JvmRecord
 data class UserRequest(
-    @JvmField val name: String,
-    @JvmField val surname: String,
-    @JvmField @field:JsonFormat(pattern = "yyyy-MM-dd") @param:JsonFormat(pattern = "yyyy-MM-dd") val birthDate: LocalDate,
-    @JvmField @field:Email val email: String,
-    @JvmField val address: Address,
-    @JvmField val customerIdentification: String,
-    @JvmField val phoneNumber: String,
-    @JvmField val password: String
+    val name: String,
+    val surname: String,
+    @field:JsonFormat(pattern = "yyyy-MM-dd") @param:JsonFormat(pattern = "yyyy-MM-dd") val birthDate: LocalDate,
+    @field:Email val email: String,
+    val address: Address,
+    val customerIdentification: String,
+    val phoneNumber: String,
+    val password: String
 ) {
     fun toDoc(encondePassword: String) = Customer(
         id = null,

@@ -2,7 +2,6 @@ package br.anhembi.funmodechild.model.response
 
 import java.time.LocalDateTime
 
-@JvmRecord
 data class ProductResponse(
     val id: String,
     val sku: Int,

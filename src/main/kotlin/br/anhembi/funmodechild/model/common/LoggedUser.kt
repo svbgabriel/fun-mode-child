@@ -7,10 +7,10 @@ data class LoggedUser(
     val id: String,
     val email: String,
     @JvmField val password: String,
-    @JvmField val enabled: Boolean,
-    @JvmField val accountNonExpired: Boolean,
-    @JvmField val credentialsNonExpired: Boolean,
-    @JvmField val accountNonLocked: Boolean
+    val enabled: Boolean,
+    val accountNonExpired: Boolean,
+    val credentialsNonExpired: Boolean,
+    val accountNonLocked: Boolean
 ) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return listOf()
