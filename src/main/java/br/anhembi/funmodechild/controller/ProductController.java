@@ -25,20 +25,20 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public ProductResponse getProductById(@PathVariable("productId") String id) {
-        return productService.getProductById(id);
+        return productService.findProductById(id);
     }
 
     @GetMapping("/promoted")
     public List<ProductResponse> getPromotedProducts() {
-        return productService.getPromotedProducts();
+        return productService.listPromotedProducts();
     }
 
     @GetMapping
     public List<ProductResponse> getProducts(@RequestParam(value = "categoryId", required = false) String categoryId) {
         if (categoryId != null) {
-            return productService.getProductsByCategory(categoryId);
+            return productService.listProductsByCategory(categoryId);
         }
 
-        return productService.getProducts();
+        return productService.listProducts();
     }
 }

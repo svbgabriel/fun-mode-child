@@ -33,14 +33,14 @@ public class OrderController {
     public List<OrderResponse> getOrdersByCustomer() {
         LoggedUser customer = AuthenticationUtil.getLoggedUser();
 
-        return orderService.getOrdersByUserId(customer.getId());
+        return orderService.findOrdersByUserId(customer.getId());
     }
 
     @GetMapping("/{orderId}")
     public OrderResponse getOrderById(@PathVariable("orderId") String id) {
         LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
 
-        return orderService.getOrderById(id, loggedUser.getId());
+        return orderService.findOrderById(id, loggedUser.getId());
     }
 
     @PutMapping("/{orderId}/cancel")

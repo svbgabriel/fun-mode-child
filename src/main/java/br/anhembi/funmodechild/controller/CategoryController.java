@@ -25,6 +25,6 @@ public class CategoryController {
     @GetMapping
     @Operation(summary = "Get a list of available categories")
     public List<CategoryResponse> getCategories() {
-        return categoryService.getCategories();
+        return categoryService.listCategories();
     }
 }
