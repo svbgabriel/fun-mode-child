@@ -19,16 +19,7 @@ public class UserService {
     }
 
     public void create(UserRequest request) {
-        Customer customer = new Customer();
-        customer.setName(request.name());
-        customer.setSurname(request.surname());
-        customer.setEmail(request.email());
-        customer.setBirthDate(request.birthDate());
-        customer.setAddress(request.address());
-        customer.setCustomerIdentification(request.customerIdentification());
-        customer.setPhoneNumber(request.phoneNumber());
-        customer.setEnabled(true);
-        customer.setPassword(passwordEncoder.encode(request.password()));
+        Customer customer = request.toDoc(passwordEncoder.encode(request.password));
         customerRepository.save(customer);
     }
 

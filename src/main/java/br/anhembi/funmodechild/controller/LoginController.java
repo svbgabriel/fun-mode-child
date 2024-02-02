@@ -28,8 +28,8 @@ public class LoginController {
     @Tag(name = "Users")
     public AuthResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password()));
-            return new AuthResponse(jwtService.generateToken(authRequest.username()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password));
+            return new AuthResponse(jwtService.generateToken(authRequest.username));
         } catch (AuthenticationException e) {
             throw new UsernameNotFoundException("Login error: " + e.getMessage());
         }

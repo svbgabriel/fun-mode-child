@@ -23,6 +23,6 @@ public class DBUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("No user found with username: " + email);
         }
 
-        return user;
+        return user.toLoggedUser();
     }
 }

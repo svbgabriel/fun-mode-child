@@ -12,8 +12,8 @@ import br.anhembi.funmodechild.repository.OrderRepository;
 import br.anhembi.funmodechild.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -29,19 +29,21 @@ public class OrderService {
     }
 
     public OrderResponse getOrderById(String id, String customerId) {
-        Optional<Order> orderOptional = orderRepository.findByIdAndCustomerId(id, customerId);
+        Order order = orderRepository.findByIdAndCustomerId(id, customerId);
 
-        if (orderOptional.isPresent()) {
-            return orderOptional.get().toApiResponse();
+        if (order != null) {
+            return order.toApiResponse();
         }
 
         throw new OrderNotFoundException("Order not found");
     }
 
     public void updateStatus(String id, boolean status, String customerId) {
-        Order order = orderRepository
-            .findByIdAndCustomerId(id, customerId)
-            .orElseThrow(() -> new OrderNotFoundException("Order not found"));
+        Order order = orderRepository.findByIdAndCustomerId(id, customerId);
+
+        if (order == null) {
+            throw new OrderNotFoundException("Order not found");
+        }
 
         order.setActive(status);
         orderRepository.save(order);
@@ -49,20 +51,17 @@ public class OrderService {
 
     public List<OrderResponse> getOrdersByUserId(String customerId) {
         return orderRepository.findByCustomerId(customerId)
-            .stream().map(Order::toApiResponse)
+            .stream()
+            .map(Order::toApiResponse)
             .toList();
     }
 
     public OrderResponse createOrder(OrderRequest request, String id) {
-        List<OrderDetail> orderDetails = request.details()
+        List<OrderDetail> orderDetails = request.details
             .stream()
             .map(detail -> {
-                Product product = productRepository.findById(detail.productId()).orElseThrow();
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setProduct(product);
-                orderDetail.setQuantity(detail.quantity());
-                orderDetail.setPrice(product.getPrice());
-                return orderDetail;
+                Product product = productRepository.findById(detail.productId).orElseThrow();
+                return new OrderDetail(product, product.getPrice(), detail.quantity);
             })
             .toList();
 
@@ -73,11 +72,7 @@ public class OrderService {
             .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
             .sum();
 
-        Order order = new Order();
-        order.setActive(true);
-        order.setDetails(orderDetails);
-        order.setCustomer(customer);
-        order.setTotalPrice(totalPrice);
+        Order order = new Order(null, LocalDateTime.now(), customer, orderDetails, totalPrice, true);
 
         Order savedOrder = orderRepository.save(order);
 

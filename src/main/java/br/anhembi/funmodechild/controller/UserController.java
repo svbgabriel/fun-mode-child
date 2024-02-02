@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.model.common.LoggedUser;
 import br.anhembi.funmodechild.model.request.PasswordUpdateRequest;
 import br.anhembi.funmodechild.model.request.UserRequest;
 import br.anhembi.funmodechild.service.UserService;
@@ -35,7 +35,7 @@ public class UserController {
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void passwordUpdate(@RequestBody PasswordUpdateRequest body) {
-        Customer user = AuthenticationUtil.getCustomer();
-        userService.updatePassword(user.getEmail(), body.oldPassword(), body.newPassword(), body.newPasswordConfirm());
+        LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
+        userService.updatePassword(loggedUser.getEmail(), body.oldPassword, body.newPassword, body.newPasswordConfirm);
     }
 }

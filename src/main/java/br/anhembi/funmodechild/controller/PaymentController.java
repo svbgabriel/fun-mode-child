@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.model.common.LoggedUser;
 import br.anhembi.funmodechild.model.request.PaymentRequest;
 import br.anhembi.funmodechild.model.response.PaymentResponse;
 import br.anhembi.funmodechild.service.PaymentService;
@@ -25,9 +25,9 @@ public class PaymentController {
     @Tag(name = "Orders")
     public PaymentResponse doPayment(@RequestBody PaymentRequest request, @PathVariable String orderId) {
         // Recupera os dados do usuário
-        Customer customer = AuthenticationUtil.getCustomer();
+        LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
 
         // Faz o pagamento
-        return paymentService.makePayment(request, orderId, customer.getId());
+        return paymentService.makePayment(request, orderId, loggedUser.getId());
     }
 }

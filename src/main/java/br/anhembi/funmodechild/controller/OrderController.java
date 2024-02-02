@@ -1,6 +1,6 @@
 package br.anhembi.funmodechild.controller;
 
-import br.anhembi.funmodechild.entity.Customer;
+import br.anhembi.funmodechild.model.common.LoggedUser;
 import br.anhembi.funmodechild.model.request.OrderRequest;
 import br.anhembi.funmodechild.model.response.OrderResponse;
 import br.anhembi.funmodechild.service.OrderService;
@@ -31,30 +31,30 @@ public class OrderController {
 
     @GetMapping("/customer")
     public List<OrderResponse> getOrdersByCustomer() {
-        Customer customer = AuthenticationUtil.getCustomer();
+        LoggedUser customer = AuthenticationUtil.getLoggedUser();
 
         return orderService.getOrdersByUserId(customer.getId());
     }
 
     @GetMapping("/{orderId}")
     public OrderResponse getOrderById(@PathVariable("orderId") String id) {
-        Customer customer = AuthenticationUtil.getCustomer();
+        LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
 
-        return orderService.getOrderById(id, customer.getId());
+        return orderService.getOrderById(id, loggedUser.getId());
     }
 
     @PutMapping("/{orderId}/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelOrderById(@PathVariable("orderId") String id) {
-        Customer customer = AuthenticationUtil.getCustomer();
+        LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
 
-        orderService.updateStatus(id, false, customer.getId());
+        orderService.updateStatus(id, false, loggedUser.getId());
     }
 
     @PostMapping
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
-        Customer customer = AuthenticationUtil.getCustomer();
+        LoggedUser loggedUser = AuthenticationUtil.getLoggedUser();
 
-        return orderService.createOrder(request, customer.getId());
+        return orderService.createOrder(request, loggedUser.getId());
     }
 }
