@@ -1,8 +1,10 @@
 package br.anhembi.funmodechild.model.response
 
-import br.anhembi.funmodechild.entity.Payment
+import java.time.LocalDateTime
 
-@JvmRecord
 data class PaymentResponse(
-    val paymentData: Payment
+    val id: String,
+    val createdAt: LocalDateTime,
+    val statements: Int,
+    val totalPrice: Double
 )
