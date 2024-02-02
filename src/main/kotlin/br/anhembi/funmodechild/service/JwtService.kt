@@ -19,7 +19,7 @@ class JwtService {
     @Value("\${jwt.secret}")
     private val secret: String? = null
 
-    fun extractUsername(token: String): String {
+    fun extractUsername(token: String): String? {
         val claims = extractAllClaims(token)
         return claims.subject
     }

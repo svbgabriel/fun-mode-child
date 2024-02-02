@@ -3,7 +3,6 @@ package br.anhembi.funmodechild.service
 import br.anhembi.funmodechild.entity.Order
 import br.anhembi.funmodechild.entity.Order.OrderDetail
 import br.anhembi.funmodechild.model.common.OrderNotFoundException
-import br.anhembi.funmodechild.model.request.OrderDetailRequest
 import br.anhembi.funmodechild.model.request.OrderRequest
 import br.anhembi.funmodechild.model.response.OrderResponse
 import br.anhembi.funmodechild.repository.CustomerRepository
