@@ -1,5 +1,6 @@
 package br.anhembi.funmodechild.service
 
+import br.anhembi.funmodechild.model.common.ProductNotFoundException
 import br.anhembi.funmodechild.model.response.ProductResponse
 import br.anhembi.funmodechild.repository.ProductRepository
 import org.springframework.stereotype.Service
@@ -16,7 +17,7 @@ class ProductService(private val productRepository: ProductRepository) {
     fun findProductById(id: String): ProductResponse =
         productRepository
             .findById(id)
-            .orElseThrow()
+            .orElseThrow { throw ProductNotFoundException("Product id $id not found") }
             .toApiResponse()
 
     fun listProducts(): List<ProductResponse> = productRepository.findAll().map { it.toApiResponse() }
