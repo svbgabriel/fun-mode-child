@@ -14,6 +14,8 @@ repositories {
 
 val jjwtVersion = "0.11.5"
 val springDocVersion = "2.3.0"
+val springMockkVersion = "4.0.2"
+val embedMongoVersion = "4.11.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -29,6 +31,8 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:$embedMongoVersion")
 }
 
 group = "br.anhembi"
