@@ -10,9 +10,7 @@ import org.bson.BsonObjectId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.test.context.ActiveProfiles
 
-@ActiveProfiles("test")
 @ExtendWith(MockKExtension::class)
 class CategoryServiceTest {
 

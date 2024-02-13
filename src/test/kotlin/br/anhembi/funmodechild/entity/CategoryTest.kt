@@ -4,9 +4,7 @@ import br.anhembi.funmodechild.model.response.CategoryResponse
 import org.bson.BsonObjectId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.springframework.test.context.ActiveProfiles
 
-@ActiveProfiles("test")
 class CategoryTest {
 
     @Test
