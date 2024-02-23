@@ -5,8 +5,5 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 object AuthenticationUtil {
 
-    fun getLoggedUser(): LoggedUser {
-        val authentication = SecurityContextHolder.getContext().authentication
-        return authentication.principal as LoggedUser
-    }
+    fun getLoggedUser(): LoggedUser = (SecurityContextHolder.getContext().authentication.principal) as LoggedUser
 }
