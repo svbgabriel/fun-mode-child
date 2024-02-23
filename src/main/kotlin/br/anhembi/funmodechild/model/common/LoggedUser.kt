@@ -1,6 +1,8 @@
 package br.anhembi.funmodechild.model.common
 
+import br.anhembi.funmodechild.entity.Role
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 data class LoggedUser(
@@ -10,10 +12,11 @@ data class LoggedUser(
     val enabled: Boolean,
     val accountNonExpired: Boolean,
     val credentialsNonExpired: Boolean,
-    val accountNonLocked: Boolean
+    val accountNonLocked: Boolean,
+    val roles: Set<Role> = setOf(Role.ROLE_CUSTOMER)
 ) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf()
+        return roles.map { SimpleGrantedAuthority(it.name) }
     }
 
     override fun getPassword(): String {

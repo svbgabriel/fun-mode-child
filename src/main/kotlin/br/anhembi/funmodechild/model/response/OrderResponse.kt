@@ -1,5 +1,6 @@
 package br.anhembi.funmodechild.model.response
 
+import br.anhembi.funmodechild.entity.OrderStatus
 import java.time.LocalDateTime
 
 data class OrderResponse(
@@ -7,5 +8,5 @@ data class OrderResponse(
     val createdAt: LocalDateTime,
     val details: List<OrderDetailResponse>,
     val totalPrice: Double,
-    val active: Boolean
+    val status: OrderStatus
 )

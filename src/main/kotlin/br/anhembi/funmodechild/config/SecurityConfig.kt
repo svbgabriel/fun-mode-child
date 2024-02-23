@@ -37,15 +37,18 @@ class SecurityConfig(private val jwtAuthFilter: JwtAuthFilter) {
             .csrf { it.disable() }
             .authorizeHttpRequests {
                 it.requestMatchers(
-                    "/users/**",
-                    "/categories/**",
-                    "/products/**",
+                    "/users/login",
+                    "/users", // Public registration
                     "/assets/**",
                     "/api-docs/**",
                     "/swagger-ui/**"
                 ).permitAll()
-                    .anyRequest()
-                    .authenticated()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**", "/products/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/categories/**", "/products/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(org.springframework.http.HttpMethod.PUT, "/categories/**", "/products/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/categories/**", "/products/**").hasAuthority("ROLE_ADMIN")
+                .anyRequest()
+                .authenticated()
             }
             .sessionManagement {
                 it.sessionCreationPolicy(

@@ -11,5 +11,7 @@ data class ProductResponse(
     val promoted: Boolean,
     val category: CategoryResponse,
     val createdAt: LocalDateTime,
-    val quantity: Int
+    val quantity: Int,
+    val reference: String,
+    val referenceBig: String
 )

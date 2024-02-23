@@ -20,7 +20,7 @@ data class Product(
     val reference: String,
     val referenceBig: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    val quantity: Int = 0
+    var quantity: Int = 0
 ) {
     fun toApiResponse() = ProductResponse(
         this.id!!,
@@ -31,6 +31,8 @@ data class Product(
         this.promoted,
         this.category.toApiResponse(),
         this.createdAt,
-        this.quantity
+        this.quantity,
+        this.reference,
+        this.referenceBig
     )
 }

@@ -1,7 +1,7 @@
 package br.anhembi.funmodechild.entity
 
+import br.anhembi.funmodechild.category
 import br.anhembi.funmodechild.model.response.CategoryResponse
-import org.bson.BsonObjectId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -9,14 +9,8 @@ class CategoryTest {
 
     @Test
     fun `should create a CategoryResponse from Category`() {
-        val id = BsonObjectId().toString()
-        val category = Category(
-            id = id,
-            name = "Category Name"
-        )
-
         val expected = CategoryResponse(
-            id = id,
+            id = category.id!!,
             name = "Category Name"
         )
 

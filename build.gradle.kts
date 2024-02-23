@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
     id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
+    id("org.jetbrains.kotlinx.kover") version "0.7.5"
 }
 
 repositories {

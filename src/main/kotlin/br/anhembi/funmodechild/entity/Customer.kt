@@ -21,7 +21,8 @@ data class Customer(
     val enabled: Boolean = true,
     val accountNonExpired: Boolean = true,
     val credentialsNonExpired: Boolean = true,
-    val accountNonLocked: Boolean = true
+    val accountNonLocked: Boolean = true,
+    val roles: Set<Role> = setOf(Role.ROLE_CUSTOMER)
 ) {
     fun toLoggedUser() = LoggedUser(
         id = this.id!!,
@@ -30,6 +31,7 @@ data class Customer(
         accountNonLocked = this.accountNonLocked,
         accountNonExpired = this.accountNonExpired,
         credentialsNonExpired = this.credentialsNonExpired,
-        enabled = this.enabled
+        enabled = this.enabled,
+        roles = this.roles
     )
 }

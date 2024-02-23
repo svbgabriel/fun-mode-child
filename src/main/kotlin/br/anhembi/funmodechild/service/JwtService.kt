@@ -44,19 +44,24 @@ class JwtService {
         return (username == userDetails.username && !isTokenExpired(token))
     }
 
-    fun generateToken(username: String): String = createToken(mutableMapOf(), username)
+    fun generateToken(userDetails: UserDetails): String {
+        val claims = mutableMapOf<String, Any>()
+        claims["roles"] = userDetails.authorities.map { it.authority }
+        return createToken(claims, userDetails.username)
+    }
 
     private fun createToken(claims: Map<String, Any?>, username: String): String {
         val now = LocalDateTime.now()
         val issuedAt: Date = Timestamp.valueOf(now)
-        val expiration: Date = Timestamp.valueOf(now.plusMinutes(30))
+        val expiration: Date = Timestamp.valueOf(now.plusMinutes(60)) // Increased to 60 mins
 
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(username)
             .setIssuedAt(issuedAt)
             .setExpiration(expiration)
-            .signWith(decodeSignKey(), SignatureAlgorithm.HS256).compact()
+            .signWith(decodeSignKey(), SignatureAlgorithm.HS256)
+            .compact()
     }
 
     private fun decodeSignKey(): Key {

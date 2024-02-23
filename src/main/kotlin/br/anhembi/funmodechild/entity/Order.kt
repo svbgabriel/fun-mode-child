@@ -16,7 +16,7 @@ data class Order(
     val customer: Customer,
     val details: List<OrderDetail> = emptyList(),
     val totalPrice: Double = 0.0,
-    var active: Boolean = true
+    var status: OrderStatus = OrderStatus.PENDING
 ) {
     fun toApiResponse() = OrderResponse(
         this.id!!,
@@ -25,7 +25,7 @@ data class Order(
             .map { it.toApiResponse() }
             .toList(),
         this.totalPrice,
-        this.active
+        this.status
     )
 
     data class OrderDetail(

@@ -2,6 +2,8 @@ package br.anhembi.funmodechild.controller
 
 import br.anhembi.funmodechild.model.request.AuthRequest
 import br.anhembi.funmodechild.model.response.AuthResponse
+import br.anhembi.funmodechild.model.response.UserResponse
+import br.anhembi.funmodechild.model.common.LoggedUser
 import br.anhembi.funmodechild.service.JwtService
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.MediaType
@@ -20,13 +22,23 @@ class LoginController(private val jwtService: JwtService, private val authentica
     @Tag(name = "Users")
     fun authenticateAndGetToken(@RequestBody authRequest: AuthRequest): AuthResponse {
         try {
-            authenticationManager.authenticate(
+            val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
                     authRequest.username,
                     authRequest.password
                 )
             )
-            return AuthResponse(jwtService.generateToken(authRequest.username))
+            val loggedUser = authentication.principal as LoggedUser
+            val token = jwtService.generateToken(loggedUser)
+            
+            val userResponse = UserResponse(
+                id = loggedUser.id,
+                name = loggedUser.username, // Using email as name for now, or you could add name to LoggedUser
+                email = loggedUser.email,
+                role = loggedUser.roles.firstOrNull()?.name ?: "ROLE_CUSTOMER"
+            )
+            
+            return AuthResponse(token, userResponse)
         } catch (e: AuthenticationException) {
             throw UsernameNotFoundException("Login error: " + e.message)
         }
